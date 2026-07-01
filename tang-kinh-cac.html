@@ -1130,38 +1130,9 @@
       <div class="sidebar-box">
         <div class="sidebar-title">Bảng xếp hạng</div>
         <div class="sidebar-content">
-          <ul class="rank-list">
+          <ul class="rank-list" id="sidebar-rankings">
             <li>
-              <span><span class="rank-num top1">1</span><span class="rank-name">Phàm Nhân Tu Tiên</span></span>
-              <span class="rank-views">10.2M</span>
-            </li>
-            <li>
-              <span><span class="rank-num top2">2</span><span class="rank-name">Tru Tiên</span></span>
-              <span class="rank-views">8.7M</span>
-            </li>
-            <li>
-              <span><span class="rank-num top3">3</span><span class="rank-name">Tiên Nghịch</span></span>
-              <span class="rank-views">7.3M</span>
-            </li>
-            <li>
-              <span><span class="rank-num">4</span><span class="rank-name">Thần Mộ</span></span>
-              <span class="rank-views">6.8M</span>
-            </li>
-            <li>
-              <span><span class="rank-num">5</span><span class="rank-name">Đấu Phá Thương Khung</span></span>
-              <span class="rank-views">6.1M</span>
-            </li>
-            <li>
-              <span><span class="rank-num">6</span><span class="rank-name">Già Thiên</span></span>
-              <span class="rank-views">5.4M</span>
-            </li>
-            <li>
-              <span><span class="rank-num">7</span><span class="rank-name">Vũ Động Càn Khôn</span></span>
-              <span class="rank-views">4.9M</span>
-            </li>
-            <li>
-              <span><span class="rank-num">8</span><span class="rank-name">Đại Chúa Tể</span></span>
-              <span class="rank-views">4.2M</span>
+              <span style="color:#8b6914; font-size:11px; padding:10px;">⚔ Đang xếp hạng...</span>
             </li>
           </ul>
         </div>
@@ -1718,6 +1689,35 @@
           sidebarLatest.innerHTML = latest.map(f =>
             `<li><a href="detail.html?id=${f.id}">《${pdCleanName(f.name).substring(0, 14)}》</a></li>`
           ).join('');
+        }
+
+        // Update sidebar "Bảng xếp hạng" based on downloads
+        const sidebarRankings = document.getElementById('sidebar-rankings');
+        if (sidebarRankings) {
+          const sortedByDownloads = [...allFiles]
+            .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
+            .slice(0, 8); // Top 8
+          
+          sidebarRankings.innerHTML = sortedByDownloads.map((f, index) => {
+            const num = index + 1;
+            let rankClass = '';
+            if (num === 1) rankClass = 'top1';
+            else if (num === 2) rankClass = 'top2';
+            else if (num === 3) rankClass = 'top3';
+            
+            const cleanName = pdCleanName(f.name);
+            const shortName = cleanName.length > 15 ? cleanName.substring(0, 15) + '...' : cleanName;
+            
+            return `
+              <li>
+                <span>
+                  <span class="rank-num ${rankClass}">${num}</span>
+                  <a href="detail.html?id=${f.id}" class="rank-name" style="color:#ffd700; text-decoration:none;">${shortName}</a>
+                </span>
+                <span class="rank-views">${pdFmtNum(f.downloads)}</span>
+              </li>
+            `;
+          }).join('');
         }
 
         // Render first page
