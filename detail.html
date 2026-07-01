@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>☆★ Phàm Nhân Tu Tiên Truyện - Tàng Kinh Các ★☆</title>
+<title>☆★ Đang tải... - Tàng Kinh Các ★☆</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -973,7 +973,7 @@
 
 <!-- Float Panel -->
 <div class="float-panel">
-  <a class="float-btn" href="index.html">Trang chủ</a>
+  <a class="float-btn" href="main.html">Trang chủ</a>
   <a class="float-btn" href="tang-kinh-cac.html">Tàng Kinh</a>
   <a class="float-btn" href="#">Về đầu trang</a>
   <a class="float-btn" href="#">Lưu trang này</a>
@@ -1001,11 +1001,11 @@
 
 <!-- Breadcrumb -->
 <div class="breadcrumb">
-  <a href="index.html">⚔ Trang chủ Tiên Minh</a>
+  <a href="main.html">⚔ Trang chủ Tiên Minh</a>
   <span class="sep">»</span>
   <a href="tang-kinh-cac.html">Tàng Kinh Các</a>
   <span class="sep">»</span>
-  <span style="color:#ffd700;">Phàm Nhân Tu Tiên Truyện</span>
+  <span style="color:#ffd700;" id="detail-breadcrumb-current">Đang tải...</span>
 </div>
 
 <!-- Marquee -->
@@ -1150,32 +1150,32 @@
           <span class="cover-corner tr">☯</span>
           <span class="cover-corner bl">☯</span>
           <span class="cover-corner br">☯</span>
-          <span class="cover-text-vertical" id="detail-cover-text">Phàm Nhân Tu Tiên</span>
+          <span class="cover-text-vertical" id="detail-cover-text">Đang tải...</span>
           <span class="cover-seal">Tàng<br>Kinh</span>
         </div>
         <div class="novel-detail-info">
-          <div class="novel-title-main" id="detail-title-main">《 Phàm Nhân Tu Tiên Truyện 》</div>
-          <div class="novel-title-en" id="detail-title-en">A Record of a Mortal's Journey to Immortality</div>
+          <div class="novel-title-main" id="detail-title-main">《 Đang tải... 》</div>
+          <div class="novel-title-en" id="detail-title-en">Đang tải...</div>
           <div class="novel-meta-grid">
             <div class="meta-item">
               <span class="meta-label">Tác giả</span>
-              <span class="meta-value author-link">Vong Ngữ</span>
+              <span class="meta-value author-link" id="detail-meta-author">Đang tải...</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Thể loại</span>
-              <span class="meta-value highlight" id="detail-meta-genre">Tiên hiệp, Tu chân</span>
+              <span class="meta-value highlight" id="detail-meta-genre">Đang tải...</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Trạng thái</span>
-              <span class="meta-value" style="color:#44ff44;" id="detail-meta-status">Đang tiến hành</span>
+              <span class="meta-value" style="color:#44ff44;" id="detail-meta-status">Đang tải...</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Số chương</span>
-              <span class="meta-value highlight" id="detail-meta-chapters">189 chương</span>
+              <span class="meta-value highlight" id="detail-meta-chapters">Đang tải...</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Mime Type</span>
-              <span class="meta-value" id="detail-meta-mime">ZIP</span>
+              <span class="meta-value" id="detail-meta-mime">Đang tải...</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Đánh giá</span>
@@ -1183,14 +1183,10 @@
             </div>
           </div>
           <div class="novel-tags-detail" id="detail-tags-list">
-            <span class="tag-detail hot">HOT</span>
-            <span class="tag-detail">Phàm nhân lưu</span>
-            <span class="tag-detail">Tu chân</span>
-            <span class="tag-detail">Nam tần</span>
-            <span class="tag-detail">Tu tiên</span>
+            <span class="tag-detail">Đang tải...</span>
           </div>
           <div class="novel-desc-detail" id="detail-desc-text">
-            Một kẻ phàm nhân bình thường bước chân vào giang hồ tu tiên, dựa vào sự kiên nhẫn và cơ trí, từng bước đi lên đỉnh cao tiên đạo. Không có thiên phú kinh người, chỉ có ý chí bất khuất và một chút cơ duyên. Hàn Lập - nhân vật chính - từ một thôn phu nghèo khó, nhờ机缘 xảo hợp bước vào tu chân giới, trải qua vô số hiểm nguy, đấu tranh sinh tồn, cuối cùng từng bước đăng đỉnh đại đạo...
+            Đang triệu hoán nội dung chi tiết từ Tàng Kinh Các...
           </div>
         </div>
       </div>
@@ -1602,7 +1598,7 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-links">
-    <a href="index.html">Trang chủ Tiên Minh</a> |
+    <a href="main.html">Trang chủ Tiên Minh</a> |
     <a href="tang-kinh-cac.html">Tàng Kinh Các</a> |
     <a href="#">Luận Đạo Đài</a> |
     <a href="#">Vạn Bảo Lâu</a> |
@@ -1739,6 +1735,125 @@ function pdMimeTag(mime) {
   return (mime.split('/')[1] || 'FILE').toUpperCase().substring(0, 6);
 }
 
+// ====== MOCK DATA FOR KNOWN NOVELS ======
+const MOCK_DATA_MAP = {
+  "Phàm Nhân Tu Tiên": {
+    author: "Vong Ngữ",
+    genre: "Tiên hiệp, Tu chân",
+    tags: ["HOT", "Phàm nhân lưu", "Tu chân", "Nam tần"],
+    desc: "Một kẻ phàm nhân bình thường bước chân vào giang hồ tu tiên, dựa vào sự kiên nhẫn và cơ trí, từng bước đi lên đỉnh cao tiên đạo. Không có thiên phú kinh người, chỉ có ý chí bất khuất...",
+    statusText: "Đang tiến hành",
+    chapters: "189 chương"
+  },
+  "Tru Tiên": {
+    author: "Tiêu Đỉnh",
+    genre: "Tiên hiệp, Kiếm hiệp",
+    tags: ["KINH ĐIỂN", "Chính tà", "Thiếu Lâm", "Tình cảm"],
+    desc: "Thiên địa bất nhân, dĩ vạn vật vi sô cẩu. Thiếu niên Trương Tiểu Phàm với số mệnh bi thương, bước vào con đường tu tiên đầy rẫy chính tà phân tranh, ái hận giao thoa...",
+    statusText: "Hoàn thành",
+    chapters: "56 chương"
+  },
+  "Tiên Nghịch": {
+    author: "Nhĩ Căn",
+    genre: "Tiên hiệp, Tu chân",
+    tags: ["HOT", "Nghịch thiên", "Sát phạt quyết đoán"],
+    desc: "Thuận thiên thị phàm, nghịch thiên thị tiên! Vương Lâm, một thiếu niên bình thường, mang trong mình nghịch ý trùng thiên, đạp lên chính đạo, bước vào con đường tu tiên đầy máu và nước mắt...",
+    statusText: "Đang tiến hành",
+    chapters: "8 chương"
+  },
+  "Thần Mộ": {
+    author: "Thần Đông",
+    genre: "Huyền huyễn, Tu chân",
+    tags: ["Viễn cổ", "Thần ma", "Huyền bí"],
+    desc: "Thần đã chết, ai còn sống? Một thanh niên từ trong thần mộ ngàn năm thức tỉnh, bước vào thế giới thần ma viễn cổ, khám phá bí mật về chư thần và thiên đạo...",
+    statusText: "Hoàn thành",
+    chapters: "73 chương"
+  },
+  "Đấu Phá Thương Khung": {
+    author: "Thiên Tàm Thổ Đậu",
+    genre: "Huyền huyễn, Dị giới",
+    tags: ["BOM TẤN", "Đấu khí", "Nhiệt huyết"],
+    desc: "Ở đây không có ma pháp, chỉ có đấu khí! Tiêu Viêm, một thiên tài sa sút, mang trong mình mối thù diệt tộc, từng bước trèo lên đỉnh cao Đấu Khí Đại Lục...",
+    statusText: "Hoàn thành",
+    chapters: "241 chương"
+  },
+  "Già Thiên": {
+    author: "Thần Đông",
+    genre: "Tiên hiệp, Huyền huyễn",
+    tags: ["Hồng hoang", "Vũ trụ", "Khôi hoành"],
+    desc: "Cửu long lôi quan, kéo Diệp Phàm đến một thế giới tinh không bát ngát. Nơi đây có tiên, có ma, có những vị đại đế đã từng tung hoành vũ trụ...",
+    statusText: "Hoàn thành",
+    chapters: "1327 chương"
+  },
+  "Vũ Động Càn Khôn": {
+    author: "Thiên Tàm Thổ Đậu",
+    genre: "Huyền huyễn, Tu chân",
+    tags: ["Nguyên lực", "Gia tộc", "Phấn đấu"],
+    desc: "Đại thiên thế giới, vạn tộc林立. Lâm Động, một thiếu niên từ gia tộc nhỏ bé, tình cờ có được bí mật tổ phù, từ đó bước lên con đường chinh phục thiên hạ...",
+    statusText: "Hoàn thành",
+    chapters: "518 chương"
+  },
+  "Đại Chúa Tể": {
+    author: "Thiên Tàm Thổ Đậu",
+    genre: "Huyền huyễn, Dị giới",
+    tags: ["Chúa tể", "Bắc Thương Chi Viện", "Thiên chí"],
+    desc: "Đại thiên thế giới, vạn đạo tranh phong. Mục Trần, thiếu niên từ Bắc Thương linh lộ bước ra, mang theo ý chí trở thành Chúa Tể, thống lĩnh vạn tộc...",
+    statusText: "Hoàn thành",
+    chapters: "1561 chương"
+  },
+  "Cửu Đỉnh Ký": {
+    author: "Ngã Cật Tây Hồng Thị",
+    genre: "Tiên hiệp, Lịch sử",
+    tags: ["Cửu Châu", "Đại Hạ", "Tranh bá"],
+    desc: "Thiên hạ cửu châu, Cửu Đỉnh trấn áp. Kỷ Ninh, một thiếu niên từ Giang Chi, bước vào thời đại quần hùng tranh bá, viết nên truyền kỳ bất hủ...",
+    statusText: "Hoàn thành",
+    chapters: "368 chương"
+  },
+  "Tinh Thần Biến": {
+    author: "Ngã Cật Tây Hồng Thị",
+    genre: "Tiên hiệp, Khoa huyễn",
+    tags: ["Tinh thần", "Tu chân", "Vũ trụ"],
+    desc: "Một thiếu niên với đan điền bị phá, không thể tu luyện nội công, nhưng lại nhờ 'Tinh Thần Biến' mà bước lên con đường tu chân khác biệt, khám phá vũ trụ bao la...",
+    statusText: "Hoàn thành",
+    chapters: "15 chương"
+  },
+  "Bàn Long": {
+    author: "Ngã Cật Tây Hồng Thị",
+    genre: "Huyền huyễn, Dị giới",
+    tags: ["Long huyết", "Ma thú", "Quỷ tài"],
+    desc: "Lâm Luân, hậu duệ của Long Tộc, mang trong mình huyết mạch thần long, bước vào con đường tu luyện đầy chông gai, chinh phục Ngọc Linh Lung thế giới...",
+    statusText: "Hoàn thành",
+    chapters: "806 chương"
+  },
+  "Thôn Phệ Tinh Không": {
+    author: "Ngã Cật Tây Hồng Thị",
+    genre: "Khoa huyễn, Tu chân",
+    tags: ["Tinh không", "Vũ trụ văn minh", "Cường giả"],
+    desc: "Tinh không mênh mông, vạn tộc林立. La Phong, một chiến sĩ từ địa cầu, bước vào vũ trụ bao la, đối mặt với những văn minh cường đại và những bí mật kinh thiên...",
+    statusText: "Hoàn thành",
+    chapters: "748 chương"
+  }
+};
+
+const DEFAULT_MOCK = {
+  author: "Đạo Hữu Ẩn Danh",
+  genre: "Kinh thư chia sẻ",
+  tags: ["Pixeldrain", "Lưu trữ"],
+  desc: "Tài liệu tu tiên được chia sẻ trực tuyến từ các vị đạo hữu trong Tiên Minh. Định dạng tệp tin gốc được tải lên trực tiếp tại Tàng Kinh Các.",
+  statusText: "Hoàn thành",
+  chapters: "Tệp tin đầy đủ"
+};
+
+function findMockData(name) {
+  const nameLower = name.toLowerCase();
+  for (const key of Object.keys(MOCK_DATA_MAP)) {
+    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
+      return MOCK_DATA_MAP[key];
+    }
+  }
+  return DEFAULT_MOCK;
+}
+
 async function pdLoadDetail() {
   const params = new URLSearchParams(window.location.search);
   const fileId = params.get('id');
@@ -1762,8 +1877,11 @@ async function pdLoadDetail() {
     const lastViewStr = pdFmtDate(data.date_last_view);
     const ext = data.name.includes('.') ? data.name.split('.').pop().toUpperCase() : 'FILE';
 
+    const mock = findMockData(name);
+
     // Update Head Title & Breadcrumb
     document.title = `☆★ ${name} - Tàng Kinh Các ★☆`;
+    if (el('detail-breadcrumb-current')) el('detail-breadcrumb-current').textContent = name;
     
     // Cover Text
     const coverText = el('detail-cover-text');
@@ -1788,23 +1906,22 @@ async function pdLoadDetail() {
     if (el('detail-title-main')) el('detail-title-main').textContent = `《 ${name} 》`;
     if (el('detail-title-en')) el('detail-title-en').textContent = data.name;
     if (el('detail-meta-mime')) el('detail-meta-mime').textContent = tag;
-    if (el('detail-meta-status')) el('detail-meta-status').textContent = 'Có sẵn';
-    if (el('detail-meta-chapters')) el('detail-meta-chapters').textContent = 'N/A';
-    if (el('detail-meta-genre')) el('detail-meta-genre').textContent = data.mime_type || 'Ứng dụng';
+    if (el('detail-meta-status')) el('detail-meta-status').textContent = mock.statusText;
+    if (el('detail-meta-chapters')) el('detail-meta-chapters').textContent = mock.chapters;
+    if (el('detail-meta-genre')) el('detail-meta-genre').textContent = mock.genre;
+    if (el('detail-meta-author')) el('detail-meta-author').textContent = mock.author;
     
     // Tags
     const tagsList = el('detail-tags-list');
     if (tagsList) {
-      tagsList.innerHTML = `
-        <span class="tag-detail hot">ONLINE</span>
-        <span class="tag-detail">${tag}</span>
-        <span class="tag-detail">Pixeldrain</span>
-        <span class="tag-detail">${ext}</span>
-      `;
+      tagsList.innerHTML = mock.tags.map((tag, idx) => {
+        const isHot = idx === 0 && (tag === 'HOT' || tag === 'KINH ĐIỂN' || tag === 'BOM TẤN');
+        return `<span class="tag-detail ${isHot ? 'hot' : ''}">${tag}</span>`;
+      }).join('') + `<span class="tag-detail">${tag}</span><span class="tag-detail">${ext}</span>`;
     }
 
     if (el('detail-desc-text')) {
-      el('detail-desc-text').textContent = `Tệp tin "${data.name}" tải lên bởi người dùng. Thông tin chi tiết: Loại định dạng ${data.mime_type}, kích thước dữ liệu ${sizeStr}. Đạo hữu có thể trực tiếp tải xuống bằng liên kết bên dưới.`;
+      el('detail-desc-text').textContent = mock.desc;
     }
 
     // Stats
