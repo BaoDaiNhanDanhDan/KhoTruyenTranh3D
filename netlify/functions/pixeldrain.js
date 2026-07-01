@@ -41,9 +41,9 @@ exports.handler = async (event, context) => {
         body: JSON.stringify(data)
       };
 
-    // ── Lấy thông tin chi tiết 1 file ───────────────────────────────────────
+      // ── Lấy thông tin chi tiết 1 file ───────────────────────────────────────
     } else if (action === 'info' && id) {
-      const resp = await fetch(`https://pixeldrain.com/api/file/${id}/info`, {
+      const resp = await fetch(`https://pixeldrain.com/u/${id}/info`, {
         headers: { Authorization: authHeader }
       });
       const data = await resp.json();
@@ -53,19 +53,19 @@ exports.handler = async (event, context) => {
         body: JSON.stringify(data)
       };
 
-    // ── Proxy thumbnail (để tránh CORS và ẩn auth) ──────────────────────────
+      // ── Proxy thumbnail (để tránh CORS và ẩn auth) ──────────────────────────
     } else if (action === 'thumbnail' && id) {
       const resp = await fetch(
-        `https://pixeldrain.com/api/file/${id}/thumbnail?width=200&height=260`,
+        `https://pixeldrain.com/u/${id}/thumbnail?width=200&height=260`,
         { headers: { Authorization: authHeader } }
       );
       if (!resp.ok) {
         return { statusCode: 404, headers, body: '' };
       }
-      
+
       const arrayBuffer = await resp.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      
+
       return {
         statusCode: 200,
         headers: {
