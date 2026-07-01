@@ -1620,27 +1620,27 @@
           <div class="info-box">
             <div class="info-row">
               <span class="info-label">Tên truyện:</span>
-              <span class="info-value" style="font-size:11px;">Phàm Nhân Tu Tiên</span>
+              <span class="info-value" id="quick-info-name" style="font-size:11px;">Đang tải...</span>
             </div>
             <div class="info-row">
               <span class="info-label">Tác giả:</span>
-              <span class="info-value" style="font-size:11px;">Vong Ngữ</span>
+              <span class="info-value" id="quick-info-author" style="font-size:11px;">Đang tải...</span>
             </div>
             <div class="info-row">
               <span class="info-label">Thể loại:</span>
-              <span class="info-value" style="font-size:11px;">Tiên hiệp</span>
+              <span class="info-value" id="quick-info-genre" style="font-size:11px;">Đang tải...</span>
             </div>
             <div class="info-row">
               <span class="info-label">Trạng thái:</span>
-              <span class="info-value" style="font-size:11px; color:#44ff44;">Đang ra</span>
+              <span class="info-value" id="quick-info-status" style="font-size:11px; color:#44ff44;">Đang tải...</span>
             </div>
             <div class="info-row">
               <span class="info-label">Số chương:</span>
-              <span class="info-value" style="font-size:11px;">189</span>
+              <span class="info-value" id="quick-info-chapters" style="font-size:11px;">Đang tải...</span>
             </div>
             <div class="info-row">
               <span class="info-label">Đánh giá:</span>
-              <span class="info-value" style="font-size:11px; color:#ff8c00;">★★★★★</span>
+              <span class="info-value" id="quick-info-rating" style="font-size:11px; color:#ff8c00;">★★★★★</span>
             </div>
           </div>
         </div>
@@ -2467,6 +2467,14 @@
         if (el('detail-meta-chapters')) el('detail-meta-chapters').textContent = mock.chapters;
         if (el('detail-meta-genre')) el('detail-meta-genre').textContent = mock.genre;
         if (el('detail-meta-author')) el('detail-meta-author').textContent = mock.author;
+
+        // Sidebar Quick Info Values
+        if (el('quick-info-name')) el('quick-info-name').textContent = name;
+        if (el('quick-info-author')) el('quick-info-author').textContent = mock.author;
+        if (el('quick-info-genre')) el('quick-info-genre').textContent = mock.genre;
+        if (el('quick-info-status')) el('quick-info-status').textContent = mock.statusText;
+        if (el('quick-info-chapters')) el('quick-info-chapters').textContent = mock.chapters.replace(' chương', '');
+        if (el('quick-info-rating')) el('quick-info-rating').textContent = '★★★★★ 9.8/10';
 
         // Tags
         const tagsList = el('detail-tags-list');
