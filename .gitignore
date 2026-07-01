@@ -1,2 +1,6 @@
 # Local Netlify folder
 .netlify
+
+# Credentials and env files
+.env
+*.local
