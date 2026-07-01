@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>☆★ Phàm Nhân Tu Tiên Truyện - Tàng Kinh Các ★☆</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #0a0008;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(80,0,0,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(0,0,60,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(60,0,40,0.2) 0%, transparent 50%);
+    color: #d4c5a0;
+    font-family: 'STKaiti', 'KaiTi', '楷体', 'SimSun', '宋体', serif;
+    font-size: 14px;
+    line-height: 1.8;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="16" font-size="16">⚔</text></svg>') 10 10, auto;
+    overflow-x: hidden;
+  }
+
+  #sparkle-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999;
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: #1a0a0a; border-left: 1px solid #8b0000; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8b0000, #cc9900, #8b0000);
+    border: 1px solid #ffd700; border-radius: 2px;
+  }
+
+  .top-banner {
+    background: linear-gradient(180deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
+    border-bottom: 3px double #8b0000;
+    padding: 5px 0; text-align: center;
+  }
+  .top-banner .stars {
+    color: #ffd700; font-size: 10px; letter-spacing: 3px;
+    animation: twinkle 1.5s ease-in-out infinite alternate;
+  }
+  .top-banner-text {
+    color: #cc9900; font-size: 12px; letter-spacing: 5px;
+  }
+
+  .header {
+    text-align: center; padding: 25px 20px 15px; position: relative;
+    background: radial-gradient(ellipse at 50% 0%, rgba(139,0,0,0.4) 0%, transparent 70%);
+    border-bottom: 1px solid rgba(139,0,0,0.5);
+  }
+  .site-title {
+    font-size: 42px; font-weight: bold;
+    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 40%, #ffd700 60%, #fff8dc 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.5)) drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    letter-spacing: 12px; margin-bottom: 5px;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+  }
+  .site-subtitle {
+    font-size: 13px; color: #8b6914; letter-spacing: 6px; margin-top: 5px;
+  }
+  .header-decoration {
+    color: #8b0000; font-size: 16px; letter-spacing: 4px; margin-top: 8px;
+    text-shadow: 0 0 5px rgba(139,0,0,0.5);
+  }
+
+  .breadcrumb {
+    max-width: 1000px; margin: 0 auto; padding: 10px 15px;
+    font-size: 12px; color: #8b6914; letter-spacing: 2px;
+    border-bottom: 1px dashed rgba(139,0,0,0.4);
+  }
+  .breadcrumb a { color: #c9a84c; text-decoration: none; }
+  .breadcrumb a:hover { color: #ffd700; text-decoration: underline; }
+  .breadcrumb .sep { color: #5a0000; margin: 0 8px; }
+
+  .marquee-bar {
+    background: linear-gradient(90deg, #1a0000, #2a0808, #1a0000);
+    border-top: 1px solid #5a0000; border-bottom: 1px solid #5a0000;
+    padding: 6px 0; overflow: hidden; white-space: nowrap;
+  }
+  .marquee-content {
+    display: inline-block;
+    animation: marqueeScroll 35s linear infinite;
+    color: #ffd700; font-size: 13px; letter-spacing: 2px;
+  }
+  .marquee-content span { margin-right: 60px; }
+  .marquee-content .hot { color: #ff4444; }
+  .marquee-content .new { color: #44ff44; }
+
+  .main-wrapper {
+    max-width: 1000px; margin: 0 auto; padding: 15px;
+    display: flex; gap: 15px;
+  }
+
+  .sidebar { width: 220px; flex-shrink: 0; }
+  .sidebar-box {
+    background: linear-gradient(180deg, rgba(30,5,5,0.95), rgba(15,2,2,0.95));
+    border: 1px solid #5a0000; margin-bottom: 15px; position: relative;
+  }
+  .sidebar-box::before {
+    content: ''; position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 1px solid rgba(255,215,0,0.15); pointer-events: none;
+  }
+  .sidebar-title {
+    background: linear-gradient(90deg, #8b0000, #5a0000, #8b0000);
+    color: #ffd700; text-align: center; padding: 8px;
+    font-size: 15px; letter-spacing: 5px;
+    border-bottom: 1px solid #ffd700;
+    text-shadow: 0 0 5px rgba(255,215,0,0.5);
+  }
+  .sidebar-title::before { content: '◆ '; font-size: 10px; }
+  .sidebar-title::after { content: ' ◆'; font-size: 10px; }
+  .sidebar-content { padding: 12px; }
+
+  .nav-list { list-style: none; }
+  .nav-list li { border-bottom: 1px dashed rgba(139,0,0,0.4); }
+  .nav-list li:last-child { border-bottom: none; }
+  .nav-list a {
+    display: block; color: #c9a84c; text-decoration: none;
+    padding: 7px 10px 7px 22px; font-size: 13px;
+    letter-spacing: 2px; transition: all 0.3s; position: relative;
+  }
+  .nav-list a::before {
+    content: '◇'; position: absolute; left: 5px;
+    color: #8b0000; transition: all 0.3s; font-size: 10px; top: 9px;
+  }
+  .nav-list a:hover {
+    color: #ffd700; background: rgba(139,0,0,0.3);
+    text-shadow: 0 0 5px rgba(255,215,0,0.5); padding-left: 28px;
+  }
+  .nav-list a:hover::before { content: '◈'; color: #ffd700; }
+
+  .info-box {
+    background: rgba(20,5,5,0.5);
+    border: 1px solid rgba(90,0,0,0.5);
+    padding: 10px; margin-bottom: 10px;
+    font-size: 12px;
+  }
+  .info-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px dotted rgba(90,0,0,0.3);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: #8b6914; }
+  .info-value { color: #ffd700; font-weight: bold; }
+  .info-value.danger { color: #ff4444; animation: blink 1.5s step-end infinite; }
+
+  .rank-list { list-style: none; font-size: 12px; }
+  .rank-list li {
+    padding: 5px 8px; display: flex;
+    justify-content: space-between; align-items: center;
+    border-bottom: 1px dotted rgba(139,0,0,0.3);
+  }
+  .rank-list li:last-child { border-bottom: none; }
+  .rank-num {
+    display: inline-block; width: 18px; height: 18px;
+    line-height: 18px; text-align: center;
+    background: #5a0000; color: #ffd700;
+    font-size: 11px; margin-right: 6px;
+    border: 1px solid #8b0000;
+  }
+  .rank-num.top1 { background: #ffd700; color: #8b0000; }
+  .rank-num.top2 { background: #c0c0c0; color: #1a0000; }
+  .rank-num.top3 { background: #cd7f32; color: #1a0000; }
+  .rank-name { flex: 1; color: #c9a84c; }
+  .rank-views { color: #8b6914; font-size: 10px; }
+
+  .content-area { flex: 1; min-width: 0; }
+  .content-box {
+    background: linear-gradient(180deg, rgba(25,5,5,0.95), rgba(12,2,2,0.98));
+    border: 1px solid #5a0000; margin-bottom: 15px; position: relative;
+  }
+  .content-box::before {
+    content: ''; position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 1px solid rgba(255,215,0,0.1); pointer-events: none;
+  }
+  .content-title {
+    background: linear-gradient(90deg, transparent, rgba(139,0,0,0.6), transparent);
+    color: #ffd700; text-align: center; padding: 10px;
+    font-size: 18px; letter-spacing: 6px;
+    border-bottom: 1px solid rgba(139,0,0,0.5);
+  }
+  .content-title .icon-left, .content-title .icon-right {
+    color: #8b0000; font-size: 14px;
+  }
+  .content-title .icon-left { margin-right: 10px; }
+  .content-title .icon-right { margin-left: 10px; }
+  .content-body { padding: 15px 20px; }
+
+  /* ====== NOVEL DETAIL HEADER ====== */
+  .novel-detail-header {
+    display: flex; gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(40,10,10,0.6), rgba(20,5,5,0.8));
+    border-bottom: 1px solid rgba(139,0,0,0.4);
+    position: relative;
+  }
+  .novel-detail-header::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(139,0,0,0.15), transparent 60%);
+    pointer-events: none;
+  }
+
+  .novel-cover-large {
+    width: 180px; height: 240px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #2a0a0a, #5a0000, #2a0a0a);
+    border: 2px solid #8b0000;
+    display: flex; align-items: center; justify-content: center;
+    color: #ffd700;
+    position: relative;
+    box-shadow: 0 0 20px rgba(139,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    z-index: 1;
+  }
+  .novel-cover-large::before {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.15), transparent);
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  .novel-cover-large::after {
+    content: ''; position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px solid rgba(255,215,0,0.3);
+    pointer-events: none;
+  }
+  .cover-text-vertical {
+    writing-mode: vertical-rl;
+    font-size: 28px;
+    letter-spacing: 8px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 2px 2px 4px rgba(0,0,0,0.8);
+    z-index: 1;
+    font-weight: bold;
+  }
+  .cover-corner {
+    position: absolute;
+    color: #8b0000; font-size: 14px;
+    opacity: 0.7; z-index: 1;
+  }
+  .cover-corner.tl { top: 12px; left: 12px; }
+  .cover-corner.tr { top: 12px; right: 12px; }
+  .cover-corner.bl { bottom: 12px; left: 12px; }
+  .cover-corner.br { bottom: 12px; right: 12px; }
+  .cover-seal {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 40px; height: 40px;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #ff4444;
+    font-size: 10px;
+    font-weight: bold;
+    transform: rotate(-15deg);
+    z-index: 1;
+    text-shadow: 0 0 3px rgba(255,68,68,0.5);
+  }
+
+  .novel-detail-info {
+    flex: 1; min-width: 0;
+    z-index: 1;
+    display: flex; flex-direction: column;
+  }
+  .novel-title-main {
+    font-size: 32px; font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5), 2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 5px;
+    margin-bottom: 5px;
+  }
+  .novel-title-en {
+    font-size: 12px; color: #8b6914;
+    letter-spacing: 3px; margin-bottom: 12px;
+    font-style: italic;
+  }
+  .novel-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 15px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .meta-item {
+    display: flex; gap: 8px;
+  }
+  .meta-label {
+    color: #8b6914;
+    white-space: nowrap;
+  }
+  .meta-label::after { content: ':'; }
+  .meta-value { color: #c9a84c; }
+  .meta-value.highlight { color: #ffd700; font-weight: bold; }
+  .meta-value.author-link {
+    color: #ff8c00; cursor: pointer;
+    text-decoration: none;
+  }
+  .meta-value.author-link:hover {
+    color: #ffd700; text-decoration: underline;
+  }
+
+  .novel-tags-detail {
+    margin-bottom: 12px;
+  }
+  .tag-detail {
+    display: inline-block;
+    background: rgba(90,0,0,0.5);
+    border: 1px solid #8b0000;
+    color: #c9a84c;
+    padding: 2px 10px;
+    font-size: 11px;
+    margin: 2px 4px 2px 0;
+    letter-spacing: 1px;
+  }
+  .tag-detail.hot {
+    background: linear-gradient(90deg, #8b0000, #cc0000);
+    color: #ffd700;
+    border-color: #ffd700;
+    animation: tagPulse 2s ease-in-out infinite;
+  }
+
+  .novel-desc-detail {
+    font-size: 13px;
+    color: #b0a080;
+    line-height: 1.9;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.3);
+    border-left: 3px solid #8b0000;
+    margin-top: auto;
+  }
+  .novel-desc-detail::before {
+    content: '📜 ';
+    color: #ffd700;
+  }
+
+  /* ====== DOWNLOAD STATS ====== */
+  .download-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+    background: linear-gradient(90deg, rgba(40,10,10,0.4), rgba(20,5,5,0.6), rgba(40,10,10,0.4));
+    border-bottom: 1px solid rgba(139,0,0,0.4);
+  }
+  .stat-card {
+    background: rgba(20,5,5,0.6);
+    border: 1px solid #5a0000;
+    padding: 12px 10px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .stat-card:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+  }
+  .stat-card::before {
+    content: ''; position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 1px solid rgba(255,215,0,0.1);
+    pointer-events: none;
+  }
+  .stat-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+    filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
+  }
+  .stat-label-small {
+    font-size: 11px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .stat-value-big {
+    font-size: 20px;
+    color: #ffd700;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
+    font-family: 'Courier New', monospace;
+  }
+  .stat-value-big.danger {
+    color: #ff4444;
+    text-shadow: 0 0 8px rgba(255,68,68,0.5);
+    animation: blink 1.5s step-end infinite;
+  }
+  .stat-value-big.warning {
+    color: #ff8c00;
+    text-shadow: 0 0 8px rgba(255,140,0,0.5);
+  }
+  .stat-sub {
+    font-size: 10px;
+    color: #5a4020;
+    margin-top: 3px;
+    letter-spacing: 1px;
+  }
+
+  /* ====== DOWNLOAD INFO TABLE ====== */
+  .download-info-table {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(139,0,0,0.4);
+  }
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .info-table tr {
+    border-bottom: 1px dashed rgba(90,0,0,0.4);
+  }
+  .info-table tr:last-child { border-bottom: none; }
+  .info-table td {
+    padding: 8px 12px;
+  }
+  .info-table .label-cell {
+    width: 180px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    background: rgba(90,0,0,0.15);
+    border-right: 1px solid rgba(90,0,0,0.3);
+  }
+  .info-table .label-cell::before {
+    content: '◆ ';
+    color: #8b0000;
+    font-size: 10px;
+  }
+  .info-table .value-cell {
+    color: #c9a84c;
+  }
+  .info-table .value-cell strong {
+    color: #ffd700;
+    font-weight: bold;
+  }
+  .info-table .value-cell .warn {
+    color: #ff4444;
+    font-weight: bold;
+    animation: blink 1.5s step-end infinite;
+  }
+  .info-table .value-cell .ok {
+    color: #44ff44;
+  }
+
+  /* ====== DOWNLOAD LINKS ====== */
+  .download-links {
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(40,10,10,0.4), rgba(20,5,5,0.6));
+    border-bottom: 1px solid rgba(139,0,0,0.4);
+  }
+  .download-notice {
+    background: rgba(139,0,0,0.2);
+    border: 1px dashed #ff4444;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #ff8c00;
+    line-height: 1.8;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .download-notice::before {
+    content: '⚠ 【CẢO BÁO】 ';
+    color: #ff4444;
+    font-weight: bold;
+  }
+  .download-notice .blink-warn {
+    color: #ff4444;
+    animation: blink 1s step-end infinite;
+    font-weight: bold;
+  }
+
+  .mirror-list {
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .mirror-item {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, rgba(30,5,5,0.8), rgba(50,10,10,0.6));
+    border: 1px solid #5a0000;
+    padding: 12px 15px;
+    transition: all 0.3s;
+    gap: 15px;
+    position: relative;
+  }
+  .mirror-item:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255,215,0,0.3);
+    background: linear-gradient(90deg, rgba(50,10,10,0.9), rgba(70,15,15,0.7));
+  }
+  .mirror-item::before {
+    content: ''; position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 1px solid rgba(255,215,0,0.05);
+    pointer-events: none;
+  }
+
+  .mirror-icon {
+    width: 50px; height: 50px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #5a0000, #8b0000);
+    border: 1px solid #ffd700;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 0 10px rgba(139,0,0,0.5);
+  }
+  .mirror-info {
+    flex: 1; min-width: 0;
+  }
+  .mirror-name {
+    font-size: 15px;
+    color: #ffd700;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .mirror-meta {
+    font-size: 11px;
+    color: #8b6914;
+    letter-spacing: 1px;
+  }
+  .mirror-meta span {
+    margin-right: 12px;
+  }
+  .mirror-status {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 10px;
+    border-radius: 2px;
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  .status-good { background: #44aa44; color: #fff; }
+  .status-slow { background: #ff8c00; color: #fff; }
+  .status-dead { background: #555; color: #aaa; }
+
+  .mirror-btn {
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #8b0000, #5a0000);
+    border: 2px solid #ffd700;
+    color: #ffd700;
+    padding: 10px 20px;
+    font-size: 14px;
+    letter-spacing: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    transition: all 0.3s;
+    text-shadow: 0 0 5px rgba(255,215,0,0.5);
+    box-shadow: 0 0 10px rgba(139,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .mirror-btn::before {
+    content: ''; position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  .mirror-btn:hover {
+    background: linear-gradient(180deg, #cc0000, #8b0000);
+    box-shadow: 0 0 20px rgba(255,215,0,0.8);
+    color: #fff8dc;
+    transform: scale(1.05);
+  }
+  .mirror-btn.disabled {
+    background: linear-gradient(180deg, #333, #222);
+    border-color: #555;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .mirror-btn.disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ====== COUNTDOWN ====== */
+  .countdown-box {
+    margin: 15px 20px;
+    padding: 15px;
+    background: linear-gradient(90deg, rgba(139,0,0,0.2), rgba(90,0,0,0.3), rgba(139,0,0,0.2));
+    border: 2px dashed #ff4444;
+    text-align: center;
+    position: relative;
+  }
+  .countdown-box::before {
+    content: '⏳';
+    position: absolute;
+    top: -15px; left: 50%;
+    transform: translateX(-50%);
+    background: #0a0008;
+    padding: 0 10px;
+    font-size: 20px;
+  }
+  .countdown-label {
+    color: #ff8c00;
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .countdown-unit {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #ff4444;
+    padding: 8px 12px;
+    min-width: 60px;
+  }
+  .countdown-num {
+    font-size: 24px;
+    color: #ff4444;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px rgba(255,68,68,0.8);
+    display: block;
+  }
+  .countdown-text {
+    font-size: 10px;
+    color: #8b6914;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+  .countdown-note {
+    font-size: 11px;
+    color: #ff8c00;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
+  /* ====== CHAPTER LIST ====== */
+  .volume-section {
+    padding: 10px 20px;
+  }
+  .volume-title {
+    background: linear-gradient(90deg, transparent, rgba(139,0,0,0.4), transparent);
+    color: #ffd700;
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin: 10px 0;
+    border-top: 1px solid rgba(139,0,0,0.3);
+    border-bottom: 1px solid rgba(139,0,0,0.3);
+  }
+  .volume-title::before { content: '【'; color: #8b0000; }
+  .volume-title::after { content: '】'; color: #8b0000; }
+
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 10px 0;
+  }
+  .chapter-link {
+    display: block;
+    color: #c9a84c;
+    text-decoration: none;
+    padding: 5px 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-bottom: 1px dotted rgba(90,0,0,0.3);
+    transition: all 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .chapter-link:hover {
+    color: #ffd700;
+    background: rgba(139,0,0,0.2);
+    text-shadow: 0 0 5px rgba(255,215,0,0.5);
+  }
+  .chapter-link.new-chapter {
+    color: #44ff44;
+  }
+  .chapter-link.new-chapter::after {
+    content: ' NEW';
+    color: #ff4444;
+    font-size: 9px;
+    font-weight: bold;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  /* ====== COMMENTS ====== */
+  .comment-list {
+    padding: 15px 20px;
+  }
+  .comment-item {
+    background: rgba(30,10,10,0.5);
+    border: 1px solid rgba(90,0,0,0.3);
+    border-left: 3px solid #8b0000;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .comment-user {
+    color: #ffd700;
+    font-weight: bold;
+  }
+  .comment-user::before { content: '⚔ '; font-size: 10px; }
+  .comment-time { color: #5a4020; }
+  .comment-text {
+    color: #b0a080;
+    line-height: 1.8;
+  }
+  .comment-rating {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #ff8c00;
+  }
+
+  .comment-form {
+    padding: 15px 20px;
+    border-top: 1px dashed rgba(139,0,0,0.4);
+    background: rgba(20,5,5,0.4);
+  }
+  .comment-form-title {
+    color: #ffd700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .comment-form-title::before { content: '✍ '; }
+  .comment-form-title::after { content: ' ✍'; }
+
+  .form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .form-input, .form-textarea {
+    flex: 1;
+    background: #1a0000;
+    border: 1px solid #5a0000;
+    color: #ffd700;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 5px rgba(255,215,0,0.3);
+  }
+  .form-textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  .form-submit {
+    background: linear-gradient(180deg, #8b0000, #5a0000);
+    border: 1px solid #ffd700;
+    color: #ffd700;
+    padding: 8px 25px;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .form-submit:hover {
+    background: linear-gradient(180deg, #cc0000, #8b0000);
+    box-shadow: 0 0 10px rgba(255,215,0,0.5);
+  }
+
+  /* ====== RELATED ====== */
+  .related-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 15px 20px;
+  }
+  .related-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(30,10,10,0.5);
+    border: 1px solid rgba(90,0,0,0.3);
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .related-item:hover {
+    border-color: #ffd700;
+    background: rgba(50,15,15,0.7);
+  }
+  .related-cover {
+    width: 50px; height: 65px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #2a0a0a, #5a0000);
+    border: 1px solid #8b0000;
+    display: flex; align-items: center; justify-content: center;
+    color: #ffd700;
+    font-size: 10px;
+    writing-mode: vertical-rl;
+    letter-spacing: 2px;
+  }
+  .related-info {
+    flex: 1; min-width: 0;
+  }
+  .related-name {
+    color: #ffd700;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .related-meta {
+    font-size: 11px;
+    color: #8b6914;
+    line-height: 1.6;
+  }
+
+  /* ====== FOOTER ====== */
+  .footer {
+    max-width: 1000px; margin: 0 auto; padding: 20px 15px;
+    text-align: center; border-top: 1px solid rgba(139,0,0,0.3);
+  }
+  .footer-links { margin-bottom: 10px; }
+  .footer-links a {
+    color: #8b6914; text-decoration: none;
+    margin: 0 10px; font-size: 12px;
+    letter-spacing: 2px; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: #ffd700; }
+  .footer-text {
+    font-size: 11px; color: #4a3520;
+    line-height: 2; letter-spacing: 1px;
+  }
+  .footer-counter { margin-top: 10px; font-size: 12px; color: #5a4020; }
+  .counter-num {
+    display: inline-block; background: #000;
+    border: 1px solid #5a0000; color: #00ff00;
+    font-family: 'Courier New', monospace;
+    padding: 2px 4px; margin: 0 1px;
+    font-size: 14px; min-width: 18px; text-align: center;
+  }
+  .footer-badges {
+    margin-top: 10px;
+    display: flex; justify-content: center;
+    gap: 10px; flex-wrap: wrap;
+  }
+  .badge {
+    border: 1px solid #5a0000;
+    background: linear-gradient(180deg, #2a0a0a, #1a0000);
+    padding: 3px 10px; font-size: 10px;
+    color: #8b6914; letter-spacing: 1px;
+  }
+  .footer-ie {
+    font-size: 10px; color: #3a2510;
+    margin-top: 8px; letter-spacing: 1px;
+  }
+
+  .float-panel {
+    position: fixed; right: 10px; top: 50%;
+    transform: translateY(-50%); z-index: 1000;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .float-btn {
+    background: linear-gradient(180deg, #5a0000, #3a0000);
+    border: 1px solid #8b0000; color: #ffd700;
+    padding: 8px 5px; font-size: 11px;
+    writing-mode: vertical-rl; letter-spacing: 3px;
+    cursor: pointer; transition: all 0.3s;
+    text-decoration: none; font-family: inherit;
+  }
+  .float-btn:hover {
+    background: linear-gradient(180deg, #8b0000, #5a0000);
+    box-shadow: 0 0 10px rgba(139,0,0,0.5);
+  }
+
+  .music-player {
+    position: fixed; bottom: 15px; left: 15px; z-index: 1000;
+    background: rgba(20,5,5,0.9); border: 1px solid #5a0000;
+    padding: 8px 12px; font-size: 11px; color: #8b6914;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .music-icon {
+    animation: spin 3s linear infinite;
+    display: inline-block; font-size: 16px;
+  }
+
+  .float-sword {
+    position: fixed; font-size: 24px; opacity: 0.15;
+    pointer-events: none; z-index: 100;
+    animation: floatSword 15s linear infinite;
+  }
+  .float-sword:nth-child(1) { left: 5%; animation-duration: 18s; top: -30px; }
+  .float-sword:nth-child(2) { left: 85%; animation-duration: 22s; animation-delay: 5s; top: -30px; font-size: 18px; }
+
+  .separator {
+    text-align: center; color: #5a0000;
+    letter-spacing: 5px; font-size: 12px;
+    padding: 5px 0; user-select: none;
+  }
+
+  @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+  @keyframes titleGlow {
+    0% { filter: drop-shadow(0 0 10px rgba(255,215,0,0.3)) drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
+    100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)) drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
+  }
+  @keyframes marqueeScroll {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-200%); }
+  }
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes floatSword {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes tagPulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 0 15px rgba(255,215,0,0.8); }
+  }
+
+  @media (max-width: 768px) {
+    .main-wrapper { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .site-title { font-size: 28px; letter-spacing: 6px; }
+    .novel-detail-header { flex-direction: column; align-items: center; }
+    .novel-cover-large { width: 150px; height: 200px; }
+    .novel-title-main { font-size: 24px; text-align: center; }
+    .novel-meta-grid { grid-template-columns: 1fr; }
+    .download-stats { grid-template-columns: repeat(2, 1fr); }
+    .chapter-grid { grid-template-columns: repeat(2, 1fr); }
+    .related-list { grid-template-columns: 1fr; }
+    .mirror-item { flex-direction: column; text-align: center; }
+    .float-panel { display: none; }
+    .float-sword { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Swords -->
+<div class="float-sword">🗡️</div>
+<div class="float-sword">⚔️</div>
+
+<!-- Sparkle Canvas -->
+<canvas id="sparkle-canvas"></canvas>
+
+<!-- Float Panel -->
+<div class="float-panel">
+  <a class="float-btn" href="index.html">Trang chủ</a>
+  <a class="float-btn" href="tang-kinh-cac.html">Tàng Kinh</a>
+  <a class="float-btn" href="#">Về đầu trang</a>
+  <a class="float-btn" href="#">Lưu trang này</a>
+</div>
+
+<!-- Music Player -->
+<div class="music-player">
+  <span class="music-icon">☯</span>
+  <span>♪ Tiên Kiếm Kỳ Duyên.mp3 đang phát...</span>
+</div>
+
+<!-- Top Banner -->
+<div class="top-banner">
+  <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
+  <div class="top-banner-text">—— Phàm Nhân Tu Tiên · Nghịch Thiên Cải Mệnh · Tiên Lộ Vô Ngân ——</div>
+  <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="site-title">TÀNG KINH CÁC</div>
+  <div class="site-subtitle">CHI TIẾT TRUYỆN · DOWNLOAD</div>
+  <div class="header-decoration">═══════ 📜 ═══════</div>
+</header>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="index.html">⚔ Trang chủ Tiên Minh</a>
+  <span class="sep">»</span>
+  <a href="tang-kinh-cac.html">Tàng Kinh Các</a>
+  <span class="sep">»</span>
+  <span style="color:#ffd700;">Phàm Nhân Tu Tiên Truyện</span>
+</div>
+
+<!-- Marquee -->
+<div class="marquee-bar">
+  <div class="marquee-content">
+    <span class="hot">【HOT】</span> "Phàm Nhân Tu Tiên Truyện" vừa cập nhật chương 189!&nbsp;&nbsp;&nbsp;
+    <span>File ZIP đã được kiểm tra virus - An toàn 100%&nbsp;&nbsp;&nbsp;</span>
+    <span class="new">【MỚI】</span> Link dự phòng 4share.vn đã được thêm vào!&nbsp;&nbsp;&nbsp;
+    <span class="hot">【CẢNH BÁO】</span> File sẽ tự động xóa sau ngày 15/01/2004 - Vui lòng tải về ngay!&nbsp;&nbsp;&nbsp;
+    <span>Nếu link chết, vui lòng báo cáo cho bản chủ qua Luận Đạo Đài&nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<!-- Main Layout -->
+<div class="main-wrapper">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Quick Info -->
+    <div class="sidebar-box">
+      <div class="sidebar-title">Thông tin nhanh</div>
+      <div class="sidebar-content">
+        <div class="info-box">
+          <div class="info-row">
+            <span class="info-label">Tên truyện:</span>
+            <span class="info-value" style="font-size:11px;">Phàm Nhân Tu Tiên</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Tác giả:</span>
+            <span class="info-value" style="font-size:11px;">Vong Ngữ</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Thể loại:</span>
+            <span class="info-value" style="font-size:11px;">Tiên hiệp</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Trạng thái:</span>
+            <span class="info-value" style="font-size:11px; color:#44ff44;">Đang ra</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Số chương:</span>
+            <span class="info-value" style="font-size:11px;">189</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Đánh giá:</span>
+            <span class="info-value" style="font-size:11px; color:#ff8c00;">★★★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-delete countdown -->
+    <div class="sidebar-box">
+      <div class="sidebar-title">Thời hạn lưu trữ</div>
+      <div class="sidebar-content" style="text-align:center;">
+        <div style="font-size:11px; color:#ff8c00; letter-spacing:2px; margin-bottom:8px;">
+          File sẽ tự xóa sau
+        </div>
+        <div style="font-size:24px; color:#ff4444; font-weight:bold; font-family:'Courier New',monospace; text-shadow:0 0 10px rgba(255,68,68,0.8); animation:blink 1.5s step-end infinite;">
+          18 ngày
+        </div>
+        <div style="font-size:10px; color:#8b6914; margin-top:5px; letter-spacing:1px;">
+          (Hạn chót: 15/01/2004)
+        </div>
+        <div style="font-size:10px; color:#5a4020; margin-top:8px; font-style:italic;">
+          ※ Mau tải về kẻo muộn ※
+        </div>
+      </div>
+    </div>
+
+    <!-- Rankings -->
+    <div class="sidebar-box">
+      <div class="sidebar-title">Bảng xếp hạng</div>
+      <div class="sidebar-content">
+        <ul class="rank-list">
+          <li>
+            <span><span class="rank-num top1">1</span><span class="rank-name">Phàm Nhân Tu Tiên</span></span>
+            <span class="rank-views">10.2M</span>
+          </li>
+          <li>
+            <span><span class="rank-num top2">2</span><span class="rank-name">Tru Tiên</span></span>
+            <span class="rank-views">8.7M</span>
+          </li>
+          <li>
+            <span><span class="rank-num top3">3</span><span class="rank-name">Tiên Nghịch</span></span>
+            <span class="rank-views">7.3M</span>
+          </li>
+          <li>
+            <span><span class="rank-num">4</span><span class="rank-name">Thần Mộ</span></span>
+            <span class="rank-views">6.8M</span>
+          </li>
+          <li>
+            <span><span class="rank-num">5</span><span class="rank-name">Đấu Phá Thương Khung</span></span>
+            <span class="rank-views">6.1M</span>
+          </li>
+          <li>
+            <span><span class="rank-num">6</span><span class="rank-name">Già Thiên</span></span>
+            <span class="rank-views">5.4M</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Same author -->
+    <div class="sidebar-box">
+      <div class="sidebar-title">Cùng tác giả</div>
+      <div class="sidebar-content">
+        <ul class="nav-list">
+          <li><a href="#">《 Phàm Nhân Tu Tiên 2 》</a></li>
+          <li><a href="#">《 Thiên Đạo Chí Tôn 》</a></li>
+          <li><a href="#">《 Mạc Giang Nam 》</a></li>
+          <li><a href="#">《 Tiên Giới Đạo Tổ 》</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Report -->
+    <div class="sidebar-box">
+      <div class="sidebar-title">Báo lỗi link</div>
+      <div class="sidebar-content" style="text-align:center; font-size:11px; color:#8b6914; line-height:1.8;">
+        Nếu link tải bị lỗi,<br>
+        vui lòng báo cho bản chủ:<br>
+        <span style="color:#ffd700;">admin@yujianxianmeng.com</span><br>
+        <br>
+        <a href="#" style="display:inline-block; background:linear-gradient(180deg,#8b0000,#5a0000); border:1px solid #ffd700; color:#ffd700; padding:4px 12px; font-size:11px; text-decoration:none; letter-spacing:2px;">
+          ⚑ BÁO LINK CHẾT
+        </a>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Content -->
+  <main class="content-area">
+
+    <!-- Novel Detail Header -->
+    <div class="content-box">
+      <div class="novel-detail-header">
+        <div class="novel-cover-large">
+          <span class="cover-corner tl">☯</span>
+          <span class="cover-corner tr">☯</span>
+          <span class="cover-corner bl">☯</span>
+          <span class="cover-corner br">☯</span>
+          <span class="cover-text-vertical">Phàm Nhân Tu Tiên</span>
+          <span class="cover-seal">Tàng<br>Kinh</span>
+        </div>
+        <div class="novel-detail-info">
+          <div class="novel-title-main">《 Phàm Nhân Tu Tiên Truyện 》</div>
+          <div class="novel-title-en">A Record of a Mortal's Journey to Immortality</div>
+          <div class="novel-meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Tác giả</span>
+              <span class="meta-value author-link">Vong Ngữ</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Thể loại</span>
+              <span class="meta-value highlight">Tiên hiệp, Tu chân</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Trạng thái</span>
+              <span class="meta-value" style="color:#44ff44;">Đang tiến hành</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Số chương</span>
+              <span class="meta-value highlight">189 chương</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Số chữ</span>
+              <span class="meta-value">~ 850.000 chữ</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Đánh giá</span>
+              <span class="meta-value" style="color:#ff8c00;">★★★★★ 9.8/10</span>
+            </div>
+          </div>
+          <div class="novel-tags-detail">
+            <span class="tag-detail hot">HOT</span>
+            <span class="tag-detail">Phàm nhân lưu</span>
+            <span class="tag-detail">Tu chân</span>
+            <span class="tag-detail">Nam tần</span>
+            <span class="tag-detail">Tu tiên</span>
+            <span class="tag-detail">Trưởng thành</span>
+          </div>
+          <div class="novel-desc-detail">
+            Một kẻ phàm nhân bình thường bước chân vào giang hồ tu tiên, dựa vào sự kiên nhẫn và cơ trí, từng bước đi lên đỉnh cao tiên đạo. Không có thiên phú kinh người, chỉ có ý chí bất khuất và một chút cơ duyên. Hàn Lập - nhân vật chính - từ một thôn phu nghèo khó, nhờ机缘 xảo hợp bước vào tu chân giới, trải qua vô số hiểm nguy, đấu tranh sinh tồn, cuối cùng từng bước đăng đỉnh đại đạo...
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Stats -->
+      <div class="download-stats">
+        <div class="stat-card">
+          <div class="stat-icon">💾</div>
+          <div class="stat-label-small">DUNG LƯỢNG</div>
+          <div class="stat-value-big">2.47 MB</div>
+          <div class="stat-sub">File ZIP đã nén</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👁</div>
+          <div class="stat-label-small">LƯỢT XEM</div>
+          <div class="stat-value-big">10,247,836</div>
+          <div class="stat-sub">+2,847 hôm nay</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⬇</div>
+          <div class="stat-label-label">LƯỢT TẢI</div>
+          <div class="stat-value-big">384,729</div>
+          <div class="stat-sub">+1,203 hôm nay</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-label-small">NGÀY UPLOAD</div>
+          <div class="stat-value-big" style="font-size:16px;">28/12/2003</div>
+          <div class="stat-sub">20:15:33 GMT+7</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🕐</div>
+          <div class="stat-label-small">XEM GẦN NHẤT</div>
+          <div class="stat-value-big" style="font-size:14px;">Vừa xong</div>
+          <div class="stat-sub">01/07/2026 14:22</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-label-small">TỰ XÓA SAU</div>
+          <div class="stat-value-big danger" style="font-size:16px;">15/01/2004</div>
+          <div class="stat-sub">Còn 18 ngày nữa</div>
+        </div>
+      </div>
+
+      <!-- Download Info Table -->
+      <div class="download-info-table">
+        <table class="info-table">
+          <tr>
+            <td class="label-cell">Tên file</td>
+            <td class="value-cell"><strong>PhamNhanTuTien_Ch1-189_ByVongNgu.zip</strong></td>
+          </tr>
+          <tr>
+            <td class="label-cell">Định dạng</td>
+            <td class="value-cell">ZIP (chứa 189 file .TXT, encoding UTF-8)</td>
+          </tr>
+          <tr>
+            <td class="label-cell">Dung lượng nén</td>
+            <td class="value-cell"><strong>2.47 MB</strong> (sau khi giải nén: 8.92 MB)</td>
+          </tr>
+          <tr>
+            <td class="label-cell">MD5 Checksum</td>
+            <td="value-cell" style="font-family:'Courier New',monospace; font-size:11px; color:#8b6914;">a3f8c9e2b7d4f1a5c6e8b9d2f4a7c1e3</td>
+          </tr>
+          <tr>
+            <td class="label-cell">Người đăng</td>
+            <td class="value-cell"><span style="color:#ffd700;">⚔ Thanh Vân Kiếm Tiên</span> <span style="font-size:10px; color:#8b6914;">(Bản chủ Tàng Kinh Các)</span></td>
+          </tr>
+          <tr>
+            <td class="label-cell">Kiểm duyệt</td>
+            <td class="value-cell"><span class="ok">✓ Đã kiểm tra virus</span> - <span class="ok">✓ Không có quảng cáo</span> - <span class="ok">✓ Full chương</span></td>
+          </tr>
+          <tr>
+            <td class="label-cell">Thời điểm upload</td>
+            <td class="value-cell">20:15:33 - <strong>28/12/2003</strong> (Thứ Bảy)</td>
+          </tr>
+          <tr>
+            <td class="label-cell">Lần xem gần nhất</td>
+            <td class="value-cell">14:22:07 - <strong>01/07/2026</strong> (bởi đạo hữu ẩn danh)</td>
+          </tr>
+          <tr>
+            <td class="label-cell">Điều kiện tự xóa</td>
+            <td class="value-cell">
+              <span class="warn">⚠ Tự động xóa lúc 23:59:59 ngày 15/01/2004</span><br>
+              <span style="font-size:11px; color:#8b6914;">(Lý do: Chính sách lưu trữ 30 ngày của Tàng Kinh Các)</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-cell">Ghi chú</td>
+            <td class="value-cell" style="font-size:12px; color:#a08050; font-style:italic;">
+              ※ Truyện được sưu tầm từ nhiều nguồn, đã được bản chủ kiểm tra và biên tập lại. <br>
+              ※ Nếu có chương bị lỗi hoặc thiếu, xin liên hệ bản chủ để được bổ sung. <br>
+              ※ Cấm re-upload lên trang khác mà không có sự cho phép.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown-box">
+        <div class="countdown-label">⚠ THỜI GIAN TỰ XÓA FILE ⚠</div>
+        <div style="font-size:12px; color:#c9a84c; letter-spacing:2px;">
+          File sẽ bị <span style="color:#ff4444; font-weight:bold;">XÓA VĨNH VIỄN</span> khỏi máy chủ sau:
+        </div>
+        <div class="countdown-timer" id="countdown">
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-days">18</span>
+            <span class="countdown-text">NGÀY</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-hours">09</span>
+            <span class="countdown-text">GIỜ</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-mins">37</span>
+            <span class="countdown-text">PHÚT</span>
+          </div>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-secs">22</span>
+            <span class="countdown-text">GIÂY</span>
+          </div>
+        </div>
+        <div class="countdown-note">
+          ※ Sau thời gian này, file sẽ không thể khôi phục. Vui lòng tải về ngay! ※
+        </div>
+      </div>
+
+      <!-- Download Links -->
+      <div class="download-links">
+        <div class="content-title" style="margin:-20px -20px 15px -20px; padding:10px;">
+          <span class="icon-left">⬇</span>
+          LINK TẢI TRUYỆN
+          <span class="icon-right">⬇</span>
+        </div>
+
+        <div class="download-notice">
+          Vui lòng chọn link phù hợp. Nếu link chính bị quá tải, hãy dùng link dự phòng.<br>
+          <span class="blink-warn">⚠ KHÔNG dùng phần mềm download IDM - sẽ bị lỗi file! ⚠</span><br>
+          Khuyến khích dùng <span style="color:#ffd700;">FlashGet</span> hoặc <span style="color:#ffd700;">NetAnts</span> để tải ổn định.
+        </div>
+
+        <div class="mirror-list">
+
+          <!-- Mirror 1 -->
+          <div class="mirror-item">
+            <div class="mirror-icon">📥</div>
+            <div class="mirror-info">
+              <div class="mirror-name">LINK CHÍNH - 4SHARE.VN</div>
+              <div class="mirror-meta">
+                <span>Tốc độ: <span style="color:#44ff44;">Rất nhanh</span></span>
+                <span>Dung lượng: 2.47 MB</span>
+                <span>Server: Việt Nam</span>
+                <span class="mirror-status status-good">● HOẠT ĐỘNG</span>
+              </div>
+            </div>
+            <a href="#" class="mirror-btn" onclick="alert('⚔ Đang kết nối đến 4share.vn...\n\nXin đợi trong giây lát, đạo hữu!'); return false;">⬇ TẢI VỀ</a>
+          </div>
+
+          <!-- Mirror 2 -->
+          <div class="mirror-item">
+            <div class="mirror-icon">📦</div>
+            <div class="mirror-info">
+              <div class="mirror-name">LINK DỰ PHÒNG - RAPIDSHARE</div>
+              <div class="mirror-meta">
+                <span>Tốc độ: <span style="color:#ff8c00;">Trung bình</span></span>
+                <span>Dung lượng: 2.47 MB</span>
+                <span>Server: Đức</span>
+                <span class="mirror-status status-good">● HOẠT ĐỘNG</span>
+              </div>
+            </div>
+            <a href="#" class="mirror-btn" onclick="alert('⚔ Đang kết nối đến Rapidshare.com...\n\nCần chờ 30 giây trước khi tải, đạo hữu!'); return false;">⬇ TẢI VỀ</a>
+          </div>
+
+          <!-- Mirror 3 -->
+          <div class="mirror-item">
+            <div class="mirror-icon">🔥</div>
+            <div class="mirror-info">
+              <div class="mirror-name">LINK DỰ PHÒNG 2 - MEDIAFIRE</div>
+              <div class="mirror-meta">
+                <span>Tốc độ: <span style="color:#44ff44;">Nhanh</span></span>
+                <span>Dung lượng: 2.47 MB</span>
+                <span>Server: Mỹ</span>
+                <span class="mirror-status status-good">● HOẠT ĐỘNG</span>
+              </div>
+            </div>
+            <a href="#" class="mirror-btn" onclick="alert('⚔ Đang kết nối đến Mediafire.com...\n\nKhông cần chờ, tải ngay!'); return false;">⬇ TẢI VỀ</a>
+          </div>
+
+          <!-- Mirror 4 -->
+          <div class="mirror-item">
+            <div class="mirror-icon">☁</div>
+            <div class="mirror-info">
+              <div class="mirror-name">LINK DỰ PHÒNG 3 - MEGAUPLOAD</div>
+              <div class="mirror-meta">
+                <span>Tốc độ: <span style="color:#ff8c00;">Chậm</span></span>
+                <span>Dung lượng: 2.47 MB</span>
+                <span>Server: Hà Lan</span>
+                <span class="mirror-status status-slow">● CHẬM</span>
+              </div>
+            </div>
+            <a href="#" class="mirror-btn" onclick="alert('⚔ Link đang quá tải...\n\nVui lòng thử lại sau 15 phút!'); return false;">⬇ TẢI VỀ</a>
+          </div>
+
+          <!-- Mirror 5 (dead) -->
+          <div class="mirror-item" style="opacity:0.6;">
+            <div class="mirror-icon" style="filter:grayscale(1);">💀</div>
+            <div class="mirror-info">
+              <div class="mirror-name" style="color:#888;">LINK CŨ - FILEDIVE (ĐÃ CHẾT)</div>
+              <div class="mirror-meta">
+                <span>Trạng thái: <span style="color:#888;">Không khả dụng</span></span>
+                <span>Lý do: Server đóng cửa</span>
+                <span class="mirror-status status-dead">● ĐÃ TẮT</span>
+              </div>
+            </div>
+            <span class="mirror-btn disabled">✕ KHÔNG TẢI ĐƯỢC</span>
+          </div>
+
+        </div>
+
+        <div style="text-align:center; margin-top:15px; font-size:11px; color:#8b6914; letter-spacing:1px; line-height:1.8;">
+          ※ Nếu tất cả link đều chết, vui lòng báo cáo qua nút "BÁO LINK CHẾT" ở sidebar ※<br>
+          ※ Bản chủ sẽ cập nhật link mới trong vòng 24h ※<br>
+          ※ Mật khẩu giải nén (nếu có): <span style="color:#ffd700; font-family:'Courier New',monospace;">www.yujianxianmeng.com</span> ※
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Chapter List -->
+    <div class="content-box">
+      <div class="content-title">
+        <span class="icon-left">📜</span>
+        DANH SÁCH CHƯƠNG (189 CHƯƠNG)
+        <span class="icon-right">📜</span>
+      </div>
+
+      <!-- Volume 1 -->
+      <div class="volume-section">
+        <div class="volume-title">Quyển 1 · Thất Huyền Môn</div>
+        <div class="chapter-grid">
+          <a href="#" class="chapter-link">Chương 001 · Nhị Lãng Tử</a>
+          <a href="#" class="chapter-link">Chương 002 · Thất Huyền Môn</a>
+          <a href="#" class="chapter-link">Chương 003 · Mạc Cư Nhân</a>
+          <a href="#" class="chapter-link">Chương 004 · Trường Xuân Công</a>
+          <a href="#" class="chapter-link">Chương 005 · Đệ tử tạp dịch</a>
+          <a href="#" class="chapter-link">Chương 006 · Dược cốc</a>
+          <a href="#" class="chapter-link">Chương 007 · Tiểu lục bình</a>
+          <a href="#" class="chapter-link">Chương 008 · Bí mật</a>
+          <a href="#" class="chapter-link">Chương 009 · Tu luyện</a>
+          <a href="#" class="chapter-link">Chương 010 · Đột phá</a>
+          <a href="#" class="chapter-link">Chương 011 · Luyện khí tầng một</a>
+          <a href="#" class="chapter-link">Chương 012 · Bí tịch</a>
+          <a href="#" class="chapter-link">Chương 013 · Ẩn tàng</a>
+          <a href="#" class="chapter-link">Chương 014 · Sát cơ</a>
+          <a href="#" class="chapter-link">Chương 015 · Phản kích</a>
+        </div>
+      </div>
+
+      <!-- Volume 2 -->
+      <div class="volume-section">
+        <div class="volume-title">Quyển 2 · Hoàng Phong Cốc</div>
+        <div class="chapter-grid">
+          <a href="#" class="chapter-link">Chương 016 · Xuất cốc</a>
+          <a href="#" class="chapter-link">Chương 017 · Giang hồ</a>
+          <a href="#" class="chapter-link">Chương 018 · Thái Nam</a>
+          <a href="#" class="chapter-link">Chương 019 · Huyết sát đao</a>
+          <a href="#" class="chapter-link">Chương 020 · Tiên hội</a>
+          <a href="#" class="chapter-link">Chương 021 · Phù lục</a>
+          <a href="#" class="chapter-link">Chương 022 · Đan dược</a>
+          <a href="#" class="chapter-link">Chương 023 · Trúc cơ đan</a>
+          <a href="#" class="chapter-link">Chương 024 · Tranh đoạt</a>
+          <a href="#" class="chapter-link">Chương 025 · Cơ duyên</a>
+          <a href="#" class="chapter-link">Chương 026 · Kim ngọc chân nhân</a>
+          <a href="#" class="chapter-link">Chương 027 · Bí cảnh</a>
+          <a href="#" class="chapter-link">Chương 028 · Huyễn pháp</a>
+          <a href="#" class="chapter-link">Chương 029 · Đấu pháp</a>
+          <a href="#" class="chapter-link">Chương 030 · Thắng lợi</a>
+        </div>
+      </div>
+
+      <!-- Volume 3 -->
+      <div class="volume-section">
+        <div class="volume-title">Quyển 3 · Loạn Tinh Hải</div>
+        <div class="chapter-grid">
+          <a href="#" class="chapter-link">Chương 031 · Xuất hải</a>
+          <a href="#" class="chapter-link">Chương 032 · Đảo nhỏ</a>
+          <a href="#" class="chapter-link">Chương 033 · Tu luyện chi địa</a>
+          <a href="#" class="chapter-link">Chương 034 · Yêu thú</a>
+          <a href="#" class="chapter-link">Chương 035 · Nội đan</a>
+          <a href="#" class="chapter-link">Chương 036 · Đan dược chi đạo</a>
+          <a href="#" class="chapter-link">Chương 037 · Luyện đan</a>
+          <a href="#" class="chapter-link">Chương 038 · Thành công</a>
+          <a href="#" class="chapter-link">Chương 039 · Kim đan</a>
+          <a href="#" class="chapter-link">Chương 040 · Kết đan</a>
+          <a href="#" class="chapter-link">Chương 041 · Thiên địa</a>
+          <a href="#" class="chapter-link">Chương 042 · Dị thú</a>
+          <a href="#" class="chapter-link">Chương 043 · Long lân</a>
+          <a href="#" class="chapter-link">Chương 044 · Cổ trùng</a>
+          <a href="#" class="chapter-link">Chương 045 · Nguy cơ</a>
+        </div>
+      </div>
+
+      <!-- Volume 4 -->
+      <div class="volume-section">
+        <div class="volume-title">Quyển 4 · Quay về Thiên Nam</div>
+        <div class="chapter-grid">
+          <a href="#" class="chapter-link">Chương 046 · Quy cố hương</a>
+          <a href="#" class="chapter-link">Chương 047 · Vật là người phi</a>
+          <a href="#" class="chapter-link">Chương 048 · Cựu nhân</a>
+          <a href="#" class="chapter-link">Chương 049 · Hàn gia</a>
+          <a href="#" class="chapter-link">Chương 050 · Thế sự</a>
+          <a href="#" class="chapter-link">Chương 187 · Đại chiến</a>
+          <a href="#" class="chapter-link">Chương 188 · Phá địch</a>
+          <a href="#" class="chapter-link new-chapter">Chương 189 · Hoàng Phong Cốc</a>
+        </div>
+      </div>
+
+      <div style="text-align:center; padding:15px; font-size:12px; color:#8b6914; letter-spacing:2px;">
+        ※ Chương mới nhất cập nhật lúc 20:00 ngày 28/12/2003 ※<br>
+        ※ Dự kiến chương 190 sẽ ra mắt vào 29/12/2003 ※
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="content-box">
+      <div class="content-title">
+        <span class="icon-left">💬</span>
+        BÌNH LUẬN CỦA ĐẠO HỮU (247)
+        <span class="icon-right">💬</span>
+      </div>
+
+      <div class="comment-list">
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-user">Thanh Vân Kiếm Tiên</span>
+            <span class="comment-time">28/12/2003 23:47:12</span>
+          </div>
+          <div class="comment-text">
+            File đã được bản chủ kiểm tra kỹ lưỡng, không có virus, không có quảng cáo. 189 chương đầy đủ, đã được biên tập lại cho dễ đọc. Chúc chư vị đạo hữu đọc truyện vui vẻ!
+          </div>
+          <div class="comment-rating">★★★★★ Bản chủ đề cử</div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-user">Lăng Ba Tiên Tử</span>
+            <span class="comment-time">28/12/2003 22:15:33</span>
+          </div>
+          <div class="comment-text">
+            Đã tải về và đọc một mạch từ chương 1 đến chương 50! Hàn Lập đúng là hình mẫu phàm nhân tu tiên kinh điển, không có thiên phú nhưng lại có cơ trí hơn người. Cảm ơn bản chủ đã chia sẻ!
+          </div>
+          <div class="comment-rating">★★★★★ Tuyệt phẩm</div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-user">Huyết Ma Lão Tổ</span>
+            <span class="comment-time">28/12/2003 20:02:45</span>
+          </div>
+          <div class="comment-text">
+            Bổn tọa đã đọc qua bản convert trên mạng, nhưng bản TXT này được biên tập kỹ hơn nhiều, không có lỗi chính tả. Link 4share tải nhanh, không bị đứt quãng. 10 điểm!
+          </div>
+          <div class="comment-rating">★★★★★ Đáng đọc</div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-user">Vô Danh Tản Tu</span>
+            <span class="comment-time">28/12/2003 18:30:00</span>
+          </div>
+          <div class="comment-text">
+            Tân nhân lần đầu tiên tải truyện ở Tàng Kinh Các, thấy hướng dẫn rất dễ hiểu. File ZIP giải nén ra 189 file TXT riêng biệt, mỗi chương một file, rất tiện theo dõi. Cảm ơn bản chủ!
+          </div>
+          <div class="comment-rating">★★★★☆ Rất tốt</div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="comment-user">Tử Tiêu Chân Nhân</span>
+            <span class="comment-time">28/12/2003 15:22:17</span>
+          </div>
+          <div class="comment-text">
+            Có đạo hữu nào biết bao giờ tác giả ra chương 190 không? Đợi mòn mỏi quá! Mà bản chủ ơi, nhớ giữ file nhé, đừng để tự xóa sớm, ta chưa tải kịp!
+          </div>
+          <div class="comment-rating">★★★★☆ Hóng chương mới</div>
+        </div>
+      </div>
+
+      <div class="comment-form">
+        <div class="comment-form-title">ĐỂ LẠI BÌNH LUẬN</div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Đạo hiệu của ngươi...">
+          <input type="text" class="form-input" placeholder="Email (không bắt buộc)">
+        </div>
+        <textarea class="form-textarea" placeholder="Chia sẻ cảm nhận của ngươi về bộ truyện này..."></textarea>
+        <div style="text-align:center;">
+          <button class="form-submit">⚔ GỬI BÌNH LUẬN</button>
+        </div>
+        <div style="text-align:center; font-size:10px; color:#5a4020; margin-top:8px; letter-spacing:1px;">
+          ※ Vui lòng dùng ngôn ngữ văn minh, cấm chửi bới, spam ※
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Novels -->
+    <div class="content-box">
+      <div class="content-title">
+        <span class="icon-left">📚</span>
+        TRUYỆN LIÊN QUAN · ĐỀ CỬ
+        <span class="icon-right">📚</span>
+      </div>
+      <div class="related-list">
+        <a href="#" class="related-item">
+          <div class="related-cover">Tiên Nghịch</div>
+          <div class="related-info">
+            <div class="related-name">《 Tiên Nghịch 》</div>
+            <div class="related-meta">
+              Tác giả: Nhĩ Căn<br>
+              ⬇ 73.1K lượt tải · ★ 9.5/10
+            </div>
+          </div>
+        </a>
+        <a href="#" class="related-item">
+          <div class="related-cover">Tru Tiên</div>
+          <div class="related-info">
+            <div class="related-name">《 Tru Tiên 》</div>
+            <div class="related-meta">
+              Tác giả: Tiêu Đỉnh<br>
+              ⬇ 87.3K lượt tải · ★ 9.7/10
+            </div>
+          </div>
+        </a>
+        <a href="#" class="related-item">
+          <div class="related-cover">Thần Mộ</div>
+          <div class="related-info">
+            <div class="related-name">《 Thần Mộ 》</div>
+            <div class="related-meta">
+              Tác giả: Thần Đông<br>
+              ⬇ 68.2K lượt tải · ★ 9.3/10
+            </div>
+          </div>
+        </a>
+        <a href="#" class="related-item">
+          <div class="related-cover">Già Thiên</div>
+          <div class="related-info">
+            <div class="related-name">《 Già Thiên 》</div>
+            <div class="related-meta">
+              Tác giả: Thần Đông<br>
+              ⬇ 54.8K lượt tải · ★ 9.4/10
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="index.html">Trang chủ Tiên Minh</a> |
+    <a href="tang-kinh-cac.html">Tàng Kinh Các</a> |
+    <a href="#">Luận Đạo Đài</a> |
+    <a href="#">Vạn Bảo Lâu</a> |
+    <a href="#">Tiên Minh Quy Tắc</a> |
+    <a href="#">Liên hệ minh chủ</a>
+  </div>
+  <div class="footer-text">
+    Độ phân giải tốt nhất: 1024×768 | Khuyên dùng Internet Explorer 6.0 trở lên<br>
+    Copyright © 2003 Ngự Kiếm Tiên Minh YuJianXianMeng.com All Rights Reserved<br>
+    Nội dung chỉ dùng để học tập giao lưu, bản quyền thuộc về tác giả gốc
+  </div>
+  <div class="footer-counter">
+    Bạn là vị khách thứ
+    <span class="counter-num">0</span><span class="counter-num">2</span><span class="counter-num">8</span><span class="counter-num">4</span><span class="counter-num">7</span><span class="counter-num">3</span><span class="counter-num">6</span>
+  </div>
+  <div class="footer-badges">
+    <span class="badge">🏅 Trang văn học ưu tú</span>
+    <span class="badge">📖 Huyễn Kiếm Thư Minh đề cử</span>
+    <span class="badge">🔒 Không virus không plugin</span>
+    <span class="badge">⚡ Đường truyền Telecom/Netcom</span>
+  </div>
+  <div class="footer-ie">
+    ★ Đã qua kiểm chứng W3C ★ Powered by Ngự Kiếm Tiên Minh CMS v2.1 ★
+  </div>
+</footer>
+
+<script>
+// Sparkle effect
+const canvas = document.getElementById('sparkle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+document.addEventListener('mousemove', (e) => {
+  for (let i = 0; i < 2; i++) {
+    particles.push({
+      x: e.clientX + (Math.random() - 0.5) * 20,
+      y: e.clientY + (Math.random() - 0.5) * 20,
+      size: Math.random() * 3 + 1,
+      speedX: (Math.random() - 0.5) * 2,
+      speedY: (Math.random() - 0.5) * 2 - 1,
+      life: 1,
+      decay: Math.random() * 0.02 + 0.01,
+      color: Math.random() > 0.5 ? '#ffd700' : '#ff4444',
+      type: Math.random() > 0.7 ? 'star' : 'dot'
+    });
+  }
+});
+
+function drawStar(cx, cy, size) {
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+    const x = cx + Math.cos(angle) * size;
+    const y = cy + Math.sin(angle) * size;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.speedX; p.y += p.speedY; p.life -= p.decay;
+    if (p.life <= 0) { particles.splice(i, 1); continue; }
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = p.color;
+    if (p.type === 'star') drawStar(p.x, p.y, p.size);
+    else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); }
+  }
+  ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+  if (particles.length > 200) particles = particles.slice(-200);
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+function createAmbientParticle() {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height + 10,
+    size: Math.random() * 2 + 0.5,
+    speedX: (Math.random() - 0.5) * 0.5,
+    speedY: -(Math.random() * 1 + 0.3),
+    life: 1,
+    decay: Math.random() * 0.003 + 0.001,
+    color: Math.random() > 0.6 ? 'rgba(255,215,0,0.6)' : 'rgba(139,0,0,0.6)',
+    type: 'dot'
+  });
+}
+setInterval(createAmbientParticle, 300);
+
+// Counter
+const counterNums = document.querySelectorAll('.counter-num');
+let count = 284736;
+setInterval(() => {
+  count++;
+  const str = String(count).padStart(7, '0');
+  counterNums.forEach((el, i) => { el.textContent = str[i]; });
+}, 5000);
+
+// Countdown timer
+// Target: 15/01/2004 23:59:59
+// But for demo, we'll use a relative countdown showing 18 days from now
+function updateCountdown() {
+  // For demo purposes, we'll simulate a countdown
+  // In reality, this would be: const target = new Date('2004-01-15T23:59:59').getTime();
+  // But since that's in the past, we'll use a simulated future date for the demo
+  const now = new Date();
+  const target = new Date(now.getTime() + (18 * 24 * 60 * 60 * 1000) + (9 * 60 * 60 * 1000) + (37 * 60 * 1000) + (22 * 1000));
+  
+  const diff = target - now;
+  
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '00';
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-mins').textContent = '00';
+    document.getElementById('cd-secs').textContent = '00';
+    return;
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+console.log('%c📜 Phàm Nhân Tu Tiên Truyện ⚔', 'color: #ffd700; font-size: 24px; font-weight: bold;');
+console.log('%cMột kẻ phàm nhân, một đoạn tiên lộ.', 'color: #c9a84c; font-size: 14px;');
+console.log('%cFile sẽ tự xóa sau 18 ngày - Mau tải về!', 'color: #ff4444; font-size: 12px;');
+</script>
+
+</body>
+</html>
