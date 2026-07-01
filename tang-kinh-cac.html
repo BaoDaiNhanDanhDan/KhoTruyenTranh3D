@@ -1053,7 +1053,8 @@
   <!-- Music Player -->
   <div class="music-player">
     <span class="music-icon">☯</span>
-    <span>♪ Tiên Kiếm Kỳ Duyên.mp3 đang phát...</span>
+    <span>♪ Họa Tình.mp3 đang phát...</span>
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/7lH4rwCRwE0?autoplay=1&mute=0" title="Hoạ Tình" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" style="position:absolute; width:0; height:0; border:0; pointer-events:none;"></iframe>
   </div>
 
   <!-- Top Banner -->
@@ -1168,12 +1169,7 @@
         <div class="sidebar-title">Cập nhật gần đây</div>
         <div class="sidebar-content">
           <ul class="nav-list" id="sidebar-latest">
-            <li><a href="#">《Cửu Thiên Huyền Tôn》 Ch.327</a></li>
-            <li><a href="#">《Phàm Nhân Tu Tiên》 Ch.189</a></li>
-            <li><a href="#">《Tru Tiên》 Ch.56</a></li>
-            <li><a href="#">《Tiên Nghịch》 Ch.8</a></li>
-            <li><a href="#">《Thần Mộ》 Ch.73</a></li>
-            <li><a href="#">《Đấu Phá Thương Khung》 Ch.241</a></li>
+            <li><a href="#" style="color:#5a4020;">⚔ Đang tải...</a></li>
           </ul>
         </div>
       </div>
@@ -1193,7 +1189,7 @@
         <div class="stats-bar">
           <div class="stat-item">
             <div class="stat-label">Tổng số file</div>
-            <div class="stat-value" id="stat-total">3.247</div>
+            <div class="stat-value" id="stat-total">...</div>
           </div>
           <div class="stat-item">
             <div class="stat-label">Tổng lượt xem</div>
@@ -1212,503 +1208,31 @@
         <!-- Filter -->
         <div class="filter-bar">
           <span class="filter-label">Sắp xếp:</span>
-          <a class="filter-tag active">Mới cập nhật</a>
-          <a class="filter-tag">Lượt xem</a>
-          <a class="filter-tag">Đề cử</a>
-          <a class="filter-tag">Số chương</a>
-          <a class="filter-tag">Chữ số</a>
+          <a class="filter-tag active" data-sort="date">Mới cập nhật</a>
+          <a class="filter-tag" data-sort="views">Lượt xem</a>
+          <a class="filter-tag" data-sort="downloads">Lượt tải</a>
+          <a class="filter-tag" data-sort="size">Dung lượng</a>
+          <a class="filter-tag" data-sort="name">Chữ số</a>
           <span class="filter-label" style="margin-left:10px;">Tình trạng:</span>
-          <a class="filter-tag active">Tất cả</a>
-          <a class="filter-tag">Đang ra</a>
-          <a class="filter-tag">Hoàn thành</a>
+          <a class="filter-tag active" data-filter="all">Tất cả</a>
+          <a class="filter-tag" data-filter="ongoing">Đang ra</a>
+          <a class="filter-tag" data-filter="complete">Hoàn thành</a>
         </div>
 
         <!-- Novel List -->
         <div class="novel-list" id="novel-list-container">
-
-          <!-- Novel 1 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">☯</span>
-              <span class="novel-cover-text">Phàm Nhân Tu Tiên</span>
-              <span class="novel-cover-corner br">☯</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Phàm Nhân Tu Tiên Truyện 》</a>
-                <span class="novel-status status-ongoing">ĐANG RA</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Vong Ngữ</span></span>
-                <span>Thể loại: Tiên hiệp, Tu chân</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag hot">HOT</span>
-                <span class="novel-tag">Phàm nhân lưu</span>
-                <span class="novel-tag">Tu chân</span>
-                <span class="novel-tag">Nam tần</span>
-              </div>
-              <div class="novel-desc">
-                Một kẻ phàm nhân bình thường bước chân vào giang hồ tu tiên, dựa vào sự kiên nhẫn và cơ trí, từng bước
-                đi lên đỉnh cao tiên đạo. Không có thiên phú kinh người, chỉ có ý chí bất khuất...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 10.2M lượt xem</span>
-                  <span class="rec">★ 98.7K đề cử</span>
-                  <span class="latest">📜 Ch.189 · Hoàng Phong Cốc</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 2 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">⚔</span>
-              <span class="novel-cover-text">Tru Tiên</span>
-              <span class="novel-cover-corner br">⚔</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Tru Tiên 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Tiêu Đỉnh</span></span>
-                <span>Thể loại: Tiên hiệp, Kiếm hiệp</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag hot">KINH ĐIỂN</span>
-                <span class="novel-tag">Chính tà</span>
-                <span class="novel-tag">Thiếu Lâm</span>
-                <span class="novel-tag">Tình cảm</span>
-              </div>
-              <div class="novel-desc">
-                Thiên địa bất nhân, dĩ vạn vật vi sô cẩu. Thiếu niên Trương Tiểu Phàm với số mệnh bi thương, bước vào
-                con đường tu tiên đầy rẫy chính tà phân tranh, ái hận giao thoa...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 8.7M lượt xem</span>
-                  <span class="rec">★ 87.3K đề cử</span>
-                  <span class="latest">📜 Ch.56 · Thất Mạch Hội Võ</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 3 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">☯</span>
-              <span class="novel-cover-text">Tiên Nghịch</span>
-              <span class="novel-cover-corner br">☯</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Tiên Nghịch 》</a>
-                <span class="novel-status status-ongoing">ĐANG RA</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Nhĩ Căn</span></span>
-                <span>Thể loại: Tiên hiệp, Tu chân</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag hot">HOT</span>
-                <span class="novel-tag">Nghịch thiên</span>
-                <span class="novel-tag">Sát phạt quyết đoán</span>
-              </div>
-              <div class="novel-desc">
-                Thuận thiên thị phàm, nghịch thiên thị tiên! Vương Lâm, một thiếu niên bình thường, mang trong mình
-                nghịch ý trùng thiên, đạp lên chính đạo, bước vào con đường tu tiên đầy máu và nước mắt...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 7.3M lượt xem</span>
-                  <span class="rec">★ 73.1K đề cử</span>
-                  <span class="latest">📜 Ch.8 · Nghịch Thiên Chi Lộ</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 4 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">🗡</span>
-              <span class="novel-cover-text">Thần Mộ</span>
-              <span class="novel-cover-corner br">🗡</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Thần Mộ 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Thần Đông</span></span>
-                <span>Thể loại: Huyền huyễn, Tu chân</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Viễn cổ</span>
-                <span class="novel-tag">Thần ma</span>
-                <span class="novel-tag">Huyền bí</span>
-              </div>
-              <div class="novel-desc">
-                Thần đã chết, ai còn sống? Một thanh niên từ trong thần mộ ngàn năm thức tỉnh, bước vào thế giới thần ma
-                viễn cổ, khám phá bí mật về chư thần và thiên đạo...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 6.8M lượt xem</span>
-                  <span class="rec">★ 68.2K đề cử</span>
-                  <span class="latest">📜 Ch.73 · Viễn Cổ Bí Tân</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 5 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">🔥</span>
-              <span class="novel-cover-text">Đấu Phá Thương Khung</span>
-              <span class="novel-cover-corner br">🔥</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Đấu Phá Thương Khung 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Thiên Tàm Thổ Đậu</span></span>
-                <span>Thể loại: Huyền huyễn, Dị giới</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag hot">BOM TẤN</span>
-                <span class="novel-tag">Đấu khí</span>
-                <span class="novel-tag">Nhiệt huyết</span>
-              </div>
-              <div class="novel-desc">
-                Ở đây không có ma pháp, chỉ có đấu khí! Tiêu Viêm, một thiên tài sa sút, mang trong mình mối thù diệt
-                tộc, từng bước trèo lên đỉnh cao Đấu Khí Đại Lục...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 6.1M lượt xem</span>
-                  <span class="rec">★ 61.5K đề cử</span>
-                  <span class="latest">📜 Ch.241 · Dị Hỏa Hợp Nhất</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 6 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">🌌</span>
-              <span class="novel-cover-text">Già Thiên</span>
-              <span class="novel-cover-corner br">🌌</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Già Thiên 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Thần Đông</span></span>
-                <span>Thể loại: Tiên hiệp, Huyền huyễn</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Hồng hoang</span>
-                <span class="novel-tag">Vũ trụ</span>
-                <span class="novel-tag">Khôi hoành</span>
-              </div>
-              <div class="novel-desc">
-                Cửu long lôi quan, kéo Diệp Phàm đến một thế giới tinh không bát ngát. Nơi đây có tiên, có ma, có những
-                vị đại đế đã từng tung hoành vũ trụ...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 5.4M lượt xem</span>
-                  <span class="rec">★ 54.8K đề cử</span>
-                  <span class="latest">📜 Ch.1327 · Đại Đế Chi Lộ</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 7 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">⚡</span>
-              <span class="novel-cover-text">Vũ Động Càn Khôn</span>
-              <span class="novel-cover-corner br">⚡</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Vũ Động Càn Khôn 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Thiên Tàm Thổ Đậu</span></span>
-                <span>Thể loại: Huyền huyễn, Tu chân</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Nguyên lực</span>
-                <span class="novel-tag">Gia tộc</span>
-                <span class="novel-tag">Phấn đấu</span>
-              </div>
-              <div class="novel-desc">
-                Đại thiên thế giới, vạn tộc林立. Lâm Động, một thiếu niên từ gia tộc nhỏ bé, tình cờ có được bí mật tổ
-                phù, từ đó bước lên con đường chinh phục thiên hạ...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 4.9M lượt xem</span>
-                  <span class="rec">★ 49.2K đề cử</span>
-                  <span class="latest">📜 Ch.518 · Vũ Hội Chi Chủ</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 8 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">👑</span>
-              <span class="novel-cover-text">Đại Chúa Tể</span>
-              <span class="novel-cover-corner br">👑</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Đại Chúa Tể 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Thiên Tàm Thổ Đậu</span></span>
-                <span>Thể loại: Huyền huyễn, Dị giới</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Chúa tể</span>
-                <span class="novel-tag">Bắc Thương Chi Viện</span>
-                <span class="novel-tag">Thiên chí</span>
-              </div>
-              <div class="novel-desc">
-                Đại thiên thế giới, vạn đạo tranh phong. Mục Trần, thiếu niên từ Bắc Thương linh lộ bước ra, mang theo ý
-                chí trở thành Chúa Tể, thống lĩnh vạn tộc...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 4.2M lượt xem</span>
-                  <span class="rec">★ 42.6K đề cử</span>
-                  <span class="latest">📜 Ch.1561 · Chúa Tể Chi Vị</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 9 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">🏺</span>
-              <span class="novel-cover-text">Cửu Đỉnh Ký</span>
-              <span class="novel-cover-corner br">🏺</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Cửu Đỉnh Ký 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Ngã Cật Tây Hồng Thị</span></span>
-                <span>Thể loại: Tiên hiệp, Lịch sử</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Cửu Châu</span>
-                <span class="novel-tag">Đại Hạ</span>
-                <span class="novel-tag">Tranh bá</span>
-              </div>
-              <div class="novel-desc">
-                Thiên hạ cửu châu, Cửu Đỉnh trấn áp. Kỷ Ninh, một thiếu niên từ Giang Chi, bước vào thời đại quần hùng
-                tranh bá, viết nên truyền kỳ bất hủ...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 3.8M lượt xem</span>
-                  <span class="rec">★ 38.4K đề cử</span>
-                  <span class="latest">📜 Ch.368 · Thiên Hạ Đại Định</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 10 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">⭐</span>
-              <span class="novel-cover-text">Tinh Thần Biến</span>
-              <span class="novel-cover-corner br">⭐</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Tinh Thần Biến 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Ngã Cật Tây Hồng Thị</span></span>
-                <span>Thể loại: Tiên hiệp, Khoa huyễn</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Tinh thần</span>
-                <span class="novel-tag">Tu chân</span>
-                <span class="novel-tag">Vũ trụ</span>
-              </div>
-              <div class="novel-desc">
-                Một thiếu niên với đan điền bị phá, không thể tu luyện nội công, nhưng lại nhờ "Tinh Thần Biến" mà bước
-                lên con đường tu chân khác biệt, khám phá vũ trụ bao la...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 3.5M lượt xem</span>
-                  <span class="rec">★ 35.1K đề cử</span>
-                  <span class="latest">📜 Ch.15 · Đan Điền Phá Vụn</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 11 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">🐉</span>
-              <span class="novel-cover-text">Bàn Long</span>
-              <span class="novel-cover-corner br">🐉</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Bàn Long 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Ngã Cật Tây Hồng Thị</span></span>
-                <span>Thể loại: Huyền huyễn, Dị giới</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Long huyết</span>
-                <span class="novel-tag">Ma thú</span>
-                <span class="novel-tag">Quỷ tài</span>
-              </div>
-              <div class="novel-desc">
-                Lâm Luân, hậu duệ của Long Tộc, mang trong mình huyết mạch thần long, bước vào con đường tu luyện đầy
-                chông gai, chinh phục Ngọc Linh Lung thế giới...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 3.1M lượt xem</span>
-                  <span class="rec">★ 31.7K đề cử</span>
-                  <span class="latest">📜 Ch.806 · Chí Cao Thần Vị</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Novel 12 -->
-          <div class="novel-item">
-            <div class="novel-cover">
-              <span class="novel-cover-corner tl">☄</span>
-              <span class="novel-cover-text">Thôn Phệ Tinh Không</span>
-              <span class="novel-cover-corner br">☄</span>
-            </div>
-            <div class="novel-info">
-              <div class="novel-header">
-                <a href="#" class="novel-name">《 Thôn Phệ Tinh Không 》</a>
-                <span class="novel-status status-complete">HOÀN THÀNH</span>
-              </div>
-              <div class="novel-meta">
-                <span>Tác giả: <span class="author">Ngã Cật Tây Hồng Thị</span></span>
-                <span>Thể loại: Khoa huyễn, Tu chân</span>
-              </div>
-              <div class="novel-tags">
-                <span class="novel-tag">Tinh không</span>
-                <span class="novel-tag">Vũ trụ văn minh</span>
-                <span class="novel-tag">Cường giả</span>
-              </div>
-              <div class="novel-desc">
-                Tinh không mênh mông, vạn tộc林立. La Phong, một chiến sĩ từ địa cầu, bước vào vũ trụ bao la, đối mặt với
-                những văn minh cường đại và những bí mật kinh thiên...
-              </div>
-              <div class="novel-footer">
-                <div class="novel-stats">
-                  <span class="views">👁 2.9M lượt xem</span>
-                  <span class="rec">★ 29.3K đề cử</span>
-                  <span class="latest">📜 Ch.748 · Vũ Trụ Tối Cường</span>
-                </div>
-                <div class="novel-actions">
-                  <a href="#" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                  <a href="#" class="novel-btn">＋ THEO DÕI</a>
-                </div>
-              </div>
-            </div>
+          <!-- Loading placeholder -->
+          <div id="novel-list-loading"
+            style="text-align:center; padding:60px 20px; color:#8b6914; letter-spacing:3px; font-size:14px;">
+            ⚔ Đang triệu hoán Tàng Kinh Các... ⚔
           </div>
 
         </div>
 
-        <!-- Pagination -->
-        <div class="pagination">
-          <span class="disabled">« Trang trước</span>
-          <span class="current">1</span>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <span class="ellipsis">...</span>
-          <a href="#">271</a>
-          <a href="#">Trang sau »</a>
+
+        <!-- Pagination (driven by JS) -->
+        <div class="pagination" id="pagination-bar">
+          <!-- rendered by JS -->
         </div>
 
       </div>
@@ -1844,27 +1368,12 @@
       counterNums.forEach((el, i) => { el.textContent = str[i]; });
     }, 5000);
 
-    // Filter interaction
-    document.querySelectorAll('.filter-tag').forEach(tag => {
-      tag.addEventListener('click', (e) => {
-        e.preventDefault();
-        const parent = tag.parentElement;
-        parent.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
-      });
-    });
-
-    // Category interaction
-    document.querySelectorAll('.nav-list a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        if (link.getAttribute('href') === '#') {
-          e.preventDefault();
-          const list = link.closest('.nav-list');
-          list.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
-    });
+    // ====== STATE ======
+    let allFiles = [];            // raw API files
+    let currentSort = 'date';    // date | views | downloads | size | name
+    let currentFilter = 'all';   // all | ongoing | complete
+    let currentPage = 1;
+    const PAGE_SIZE = 10;
 
     // ====== PIXELDRAIN API INTEGRATION WITH MOCK DATA MAPPING ======
     const PD_API = '/api/pixeldrain';
@@ -2006,22 +1515,22 @@
     function pdFmtSize(bytes) {
       if (!bytes) return 'N/A';
       if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
-      if (bytes < 1073741824) return (bytes/1048576).toFixed(2) + ' MB';
-      return (bytes/1073741824).toFixed(2) + ' GB';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      if (bytes < 1073741824) return (bytes / 1048576).toFixed(2) + ' MB';
+      return (bytes / 1073741824).toFixed(2) + ' GB';
     }
 
     function pdFmtNum(n) {
       if (!n && n !== 0) return '0';
-      if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-      if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
       return n.toLocaleString('vi-VN');
     }
 
     function pdFmtDate(iso) {
       if (!iso || iso === '0001-01-01T00:00:00Z') return 'N/A';
       const d = new Date(iso);
-      return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+      return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
     function pdCleanName(filename) {
@@ -2032,7 +1541,6 @@
     }
 
     function findMockData(name) {
-      // Find matching key case-insensitively or fuzzy match
       const nameLower = name.toLowerCase();
       for (const key of Object.keys(MOCK_DATA_MAP)) {
         if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
@@ -2048,11 +1556,10 @@
       const date = pdFmtDate(file.date_upload);
       const views = pdFmtNum(file.views);
       const dl = pdFmtNum(file.downloads);
-      
+
       const mock = findMockData(name);
       const shortN = name.length > 14 ? name.substring(0, 14) + '…' : name;
 
-      // Render tags
       const tagsHtml = mock.tags.map((tag, idx) => {
         const isHot = idx === 0 && (tag === 'HOT' || tag === 'KINH ĐIỂN' || tag === 'BOM TẤN');
         return `<span class="novel-tag ${isHot ? 'hot' : ''}">${tag}</span>`;
@@ -2060,16 +1567,7 @@
 
       return `
         <div class="novel-item">
-          <div class="novel-cover" style="position:relative; overflow:hidden;">
-            <span class="novel-cover-corner tl">☯</span>
-            <span class="novel-cover-text" id="cvtext-${file.id}">${shortN}</span>
-            <span class="novel-cover-corner br">☯</span>
-            <img src="${PD_API}?action=thumbnail&id=${file.id}"
-                 style="display:none; width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:2;"
-                 onload="this.style.display='block'; var t=document.getElementById('cvtext-${file.id}'); if(t) t.style.display='none';"
-                 onerror="this.style.display='none';">
-          </div>
-          <div class="novel-info">
+          <div class="novel-info" style="padding-left: 20px;">
             <div class="novel-header">
               <a href="detail.html?id=${file.id}" class="novel-name">《 ${name} 》</a>
               <span class="novel-status ${mock.statusClass}">${mock.statusText}</span>
@@ -2100,6 +1598,88 @@
       `;
     }
 
+    function getSortedFiltered() {
+      let list = [...allFiles];
+
+      // Filter by status (using mock data)
+      if (currentFilter !== 'all') {
+        list = list.filter(f => {
+          const mock = findMockData(pdCleanName(f.name));
+          if (currentFilter === 'ongoing') return mock.statusClass === 'status-ongoing';
+          if (currentFilter === 'complete') return mock.statusClass === 'status-complete';
+          return true;
+        });
+      }
+
+      // Sort
+      list.sort((a, b) => {
+        switch (currentSort) {
+          case 'views': return (b.views || 0) - (a.views || 0);
+          case 'downloads': return (b.downloads || 0) - (a.downloads || 0);
+          case 'size': return (b.size || 0) - (a.size || 0);
+          case 'name': return pdCleanName(a.name).localeCompare(pdCleanName(b.name), 'vi');
+          default: return new Date(b.date_upload) - new Date(a.date_upload); // date
+        }
+      });
+
+      return list;
+    }
+
+    function renderPage() {
+      const container = document.getElementById('novel-list-container');
+      const paginationBar = document.getElementById('pagination-bar');
+      if (!container) return;
+
+      const list = getSortedFiltered();
+      const total = list.length;
+      const totalPages = Math.ceil(total / PAGE_SIZE);
+      if (currentPage > totalPages) currentPage = 1;
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = list.slice(start, start + PAGE_SIZE);
+
+      if (!pageItems.length) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#8b6914;letter-spacing:2px;">Không có truyện nào phù hợp với bộ lọc...</div>';
+        if (paginationBar) paginationBar.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = pageItems.map(pdRenderNovelItem).join('');
+
+      // Render pagination
+      if (paginationBar) {
+        let html = '';
+        if (currentPage <= 1) {
+          html += '<span class="disabled">« Trang trước</span>';
+        } else {
+          html += `<a href="#" onclick="goPage(${currentPage - 1});return false;">« Trang trước</a>`;
+        }
+        for (let p = 1; p <= totalPages; p++) {
+          if (p === currentPage) {
+            html += `<span class="current">${p}</span>`;
+          } else if (p <= 2 || p >= totalPages - 1 || Math.abs(p - currentPage) <= 1) {
+            html += `<a href="#" onclick="goPage(${p});return false;">${p}</a>`;
+          } else if (p === 3 && currentPage > 4) {
+            html += '<span class="ellipsis">...</span>';
+          } else if (p === totalPages - 2 && currentPage < totalPages - 3) {
+            html += '<span class="ellipsis">...</span>';
+          }
+        }
+        if (currentPage >= totalPages) {
+          html += '<span class="disabled">Trang sau »</span>';
+        } else {
+          html += `<a href="#" onclick="goPage(${currentPage + 1});return false;">Trang sau »</a>`;
+        }
+        paginationBar.innerHTML = html;
+      }
+    }
+
+    window.goPage = function (p) {
+      currentPage = p;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     async function pdLoadFiles() {
       const container = document.getElementById('novel-list-container');
       if (!container) return;
@@ -2108,37 +1688,37 @@
         const resp = await fetch(PD_API + '?action=list');
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         const data = await resp.json();
-        const files = Array.isArray(data) ? data : (data.files || []);
+        allFiles = Array.isArray(data) ? data : (data.files || []);
 
-        if (!files.length) {
+        if (!allFiles.length) {
           container.innerHTML = '<div style="text-align:center;padding:40px;color:#8b6914;letter-spacing:2px;">Tàng Kinh Các hiện đang trống...</div>';
           return;
         }
 
-        // Cập nhật stats bar từ dữ liệu thật
-        const totalViews = files.reduce((s, f) => s + (f.views || 0), 0);
-        const totalDl    = files.reduce((s, f) => s + (f.downloads || 0), 0);
-        const totalSize  = files.reduce((s, f) => s + (f.size || 0), 0);
-        
-        const el = id => document.getElementById(id);
-        if (el('stat-total'))     el('stat-total').textContent     = files.length.toLocaleString('vi-VN');
-        if (el('stat-views'))     el('stat-views').textContent     = pdFmtNum(totalViews);
-        if (el('stat-downloads')) el('stat-downloads').textContent = pdFmtNum(totalDl);
-        if (el('stat-size'))      el('stat-size').textContent      = pdFmtSize(totalSize);
+        // Update stats bar with real data
+        const totalViews = allFiles.reduce((s, f) => s + (f.views || 0), 0);
+        const totalDl = allFiles.reduce((s, f) => s + (f.downloads || 0), 0);
+        const totalSize = allFiles.reduce((s, f) => s + (f.size || 0), 0);
 
-        // Cập nhật sidebar "Cập nhật gần đây"
+        const el = id => document.getElementById(id);
+        if (el('stat-total')) el('stat-total').textContent = allFiles.length.toLocaleString('vi-VN');
+        if (el('stat-views')) el('stat-views').textContent = pdFmtNum(totalViews);
+        if (el('stat-downloads')) el('stat-downloads').textContent = pdFmtNum(totalDl);
+        if (el('stat-size')) el('stat-size').textContent = pdFmtSize(totalSize);
+
+        // Update sidebar "Cập nhật gần đây" with real data
         const sidebarLatest = document.getElementById('sidebar-latest');
         if (sidebarLatest) {
-          const latest = [...files]
+          const latest = [...allFiles]
             .sort((a, b) => new Date(b.date_upload) - new Date(a.date_upload))
             .slice(0, 6);
           sidebarLatest.innerHTML = latest.map(f =>
-            `<li><a href="detail.html?id=${f.id}">《${pdCleanName(f.name).substring(0,14)}》</a></li>`
+            `<li><a href="detail.html?id=${f.id}">《${pdCleanName(f.name).substring(0, 14)}》</a></li>`
           ).join('');
         }
 
-        // Render danh sách file
-        container.innerHTML = files.map(pdRenderNovelItem).join('');
+        // Render first page
+        renderPage();
 
       } catch (err) {
         container.innerHTML = `
@@ -2150,6 +1730,41 @@
           </div>`;
       }
     }
+
+    // Wire up sort/filter tags
+    document.querySelectorAll('.filter-tag[data-sort]').forEach(tag => {
+      tag.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.filter-tag[data-sort]').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        currentSort = tag.dataset.sort;
+        currentPage = 1;
+        if (allFiles.length) renderPage();
+      });
+    });
+
+    document.querySelectorAll('.filter-tag[data-filter]').forEach(tag => {
+      tag.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.filter-tag[data-filter]').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        currentFilter = tag.dataset.filter;
+        currentPage = 1;
+        if (allFiles.length) renderPage();
+      });
+    });
+
+    // Category nav interaction
+    document.querySelectorAll('.nav-list a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (link.getAttribute('href') === '#') {
+          e.preventDefault();
+          const list = link.closest('.nav-list');
+          list.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
 
     pdLoadFiles();
 

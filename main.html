@@ -1,1350 +1,1644 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>☆★ Ngự Kiếm Tiên Minh - Thánh Địa Võ Hiệp Tiên Hiệp ★☆</title>
-<style>
-  /* ====== RESET & BASE ====== */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  @font-face {
-    font-family: 'XianxiaFont';
-    src: local('STKaiti'), local('KaiTi'), local('楷体'), local('SimSun'), local('宋体');
-  }
-
-  body {
-    background-color: #0a0008;
-    background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(80,0,0,0.3) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 30%, rgba(0,0,60,0.3) 0%, transparent 60%),
-      radial-gradient(ellipse at 50% 80%, rgba(60,0,40,0.2) 0%, transparent 50%);
-    color: #d4c5a0;
-    font-family: 'XianxiaFont', 'STKaiti', 'KaiTi', '楷体', 'SimSun', '宋体', serif;
-    font-size: 14px;
-    line-height: 1.8;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="16" font-size="16">⚔</text></svg>') 10 10, auto;
-    overflow-x: hidden;
-  }
-
-  /* ====== SPARKLE CANVAS ====== */
-  #sparkle-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  /* ====== SCROLLBAR ====== */
-  ::-webkit-scrollbar { width: 12px; }
-  ::-webkit-scrollbar-track { background: #1a0a0a; border-left: 1px solid #8b0000; }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #8b0000, #cc9900, #8b0000);
-    border: 1px solid #ffd700;
-    border-radius: 2px;
-  }
-
-  /* ====== TOP BANNER ====== */
-  .top-banner {
-    background: linear-gradient(180deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
-    border-bottom: 3px double #8b0000;
-    padding: 5px 0;
-    text-align: center;
-    position: relative;
-  }
-  .top-banner .stars {
-    color: #ffd700;
-    font-size: 10px;
-    letter-spacing: 3px;
-    animation: twinkle 1.5s ease-in-out infinite alternate;
-  }
-  .top-banner-text {
-    color: #cc9900;
-    font-size: 12px;
-    letter-spacing: 5px;
-  }
-
-  /* ====== HEADER ====== */
-  .header {
-    text-align: center;
-    padding: 30px 20px 20px;
-    position: relative;
-    background:
-      radial-gradient(ellipse at 50% 0%, rgba(139,0,0,0.4) 0%, transparent 70%);
-    border-bottom: 1px solid rgba(139,0,0,0.5);
-  }
-  .header::before, .header::after {
-    content: '☁';
-    position: absolute;
-    top: 20px;
-    font-size: 40px;
-    color: rgba(200,200,255,0.08);
-    animation: floatCloud 8s ease-in-out infinite;
-  }
-  .header::before { left: 10%; animation-delay: 0s; }
-  .header::after { right: 10%; animation-delay: 4s; content: '☁☁'; }
-
-  .site-title {
-    font-size: 48px;
-    font-weight: bold;
-    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 40%, #ffd700 60%, #fff8dc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 10px rgba(255,215,0,0.5)) drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-    letter-spacing: 15px;
-    margin-bottom: 5px;
-    animation: titleGlow 3s ease-in-out infinite alternate;
-  }
-  .site-subtitle {
-    font-size: 14px;
-    color: #8b6914;
-    letter-spacing: 8px;
-    margin-top: 5px;
-  }
-  .header-decoration {
-    color: #8b0000;
-    font-size: 18px;
-    letter-spacing: 4px;
-    margin-top: 10px;
-    text-shadow: 0 0 5px rgba(139,0,0,0.5);
-  }
-  .header-poem {
-    font-size: 13px;
-    color: #a08050;
-    margin-top: 12px;
-    font-style: italic;
-    letter-spacing: 3px;
-    line-height: 2;
-  }
-
-  /* ====== MARQUEE ====== */
-  .marquee-bar {
-    background: linear-gradient(90deg, #1a0000, #2a0808, #1a0000);
-    border-top: 1px solid #5a0000;
-    border-bottom: 1px solid #5a0000;
-    padding: 6px 0;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .marquee-content {
-    display: inline-block;
-    animation: marqueeScroll 30s linear infinite;
-    color: #ffd700;
-    font-size: 13px;
-    letter-spacing: 2px;
-  }
-  .marquee-content span {
-    margin-right: 60px;
-  }
-  .marquee-content .hot { color: #ff4444; }
-  .marquee-content .new { color: #44ff44; }
-
-  /* ====== MAIN LAYOUT ====== */
-  .main-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 15px;
-    display: flex;
-    gap: 15px;
-  }
-
-  /* ====== SIDEBAR ====== */
-  .sidebar {
-    width: 220px;
-    flex-shrink: 0;
-  }
-  .sidebar-box {
-    background: linear-gradient(180deg, rgba(30,5,5,0.95), rgba(15,2,2,0.95));
-    border: 1px solid #5a0000;
-    margin-bottom: 15px;
-    position: relative;
-  }
-  .sidebar-box::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px; right: -1px; bottom: -1px;
-    border: 1px solid rgba(255,215,0,0.15);
-    pointer-events: none;
-  }
-  .sidebar-title {
-    background: linear-gradient(90deg, #8b0000, #5a0000, #8b0000);
-    color: #ffd700;
-    text-align: center;
-    padding: 8px;
-    font-size: 15px;
-    letter-spacing: 5px;
-    border-bottom: 1px solid #ffd700;
-    text-shadow: 0 0 5px rgba(255,215,0,0.5);
-    position: relative;
-  }
-  .sidebar-title::before { content: '◆ '; font-size: 10px; }
-  .sidebar-title::after { content: ' ◆'; font-size: 10px; }
-
-  .sidebar-content {
-    padding: 12px;
-  }
-
-  .nav-list {
-    list-style: none;
-  }
-  .nav-list li {
-    border-bottom: 1px dashed rgba(139,0,0,0.4);
-  }
-  .nav-list li:last-child { border-bottom: none; }
-  .nav-list a {
-    display: block;
-    color: #c9a84c;
-    text-decoration: none;
-    padding: 7px 10px;
-    font-size: 13px;
-    letter-spacing: 2px;
-    transition: all 0.3s;
-    position: relative;
-    padding-left: 22px;
-  }
-  .nav-list a::before {
-    content: '◇';
-    position: absolute;
-    left: 5px;
-    color: #8b0000;
-    transition: all 0.3s;
-    font-size: 10px;
-    top: 9px;
-  }
-  .nav-list a:hover {
-    color: #ffd700;
-    background: rgba(139,0,0,0.3);
-    text-shadow: 0 0 5px rgba(255,215,0,0.5);
-    padding-left: 28px;
-  }
-  .nav-list a:hover::before {
-    content: '◈';
-    color: #ffd700;
-  }
-
-  /* Cultivation Realms */
-  .realm-list {
-    list-style: none;
-    font-size: 12px;
-  }
-  .realm-list li {
-    padding: 4px 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px dotted rgba(139,0,0,0.3);
-  }
-  .realm-list li:last-child { border-bottom: none; }
-  .realm-name { color: #d4c5a0; }
-  .realm-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    box-shadow: 0 0 4px currentColor;
-  }
-  .realm-count { color: #8b6914; font-size: 11px; }
-
-  /* Online users */
-  .online-info {
-    font-size: 12px;
-    color: #a08050;
-    text-align: center;
-    line-height: 2;
-  }
-  .online-count {
-    color: #ff4444;
-    font-size: 18px;
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(255,0,0,0.5);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  /* ====== CONTENT AREA ====== */
-  .content-area {
-    flex: 1;
-    min-width: 0;
-  }
-  .content-box {
-    background: linear-gradient(180deg, rgba(25,5,5,0.95), rgba(12,2,2,0.98));
-    border: 1px solid #5a0000;
-    margin-bottom: 15px;
-    position: relative;
-  }
-  .content-box::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px; right: -1px; bottom: -1px;
-    border: 1px solid rgba(255,215,0,0.1);
-    pointer-events: none;
-  }
-  .content-title {
-    background: linear-gradient(90deg, transparent, rgba(139,0,0,0.6), transparent);
-    color: #ffd700;
-    text-align: center;
-    padding: 10px;
-    font-size: 16px;
-    letter-spacing: 6px;
-    border-bottom: 1px solid rgba(139,0,0,0.5);
-    position: relative;
-  }
-  .content-title .icon-left,
-  .content-title .icon-right {
-    color: #8b0000;
-    font-size: 14px;
-  }
-  .content-title .icon-left { margin-right: 10px; }
-  .content-title .icon-right { margin-left: 10px; }
-
-  .content-body {
-    padding: 15px 20px;
-  }
-
-  /* Welcome box */
-  .welcome-text {
-    text-align: center;
-    font-size: 14px;
-    color: #c9a84c;
-    line-height: 2.2;
-    letter-spacing: 2px;
-  }
-  .welcome-text .highlight {
-    color: #ffd700;
-    text-shadow: 0 0 5px rgba(255,215,0,0.3);
-  }
-  .welcome-text .red {
-    color: #ff4444;
-  }
-  .blink {
-    animation: blink 1s step-end infinite;
-  }
-
-  /* Separator */
-  .separator {
-    text-align: center;
-    color: #5a0000;
-    letter-spacing: 5px;
-    font-size: 12px;
-    padding: 5px 0;
-    user-select: none;
-  }
-
-  /* ====== NOVEL CHAPTER LIST ====== */
-  .chapter-list {
-    list-style: none;
-  }
-  .chapter-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    border-bottom: 1px dotted rgba(90,0,0,0.5);
-    transition: background 0.3s;
-    font-size: 13px;
-  }
-  .chapter-list li:hover {
-    background: rgba(139,0,0,0.15);
-  }
-  .chapter-list li:last-child { border-bottom: none; }
-  .chapter-link {
-    color: #c9a84c;
-    text-decoration: none;
-    transition: all 0.3s;
-    flex: 1;
-  }
-  .chapter-link:hover {
-    color: #ffd700;
-    text-shadow: 0 0 5px rgba(255,215,0,0.3);
-  }
-  .chapter-tag {
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 2px;
-    margin-left: 8px;
-    font-weight: bold;
-  }
-  .tag-new {
-    background: #ff0000;
-    color: #fff;
-    animation: blink 1.2s step-end infinite;
-  }
-  .tag-hot {
-    background: #ff8c00;
-    color: #fff;
-  }
-  .tag-vip {
-    background: linear-gradient(90deg, #8b6914, #ffd700);
-    color: #1a0000;
-  }
-  .chapter-date {
-    color: #5a4020;
-    font-size: 11px;
-    white-space: nowrap;
-    margin-left: 15px;
-  }
-
-  /* ====== SECT INFO TABLE ====== */
-  .sect-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .sect-table th {
-    background: rgba(139,0,0,0.3);
-    color: #ffd700;
-    padding: 8px 12px;
-    border: 1px solid #5a0000;
-    letter-spacing: 3px;
-    font-weight: normal;
-    text-align: center;
-  }
-  .sect-table td {
-    padding: 8px 12px;
-    border: 1px solid rgba(90,0,0,0.4);
-    text-align: center;
-    color: #c9a84c;
-  }
-  .sect-table tr:hover td {
-    background: rgba(139,0,0,0.1);
-  }
-  .sect-rank {
-    color: #ffd700;
-    font-weight: bold;
-  }
-  .sect-rank-1 { color: #ffd700; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
-  .sect-rank-2 { color: #c0c0c0; }
-  .sect-rank-3 { color: #cd7f32; }
-
-  /* ====== GUESTBOOK ====== */
-  .guestbook-entry {
-    background: rgba(30,10,10,0.5);
-    border: 1px solid rgba(90,0,0,0.3);
-    border-left: 3px solid #8b0000;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    font-size: 13px;
-  }
-  .guestbook-entry:last-child { margin-bottom: 0; }
-  .gb-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    font-size: 12px;
-  }
-  .gb-user {
-    color: #ffd700;
-    font-weight: bold;
-  }
-  .gb-user::before {
-    content: '⚔ ';
-    font-size: 10px;
-  }
-  .gb-time {
-    color: #5a4020;
-  }
-  .gb-text {
-    color: #b0a080;
-    line-height: 1.8;
-  }
-  .gb-reply {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px dashed rgba(90,0,0,0.3);
-    font-size: 12px;
-    color: #8b6914;
-  }
-  .gb-reply::before {
-    content: '【Bản chủ hồi âm】';
-    color: #ff4444;
-    margin-right: 5px;
-  }
-
-  /* ====== FOOTER ====== */
-  .footer {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px 15px;
-    text-align: center;
-    border-top: 1px solid rgba(139,0,0,0.3);
-  }
-  .footer-links {
-    margin-bottom: 10px;
-  }
-  .footer-links a {
-    color: #8b6914;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    transition: color 0.3s;
-  }
-  .footer-links a:hover { color: #ffd700; }
-  .footer-text {
-    font-size: 11px;
-    color: #4a3520;
-    line-height: 2;
-    letter-spacing: 1px;
-  }
-  .footer-counter {
-    margin-top: 10px;
-    font-size: 12px;
-    color: #5a4020;
-  }
-  .counter-num {
-    display: inline-block;
-    background: #000;
-    border: 1px solid #5a0000;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-    padding: 2px 4px;
-    margin: 0 1px;
-    font-size: 14px;
-    min-width: 18px;
-    text-align: center;
-  }
-  .footer-ie {
-    font-size: 10px;
-    color: #3a2510;
-    margin-top: 8px;
-    letter-spacing: 1px;
-  }
-  .footer-badges {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .badge {
-    border: 1px solid #5a0000;
-    background: linear-gradient(180deg, #2a0a0a, #1a0000);
-    padding: 3px 10px;
-    font-size: 10px;
-    color: #8b6914;
-    letter-spacing: 1px;
-  }
-
-  /* ====== FLOATING ELEMENTS ====== */
-  .float-sword {
-    position: fixed;
-    font-size: 24px;
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 100;
-    animation: floatSword 15s linear infinite;
-  }
-  .float-sword:nth-child(1) { left: 5%; animation-duration: 18s; top: -30px; }
-  .float-sword:nth-child(2) { left: 85%; animation-duration: 22s; animation-delay: 5s; top: -30px; font-size: 18px; }
-  .float-sword:nth-child(3) { left: 45%; animation-duration: 25s; animation-delay: 10s; top: -30px; font-size: 20px; }
-
-  /* ====== RIGHT FLOATING PANEL ====== */
-  .float-panel {
-    position: fixed;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .float-btn {
-    background: linear-gradient(180deg, #5a0000, #3a0000);
-    border: 1px solid #8b0000;
-    color: #ffd700;
-    padding: 8px 5px;
-    font-size: 11px;
-    writing-mode: vertical-rl;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    font-family: inherit;
-  }
-  .float-btn:hover {
-    background: linear-gradient(180deg, #8b0000, #5a0000);
-    box-shadow: 0 0 10px rgba(139,0,0,0.5);
-  }
-
-  /* ====== MUSIC PLAYER ====== */
-  .music-player {
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    z-index: 1000;
-    background: rgba(20,5,5,0.9);
-    border: 1px solid #5a0000;
-    padding: 8px 12px;
-    font-size: 11px;
-    color: #8b6914;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .music-icon {
-    animation: spin 3s linear infinite;
-    display: inline-block;
-    font-size: 16px;
-  }
-  .music-text { letter-spacing: 1px; }
-
-  /* ====== ANIMATIONS ====== */
-  @keyframes twinkle {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; }
-  }
-  @keyframes titleGlow {
-    0% { filter: drop-shadow(0 0 10px rgba(255,215,0,0.3)) drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
-    100% { filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)) drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
-  }
-  @keyframes floatCloud {
-    0%, 100% { transform: translateX(0) translateY(0); opacity: 0.08; }
-    50% { transform: translateX(30px) translateY(-10px); opacity: 0.15; }
-  }
-  @keyframes marqueeScroll {
-    0% { transform: translateX(100vw); }
-    100% { transform: translateX(-200%); }
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  @keyframes floatSword {
-    0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.15; }
-    90% { opacity: 0.15; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-  }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes qiFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* ====== QI ENERGY BAR ====== */
-  .qi-bar-container {
-    margin: 10px 0;
-    padding: 8px 12px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(90,0,0,0.3);
-  }
-  .qi-label {
-    font-size: 11px;
-    color: #8b6914;
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .qi-bar {
-    height: 12px;
-    background: #1a0000;
-    border: 1px solid #5a0000;
-    border-radius: 2px;
-    overflow: hidden;
-    position: relative;
-  }
-  .qi-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #8b0000, #ff4444, #ffd700, #ff4444, #8b0000);
-    background-size: 200% 100%;
-    animation: qiFlow 3s ease-in-out infinite;
-    border-radius: 1px;
-    position: relative;
-  }
-  .qi-fill::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 20px; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
-  }
-
-  /* ====== ANNOUNCEMENT ====== */
-  .announcement {
-    background: rgba(139,0,0,0.15);
-    border: 1px dashed #8b0000;
-    padding: 10px 15px;
-    margin: 10px 0;
-    font-size: 12px;
-    color: #c9a84c;
-    position: relative;
-  }
-  .announcement::before {
-    content: '【Thông báo】';
-    color: #ff4444;
-    font-weight: bold;
-    margin-right: 5px;
-  }
-
-  /* ====== RESPONSIVE ====== */
-  @media (max-width: 768px) {
-    .main-wrapper {
-      flex-direction: column;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>☆★ Ngự Kiếm Tiên Minh - Thánh Địa Võ Hiệp Tiên Hiệp ★☆</title>
+  <style>
+    /* ====== RESET & BASE ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .sidebar {
+
+    @font-face {
+      font-family: 'XianxiaFont';
+      src: local('STKaiti'), local('KaiTi'), local('楷体'), local('SimSun'), local('宋体');
+    }
+
+    body {
+      background-color: #0a0008;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(80, 0, 0, 0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(0, 0, 60, 0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 80%, rgba(60, 0, 40, 0.2) 0%, transparent 50%);
+      color: #d4c5a0;
+      font-family: 'XianxiaFont', 'STKaiti', 'KaiTi', '楷体', 'SimSun', '宋体', serif;
+      font-size: 14px;
+      line-height: 1.8;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="16" font-size="16">⚔</text></svg>') 10 10, auto;
+      overflow-x: hidden;
+    }
+
+    /* ====== SPARKLE CANVAS ====== */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
     }
+
+    /* ====== SCROLLBAR ====== */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a0a0a;
+      border-left: 1px solid #8b0000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #8b0000, #cc9900, #8b0000);
+      border: 1px solid #ffd700;
+      border-radius: 2px;
+    }
+
+    /* ====== TOP BANNER ====== */
+    .top-banner {
+      background: linear-gradient(180deg, #1a0000 0%, #2a0a0a 50%, #1a0000 100%);
+      border-bottom: 3px double #8b0000;
+      padding: 5px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-banner .stars {
+      color: #ffd700;
+      font-size: 10px;
+      letter-spacing: 3px;
+      animation: twinkle 1.5s ease-in-out infinite alternate;
+    }
+
+    .top-banner-text {
+      color: #cc9900;
+      font-size: 12px;
+      letter-spacing: 5px;
+    }
+
+    /* ====== HEADER ====== */
+    .header {
+      text-align: center;
+      padding: 30px 20px 20px;
+      position: relative;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(139, 0, 0, 0.4) 0%, transparent 70%);
+      border-bottom: 1px solid rgba(139, 0, 0, 0.5);
+    }
+
+    .header::before,
+    .header::after {
+      content: '☁';
+      position: absolute;
+      top: 20px;
+      font-size: 40px;
+      color: rgba(200, 200, 255, 0.08);
+      animation: floatCloud 8s ease-in-out infinite;
+    }
+
+    .header::before {
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .header::after {
+      right: 10%;
+      animation-delay: 4s;
+      content: '☁☁';
+    }
+
     .site-title {
-      font-size: 32px;
-      letter-spacing: 8px;
+      font-size: 48px;
+      font-weight: bold;
+      background: linear-gradient(180deg, #ffd700 0%, #ff8c00 40%, #ffd700 60%, #fff8dc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+      letter-spacing: 15px;
+      margin-bottom: 5px;
+      animation: titleGlow 3s ease-in-out infinite alternate;
     }
-    .float-panel { display: none; }
-    .float-sword { display: none; }
-  }
 
-  /* ====== MISC DECORATIVE ====== */
-  .corner-deco {
-    position: absolute;
-    color: #8b0000;
-    font-size: 16px;
-    opacity: 0.5;
-  }
-  .corner-tl { top: 3px; left: 5px; }
-  .corner-tr { top: 3px; right: 5px; }
-  .corner-bl { bottom: 3px; left: 5px; }
-  .corner-br { bottom: 3px; right: 5px; }
+    .site-subtitle {
+      font-size: 14px;
+      color: #8b6914;
+      letter-spacing: 8px;
+      margin-top: 5px;
+    }
 
-  .loading-text {
-    text-align: center;
-    color: #5a4020;
-    font-size: 11px;
-    padding: 5px;
-    letter-spacing: 2px;
-  }
+    .header-decoration {
+      color: #8b0000;
+      font-size: 18px;
+      letter-spacing: 4px;
+      margin-top: 10px;
+      text-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
+    }
 
-  /* Image placeholder style */
-  .img-placeholder {
-    width: 100%;
-    height: 120px;
-    background: linear-gradient(135deg, rgba(30,5,5,0.8), rgba(60,10,10,0.8));
-    border: 1px solid #5a0000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #5a0000;
-    font-size: 40px;
-    margin: 10px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .img-placeholder::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.03), transparent);
-    animation: shimmer 4s ease-in-out infinite;
-  }
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
-  }
+    .header-poem {
+      font-size: 13px;
+      color: #a08050;
+      margin-top: 12px;
+      font-style: italic;
+      letter-spacing: 3px;
+      line-height: 2;
+    }
 
-  /* Tooltip style for old school feel */
-  .old-tooltip {
-    position: relative;
-    border-bottom: 1px dotted #8b6914;
-    cursor: help;
-  }
-  .old-tooltip:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a0000;
-    border: 1px solid #8b0000;
-    color: #ffd700;
-    padding: 4px 8px;
-    font-size: 11px;
-    white-space: nowrap;
-    z-index: 100;
-  }
-</style>
+    /* ====== MARQUEE ====== */
+    .marquee-bar {
+      background: linear-gradient(90deg, #1a0000, #2a0808, #1a0000);
+      border-top: 1px solid #5a0000;
+      border-bottom: 1px solid #5a0000;
+      padding: 6px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-content {
+      display: inline-block;
+      animation: marqueeScroll 30s linear infinite;
+      color: #ffd700;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .marquee-content span {
+      margin-right: 60px;
+    }
+
+    .marquee-content .hot {
+      color: #ff4444;
+    }
+
+    .marquee-content .new {
+      color: #44ff44;
+    }
+
+    /* ====== MAIN LAYOUT ====== */
+    .main-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+    }
+
+    /* ====== SIDEBAR ====== */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-box {
+      background: linear-gradient(180deg, rgba(30, 5, 5, 0.95), rgba(15, 2, 2, 0.95));
+      border: 1px solid #5a0000;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .sidebar-box::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      pointer-events: none;
+    }
+
+    .sidebar-title {
+      background: linear-gradient(90deg, #8b0000, #5a0000, #8b0000);
+      color: #ffd700;
+      text-align: center;
+      padding: 8px;
+      font-size: 15px;
+      letter-spacing: 5px;
+      border-bottom: 1px solid #ffd700;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+      position: relative;
+    }
+
+    .sidebar-title::before {
+      content: '◆ ';
+      font-size: 10px;
+    }
+
+    .sidebar-title::after {
+      content: ' ◆';
+      font-size: 10px;
+    }
+
+    .sidebar-content {
+      padding: 12px;
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-list li {
+      border-bottom: 1px dashed rgba(139, 0, 0, 0.4);
+    }
+
+    .nav-list li:last-child {
+      border-bottom: none;
+    }
+
+    .nav-list a {
+      display: block;
+      color: #c9a84c;
+      text-decoration: none;
+      padding: 7px 10px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .nav-list a::before {
+      content: '◇';
+      position: absolute;
+      left: 5px;
+      color: #8b0000;
+      transition: all 0.3s;
+      font-size: 10px;
+      top: 9px;
+    }
+
+    .nav-list a:hover {
+      color: #ffd700;
+      background: rgba(139, 0, 0, 0.3);
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+      padding-left: 28px;
+    }
+
+    .nav-list a:hover::before {
+      content: '◈';
+      color: #ffd700;
+    }
+
+    /* Cultivation Realms */
+    .realm-list {
+      list-style: none;
+      font-size: 12px;
+    }
+
+    .realm-list li {
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dotted rgba(139, 0, 0, 0.3);
+    }
+
+    .realm-list li:last-child {
+      border-bottom: none;
+    }
+
+    .realm-name {
+      color: #d4c5a0;
+    }
+
+    .realm-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      box-shadow: 0 0 4px currentColor;
+    }
+
+    .realm-count {
+      color: #8b6914;
+      font-size: 11px;
+    }
+
+    /* Online users */
+    .online-info {
+      font-size: 12px;
+      color: #a08050;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .online-count {
+      color: #ff4444;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ====== CONTENT AREA ====== */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .content-box {
+      background: linear-gradient(180deg, rgba(25, 5, 5, 0.95), rgba(12, 2, 2, 0.98));
+      border: 1px solid #5a0000;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .content-box::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      pointer-events: none;
+    }
+
+    .content-title {
+      background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.6), transparent);
+      color: #ffd700;
+      text-align: center;
+      padding: 10px;
+      font-size: 16px;
+      letter-spacing: 6px;
+      border-bottom: 1px solid rgba(139, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .content-title .icon-left,
+    .content-title .icon-right {
+      color: #8b0000;
+      font-size: 14px;
+    }
+
+    .content-title .icon-left {
+      margin-right: 10px;
+    }
+
+    .content-title .icon-right {
+      margin-left: 10px;
+    }
+
+    .content-body {
+      padding: 15px 20px;
+    }
+
+    /* Welcome box */
+    .welcome-text {
+      text-align: center;
+      font-size: 14px;
+      color: #c9a84c;
+      line-height: 2.2;
+      letter-spacing: 2px;
+    }
+
+    .welcome-text .highlight {
+      color: #ffd700;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    .welcome-text .red {
+      color: #ff4444;
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    /* Separator */
+    .separator {
+      text-align: center;
+      color: #5a0000;
+      letter-spacing: 5px;
+      font-size: 12px;
+      padding: 5px 0;
+      user-select: none;
+    }
+
+    /* ====== NOVEL CHAPTER LIST ====== */
+    .chapter-list {
+      list-style: none;
+    }
+
+    .chapter-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px dotted rgba(90, 0, 0, 0.5);
+      transition: background 0.3s;
+      font-size: 13px;
+    }
+
+    .chapter-list li:hover {
+      background: rgba(139, 0, 0, 0.15);
+    }
+
+    .chapter-list li:last-child {
+      border-bottom: none;
+    }
+
+    .chapter-link {
+      color: #c9a84c;
+      text-decoration: none;
+      transition: all 0.3s;
+      flex: 1;
+    }
+
+    .chapter-link:hover {
+      color: #ffd700;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    .chapter-tag {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-left: 8px;
+      font-weight: bold;
+    }
+
+    .tag-new {
+      background: #ff0000;
+      color: #fff;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    .tag-hot {
+      background: #ff8c00;
+      color: #fff;
+    }
+
+    .tag-vip {
+      background: linear-gradient(90deg, #8b6914, #ffd700);
+      color: #1a0000;
+    }
+
+    .chapter-date {
+      color: #5a4020;
+      font-size: 11px;
+      white-space: nowrap;
+      margin-left: 15px;
+    }
+
+    /* ====== SECT INFO TABLE ====== */
+    .sect-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .sect-table th {
+      background: rgba(139, 0, 0, 0.3);
+      color: #ffd700;
+      padding: 8px 12px;
+      border: 1px solid #5a0000;
+      letter-spacing: 3px;
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .sect-table td {
+      padding: 8px 12px;
+      border: 1px solid rgba(90, 0, 0, 0.4);
+      text-align: center;
+      color: #c9a84c;
+    }
+
+    .sect-table tr:hover td {
+      background: rgba(139, 0, 0, 0.1);
+    }
+
+    .sect-rank {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .sect-rank-1 {
+      color: #ffd700;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+
+    .sect-rank-2 {
+      color: #c0c0c0;
+    }
+
+    .sect-rank-3 {
+      color: #cd7f32;
+    }
+
+    /* ====== GUESTBOOK ====== */
+    .guestbook-entry {
+      background: rgba(30, 10, 10, 0.5);
+      border: 1px solid rgba(90, 0, 0, 0.3);
+      border-left: 3px solid #8b0000;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .guestbook-entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .gb-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .gb-user {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .gb-user::before {
+      content: '⚔ ';
+      font-size: 10px;
+    }
+
+    .gb-time {
+      color: #5a4020;
+    }
+
+    .gb-text {
+      color: #b0a080;
+      line-height: 1.8;
+    }
+
+    .gb-reply {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(90, 0, 0, 0.3);
+      font-size: 12px;
+      color: #8b6914;
+    }
+
+    .gb-reply::before {
+      content: '【Bản chủ hồi âm】';
+      color: #ff4444;
+      margin-right: 5px;
+    }
+
+    /* ====== FOOTER ====== */
+    .footer {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 15px;
+      text-align: center;
+      border-top: 1px solid rgba(139, 0, 0, 0.3);
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #8b6914;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #ffd700;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: #4a3520;
+      line-height: 2;
+      letter-spacing: 1px;
+    }
+
+    .footer-counter {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #5a4020;
+    }
+
+    .counter-num {
+      display: inline-block;
+      background: #000;
+      border: 1px solid #5a0000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      padding: 2px 4px;
+      margin: 0 1px;
+      font-size: 14px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .footer-ie {
+      font-size: 10px;
+      color: #3a2510;
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    .footer-badges {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      border: 1px solid #5a0000;
+      background: linear-gradient(180deg, #2a0a0a, #1a0000);
+      padding: 3px 10px;
+      font-size: 10px;
+      color: #8b6914;
+      letter-spacing: 1px;
+    }
+
+    /* ====== FLOATING ELEMENTS ====== */
+    .float-sword {
+      position: fixed;
+      font-size: 24px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 100;
+      animation: floatSword 15s linear infinite;
+    }
+
+    .float-sword:nth-child(1) {
+      left: 5%;
+      animation-duration: 18s;
+      top: -30px;
+    }
+
+    .float-sword:nth-child(2) {
+      left: 85%;
+      animation-duration: 22s;
+      animation-delay: 5s;
+      top: -30px;
+      font-size: 18px;
+    }
+
+    .float-sword:nth-child(3) {
+      left: 45%;
+      animation-duration: 25s;
+      animation-delay: 10s;
+      top: -30px;
+      font-size: 20px;
+    }
+
+    /* ====== RIGHT FLOATING PANEL ====== */
+    .float-panel {
+      position: fixed;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .float-btn {
+      background: linear-gradient(180deg, #5a0000, #3a0000);
+      border: 1px solid #8b0000;
+      color: #ffd700;
+      padding: 8px 5px;
+      font-size: 11px;
+      writing-mode: vertical-rl;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .float-btn:hover {
+      background: linear-gradient(180deg, #8b0000, #5a0000);
+      box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+    }
+
+    /* ====== MUSIC PLAYER ====== */
+    .music-player {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      z-index: 1000;
+      background: rgba(20, 5, 5, 0.9);
+      border: 1px solid #5a0000;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #8b6914;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .music-icon {
+      animation: spin 3s linear infinite;
+      display: inline-block;
+      font-size: 16px;
+    }
+
+    .music-text {
+      letter-spacing: 1px;
+    }
+
+    /* ====== ANIMATIONS ====== */
+    @keyframes twinkle {
+      0% {
+        opacity: 0.5;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes titleGlow {
+      0% {
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+      }
+
+      100% {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+      }
+    }
+
+    @keyframes floatCloud {
+
+      0%,
+      100% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.08;
+      }
+
+      50% {
+        transform: translateX(30px) translateY(-10px);
+        opacity: 0.15;
+      }
+    }
+
+    @keyframes marqueeScroll {
+      0% {
+        transform: translateX(100vw);
+      }
+
+      100% {
+        transform: translateX(-200%);
+      }
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    @keyframes floatSword {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.15;
+      }
+
+      90% {
+        opacity: 0.15;
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes qiFlow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* ====== QI ENERGY BAR ====== */
+    .qi-bar-container {
+      margin: 10px 0;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(90, 0, 0, 0.3);
+    }
+
+    .qi-label {
+      font-size: 11px;
+      color: #8b6914;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .qi-bar {
+      height: 12px;
+      background: #1a0000;
+      border: 1px solid #5a0000;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .qi-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8b0000, #ff4444, #ffd700, #ff4444, #8b0000);
+      background-size: 200% 100%;
+      animation: qiFlow 3s ease-in-out infinite;
+      border-radius: 1px;
+      position: relative;
+    }
+
+    .qi-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    }
+
+    /* ====== ANNOUNCEMENT ====== */
+    .announcement {
+      background: rgba(139, 0, 0, 0.15);
+      border: 1px dashed #8b0000;
+      padding: 10px 15px;
+      margin: 10px 0;
+      font-size: 12px;
+      color: #c9a84c;
+      position: relative;
+    }
+
+    .announcement::before {
+      content: '【Thông báo】';
+      color: #ff4444;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      .main-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .site-title {
+        font-size: 32px;
+        letter-spacing: 8px;
+      }
+
+      .float-panel {
+        display: none;
+      }
+
+      .float-sword {
+        display: none;
+      }
+    }
+
+    /* ====== MISC DECORATIVE ====== */
+    .corner-deco {
+      position: absolute;
+      color: #8b0000;
+      font-size: 16px;
+      opacity: 0.5;
+    }
+
+    .corner-tl {
+      top: 3px;
+      left: 5px;
+    }
+
+    .corner-tr {
+      top: 3px;
+      right: 5px;
+    }
+
+    .corner-bl {
+      bottom: 3px;
+      left: 5px;
+    }
+
+    .corner-br {
+      bottom: 3px;
+      right: 5px;
+    }
+
+    .loading-text {
+      text-align: center;
+      color: #5a4020;
+      font-size: 11px;
+      padding: 5px;
+      letter-spacing: 2px;
+    }
+
+    /* Image placeholder style */
+    .img-placeholder {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, rgba(30, 5, 5, 0.8), rgba(60, 10, 10, 0.8));
+      border: 1px solid #5a0000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a0000;
+      font-size: 40px;
+      margin: 10px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-placeholder::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.03), transparent);
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 200%;
+      }
+    }
+
+    /* Tooltip style for old school feel */
+    .old-tooltip {
+      position: relative;
+      border-bottom: 1px dotted #8b6914;
+      cursor: help;
+    }
+
+    .old-tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a0000;
+      border: 1px solid #8b0000;
+      color: #ffd700;
+      padding: 4px 8px;
+      font-size: 11px;
+      white-space: nowrap;
+      z-index: 100;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Floating Swords -->
-<div class="float-sword">🗡️</div>
-<div class="float-sword">⚔️</div>
-<div class="float-sword">🗡️</div>
+  <!-- Floating Swords -->
+  <div class="float-sword">🗡️</div>
+  <div class="float-sword">⚔️</div>
+  <div class="float-sword">🗡️</div>
 
-<!-- Sparkle Canvas -->
-<canvas id="sparkle-canvas"></canvas>
+  <!-- Sparkle Canvas -->
+  <canvas id="sparkle-canvas"></canvas>
 
-<!-- Float Panel -->
-<div class="float-panel">
-  <a class="float-btn" href="#">Về đầu trang</a>
-  <a class="float-btn" href="#">Lưu trang này</a>
-  <a class="float-btn" href="#">Đặt trang chủ</a>
-  <a class="float-btn" href="#">Liên hệ minh chủ</a>
-</div>
-
-<!-- Music Player -->
-<div class="music-player">
-  <span class="music-icon">☯</span>
-  <span class="music-text">♪ Tiên Kiếm Kỳ Duyên.mp3 đang phát...</span>
-</div>
-
-<!-- Top Banner -->
-<div class="top-banner">
-  <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
-  <div class="top-banner-text">—— Đại Đạo ba ngàn ·Trăm sông đổ về một biển · Tiên lộ man mác · Duy tâm vĩnh hằng ——</div>
-  <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
-</div>
-
-<!-- Header -->
-<header class="header">
-  <div class="site-title">NGỰ KIẾM TIÊN MINH</div>
-  <div class="site-subtitle">NGU JIAN XIAN MENG · THÀNH LẬP 2003</div>
-  <div class="header-decoration">
-    ═══════ ☯ ═══════
+  <!-- Float Panel -->
+  <div class="float-panel">
+    <a class="float-btn" href="#">Về đầu trang</a>
+    <a class="float-btn" href="#">Lưu trang này</a>
+    <a class="float-btn" href="#">Đặt trang chủ</a>
+    <a class="float-btn" href="#">Liên hệ minh chủ</a>
   </div>
-  <div class="header-poem">
-    Trời đất bất nhân, xem vạn vật như chó rơm<br>
-    Tu tiên vấn đạo, nghịch thiên cải mệnh tại chốn này<br>
-    Ngự kiếm cưỡi gió đến, trừ ma giữa đất trời
+
+  <!-- Music Player -->
+  <div class="music-player">
+    <span class="music-icon">☯</span>
+    <span class="music-text">♪ Họa Tình.mp3 đang phát...</span>
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/7lH4rwCRwE0?autoplay=1&mute=0" title="Hoạ Tình" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" style="position:absolute; width:0; height:0; border:0; pointer-events:none;"></iframe>
   </div>
-</header>
 
-<!-- Marquee -->
-<div class="marquee-bar">
-  <div class="marquee-content">
-    <span class="hot">【HOT】</span> Chương mới nhất "Cửu Thiên Huyền Tôn" đã ra! Chương 327 · Nhất Kích Phá Thiên!&nbsp;&nbsp;&nbsp;
-    <span class="new">【MỚI】</span> Diễn đàn Tiên Minh phiên bản mới, thêm tính năng Mô Phỏng Độ Kiếp!&nbsp;&nbsp;&nbsp;
-    <span>Thông báo: Tên miền vĩnh cửu của trang www.yujianxianmeng.com xin hãy truyền tai nhau&nbsp;&nbsp;&nbsp;</span>
-    <span class="hot">【HOT】</span> Bảng xếp hạng tiểu thuyết tiên hiệp 2003 đã công bố! "Phàm Nhân Tu Tiên Truyện" liên tục đứng đầu!&nbsp;&nbsp;&nbsp;
-    <span>Tuyển mod: Tàng Kinh Các, Luyện Đan Phòng đang cần quản lý, ai có hứng thú hãy liên hệ minh chủ qua tin nhắn nội bộ&nbsp;&nbsp;&nbsp;</span>
-    <span class="new">【MỚI】</span> Tối thứ Sáu hàng tuần 8h tối, kênh YY语音 buổi bình thư tiên hiệp, hoan nghênh đạo hữu tham gia!&nbsp;&nbsp;&nbsp;
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
+    <div class="top-banner-text">—— Đại Đạo ba ngàn ·Trăm sông đổ về một biển · Tiên lộ man mác · Duy tâm vĩnh hằng ——
+    </div>
+    <div class="stars">✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
   </div>
-</div>
 
-<!-- Main Layout -->
-<div class="main-wrapper">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-
-    <!-- Navigation -->
-    <div class="sidebar-box">
-      <div class="sidebar-title">Điều hướng Tiên Minh</div>
-      <div class="sidebar-content">
-        <ul class="nav-list">
-          <li><a href="#">Trang chủ Tiên Minh</a></li>
-          <li><a href="tang-kinh-cac.html">Tàng Kinh Các (tiểu thuyết)</a></li>
-          <li><a href="#">Luận Đạo Đài (diễn đàn)</a></li>
-          <li><a href="#">Luyện Đan Phòng (đồng nhân)</a></li>
-          <li><a href="#">Vạn Bảo Lâu (tài nguyên)</a></li>
-          <li><a href="#">Anh Hùng Bảng (xếp hạng)</a></li>
-          <li><a href="#">Truyền Công Đường (hướng dẫn)</a></li>
-          <li><a href="#">Tiên Âm Các (âm nhạc)</a></li>
-          <li><a href="#">Huyễn Cảnh Lang (hình nền)</a></li>
-          <li><a href="#">Lưu Ngôn Bản</a></li>
-        </ul>
-      </div>
+  <!-- Header -->
+  <header class="header">
+    <div class="site-title">NGỰ KIẾM TIÊN MINH</div>
+    <div class="site-subtitle">NGU JIAN XIAN MENG · THÀNH LẬP 2003</div>
+    <div class="header-decoration">
+      ═══════ ☯ ═══════
     </div>
-
-    <!-- Cultivation Realms -->
-    <div class="sidebar-box">
-      <div class="sidebar-title">Cảnh Giới Tu Tiên</div>
-      <div class="sidebar-content">
-        <ul class="realm-list">
-          <li>
-            <span><span class="realm-dot" style="color:#888;background:#888;"></span><span class="realm-name">Luyện Khí kỳ</span></span>
-            <span class="realm-count">12.847 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#4a9;background:#4a9;"></span><span class="realm-name">Trúc Cơ kỳ</span></span>
-            <span class="realm-count">5.231 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#48f;background:#48f;"></span><span class="realm-name">Kim Đan kỳ</span></span>
-            <span class="realm-count">1.892 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#c4f;background:#c4f;"></span><span class="realm-name">Nguyên Anh kỳ</span></span>
-            <span class="realm-count">634 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#f84;background:#f84;"></span><span class="realm-name">Hóa Thần kỳ</span></span>
-            <span class="realm-count">128 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#f44;background:#f44;"></span><span class="realm-name">Độ Kiếp kỳ</span></span>
-            <span class="realm-count">23 người</span>
-          </li>
-          <li>
-            <span><span class="realm-dot" style="color:#ffd700;background:#ffd700;"></span><span class="realm-name">Đại Thừa kỳ</span></span>
-            <span class="realm-count">3 người</span>
-          </li>
-        </ul>
-        <div class="qi-bar-container">
-          <div class="qi-label">
-            <span>Nồng độ linh khí tại bổn trạm</span>
-            <span>87%</span>
-          </div>
-          <div class="qi-bar">
-            <div class="qi-fill" style="width: 87%;"></div>
-          </div>
-        </div>
-      </div>
+    <div class="header-poem">
+      Trời đất bất nhân, xem vạn vật như chó rơm<br>
+      Tu tiên vấn đạo, nghịch thiên cải mệnh tại chốn này<br>
+      Ngự kiếm cưỡi gió đến, trừ ma giữa đất trời
     </div>
+  </header>
 
-    <!-- Online -->
-    <div class="sidebar-box">
-      <div class="sidebar-title">Đạo hữu trực tuyến</div>
-      <div class="sidebar-content">
-        <div class="online-info">
-          Đang trực tuyến：<span class="online-count">386</span> vị đạo hữu<br>
-          Khách hôm nay：<span style="color:#ffd700;">2.847</span><br>
-          Trực tuyến cao nhất：<span style="color:#ff4444;">1.024</span><br>
-          <span style="font-size:11px;color:#5a4020;">（31/12/2003）</span>
-        </div>
-      </div>
+  <!-- Marquee -->
+  <div class="marquee-bar">
+    <div class="marquee-content">
+      <span class="hot">【HOT】</span> Chương mới nhất "Cửu Thiên Huyền Tôn" đã ra! Chương 327 · Nhất Kích Phá
+      Thiên!&nbsp;&nbsp;&nbsp;
+      <span class="new">【MỚI】</span> Diễn đàn Tiên Minh phiên bản mới, thêm tính năng Mô Phỏng Độ
+      Kiếp!&nbsp;&nbsp;&nbsp;
+      <span>Thông báo: Tên miền vĩnh cửu của trang www.yujianxianmeng.com xin hãy truyền tai
+        nhau&nbsp;&nbsp;&nbsp;</span>
+      <span class="hot">【HOT】</span> Bảng xếp hạng tiểu thuyết tiên hiệp 2003 đã công bố! "Phàm Nhân Tu Tiên Truyện"
+      liên tục đứng đầu!&nbsp;&nbsp;&nbsp;
+      <span>Tuyển mod: Tàng Kinh Các, Luyện Đan Phòng đang cần quản lý, ai có hứng thú hãy liên hệ minh chủ qua tin nhắn
+        nội bộ&nbsp;&nbsp;&nbsp;</span>
+      <span class="new">【MỚI】</span> Tối thứ Sáu hàng tuần 8h tối, kênh YY语音 buổi bình thư tiên hiệp, hoan nghênh đạo
+      hữu tham gia!&nbsp;&nbsp;&nbsp;
     </div>
+  </div>
 
-    <!-- Links -->
-    <div class="sidebar-box">
-      <div class="sidebar-title">Liên kết hữu minh</div>
-      <div class="sidebar-content">
-        <ul class="nav-list">
-          <li><a href="#">Khởi Điểm Trung Văn Võng</a></li>
-          <li><a href="#">Huyễn Kiếm Thư Minh</a></li>
-          <li><a href="#">Long Không Luận Đàn</a></li>
-          <li><a href="#">Thiên Ưng Văn Học</a></li>
-          <li><a href="#">Thúy Vi Cư</a></li>
-          <li><a href="#">Tiên Võng Văn Học</a></li>
-        </ul>
-      </div>
-    </div>
+  <!-- Main Layout -->
+  <div class="main-wrapper">
 
-  </aside>
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-  <!-- Content -->
-  <main class="content-area">
-
-    <!-- Welcome -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">☯</span>
-        LỜI CHÀO TỪ TIÊN MINH
-        <span class="icon-right">☯</span>
-      </div>
-      <div class="content-body">
-        <div class="welcome-text">
-          Hoan nghênh chư vị đạo hữu giá lâm <span class="highlight">「Ngự Kiếm Tiên Minh」</span><br>
-          Trang được thành lập vào <span class="red">năm Quý Mùi (2003)</span>, tận tâm vì người yêu tu tiên<br>
-          mang đến nơi đọc và giao lưu <span class="highlight">hiệp · tiên hiệp · huyền huyễn</span> chất lượng nhất<br><br>
-          <span class="blink" style="color:#ff4444;">※ Bổn trạm cam kết: Vĩnh viễn không thu phí, vĩnh viễn không đứt chương ※</span>
-        </div>
-        <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
-        <div class="announcement">
-          Do di chuyển máy chủ, một số bài viết cũ có thể bị mất, mong chư vị đạo hữu lượng thứ. Nếu có bài viết quan trọng xin hãy đăng lại. Ngoài ra, "Mô Phỏng Độ Kiếp" phiên bản mới đã lên sóng tại Luận Đạo Đài, hoan nghênh trải nghiệm!
+      <!-- Navigation -->
+      <div class="sidebar-box">
+        <div class="sidebar-title">Điều hướng Tiên Minh</div>
+        <div class="sidebar-content">
+          <ul class="nav-list">
+            <li><a href="#">Trang chủ Tiên Minh</a></li>
+            <li><a href="tang-kinh-cac.html">Tàng Kinh Các (tiểu thuyết)</a></li>
+            <li><a href="#">Luận Đạo Đài (diễn đàn)</a></li>
+            <li><a href="#">Luyện Đan Phòng (đồng nhân)</a></li>
+            <li><a href="#">Vạn Bảo Lâu (tài nguyên)</a></li>
+            <li><a href="#">Anh Hùng Bảng (xếp hạng)</a></li>
+            <li><a href="#">Truyền Công Đường (hướng dẫn)</a></li>
+            <li><a href="#">Tiên Âm Các (âm nhạc)</a></li>
+            <li><a href="#">Huyễn Cảnh Lang (hình nền)</a></li>
+            <li><a href="#">Lưu Ngôn Bản</a></li>
+          </ul>
         </div>
       </div>
-    </div>
 
-    <!-- Latest Chapters -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">📜</span>
-        TÀNG KINH CÁC · CẬP NHẬT MỚI NHẤT
-        <span class="icon-right">📜</span>
-      </div>
-      <div class="content-body">
-        <ul class="chapter-list" id="latest-chapters-list">
-          <li style="justify-content: center; color: #8b6914;">⚔ Đang truy cập Tàng Kinh Các... ⚔</li>
-        </ul>
-        <div style="text-align:center; margin-top:12px;">
-          <a href="tang-kinh-cac.html" style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
-            » Vào Tàng Kinh Các xem toàn bộ «
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sect Rankings -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">⚔</span>
-        ANH HÙNG BẢNG · XẾP HẠNG TIÊN MINH
-        <span class="icon-right">⚔</span>
-      </div>
-      <div class="content-body">
-        <table class="sect-table">
-          <thead>
-            <tr>
-              <th>Xếp hạng</th>
-              <th>Đạo hiệu</th>
-              <th>Cảnh giới</th>
-              <th>Số bài viết</th>
-              <th>Uy vọng</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="sect-rank sect-rank-1">☆ 1</td>
-              <td>Thanh Vân Kiếm Tiên</td>
-              <td>Độ Kiếp kỳ</td>
-              <td>8.847</td>
-              <td style="color:#ffd700;">★★★★★</td>
-            </tr>
-            <tr>
-              <td class="sect-rank sect-rank-2">☆ 2</td>
-              <td>Tử Tiêu Chân Nhân</td>
-              <td>Hóa Thần kỳ</td>
-              <td>6.231</td>
-              <td style="color:#ffd700;">★★★★★</td>
-            </tr>
-            <tr>
-              <td class="sect-rank sect-rank-3">☆ 3</td>
-              <td>Lăng Ba Tiên Tử</td>
-              <td>Hóa Thần kỳ</td>
-              <td>5.892</td>
-              <td style="color:#ffd700;">★★★★☆</td>
-            </tr>
-            <tr>
-              <td class="sect-rank">4</td>
-              <td>Huyết Ma Lão Tổ</td>
-              <td>Nguyên Anh kỳ</td>
-              <td>4.128</td>
-              <td>★★★★☆</td>
-            </tr>
-            <tr>
-              <td class="sect-rank">5</td>
-              <td>Tiêu Dao Tản Nhân</td>
-              <td>Nguyên Anh kỳ</td>
-              <td>3.947</td>
-              <td>★★★★☆</td>
-            </tr>
-            <tr>
-              <td class="sect-rank">6</td>
-              <td>Thiên Cơ Đạo Nhân</td>
-              <td>Kim Đan kỳ</td>
-              <td>3.201</td>
-              <td>★★★☆☆</td>
-            </tr>
-            <tr>
-              <td class="sect-rank">7</td>
-              <td>Huyền Băng Nữ Đế</td>
-              <td>Kim Đan kỳ</td>
-              <td>2.847</td>
-              <td>★★★☆☆</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="text-align:center; margin-top:10px; font-size:11px; color:#5a4020;">
-          ※ Xếp hạng dựa trên số bài viết, bài tinh hoa, thời gian trực tuyến tổng hợp ※
-        </div>
-      </div>
-    </div>
-
-    <!-- Featured Image Placeholder -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">🎨</span>
-        HUYỄN CẢNH LANG · TUYỂN CHỌN TUẦN NÀY
-        <span class="icon-right">🎨</span>
-      </div>
-      <div class="content-body">
-        <div class="img-placeholder">
-          ☁ 🏔️ ⚔️ 🏔️ ☁
-        </div>
-        <div style="text-align:center; font-size:12px; color:#8b6914; letter-spacing:2px;">
-          「Thục Sơn Vân Hải」 bởi Họa Tiên · Mặc Vô Ngân | 1024×768 | Chuột phải lưu lại
-        </div>
-        <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
-        <div class="img-placeholder" style="height:90px;">
-          🌙 ✨ 🐉 ✨ 🌙
-        </div>
-        <div style="text-align:center; font-size:12px; color:#8b6914; letter-spacing:2px;">
-          「Long Đằng Cửu Tiêu」 bởi Đan Thanh · Vân Trung Tử | 800×600 | Chuột phải lưu lại
-        </div>
-      </div>
-    </div>
-
-    <!-- Guestbook -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">💬</span>
-        LƯU NGÔN BẢN · TIẾNG LÒNG ĐẠO HỮU
-        <span class="icon-right">💬</span>
-      </div>
-      <div class="content-body">
-        <div class="guestbook-entry">
-          <div class="gb-header">
-            <span class="gb-user">Thanh Vân Kiếm Tiên</span>
-            <span class="gb-time">28-12-2003 23:47:12</span>
-          </div>
-          <div class="gb-text">
-            Chương mới nhất của "Cửu Thiên Huyền Tôn" quá tuyệt! Đoạn Nhất Kích Phá Thiên xem mà nhiệt huyết sôi trào, tác giả đại đại cố lên! Ngày nào cũng đợi chương tới tận sáng, người tu tiên không sợ thức khuya!
-          </div>
-          <div class="gb-reply">
-            Cảm ơn đạo hữu đã ủng hộ! Tác giả hiện đang bế quan gõ chữ, dự kiến ngày mai còn hai chương nữa!
+      <!-- Cultivation Realms -->
+      <div class="sidebar-box">
+        <div class="sidebar-title">Cảnh Giới Tu Tiên</div>
+        <div class="sidebar-content">
+          <ul class="realm-list">
+            <li>
+              <span><span class="realm-dot" style="color:#888;background:#888;"></span><span class="realm-name">Luyện
+                  Khí kỳ</span></span>
+              <span class="realm-count">12.847 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#4a9;background:#4a9;"></span><span class="realm-name">Trúc Cơ
+                  kỳ</span></span>
+              <span class="realm-count">5.231 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#48f;background:#48f;"></span><span class="realm-name">Kim Đan
+                  kỳ</span></span>
+              <span class="realm-count">1.892 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#c4f;background:#c4f;"></span><span class="realm-name">Nguyên
+                  Anh kỳ</span></span>
+              <span class="realm-count">634 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#f84;background:#f84;"></span><span class="realm-name">Hóa Thần
+                  kỳ</span></span>
+              <span class="realm-count">128 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#f44;background:#f44;"></span><span class="realm-name">Độ Kiếp
+                  kỳ</span></span>
+              <span class="realm-count">23 người</span>
+            </li>
+            <li>
+              <span><span class="realm-dot" style="color:#ffd700;background:#ffd700;"></span><span
+                  class="realm-name">Đại Thừa kỳ</span></span>
+              <span class="realm-count">3 người</span>
+            </li>
+          </ul>
+          <div class="qi-bar-container">
+            <div class="qi-label">
+              <span>Nồng độ linh khí tại bổn trạm</span>
+              <span>87%</span>
+            </div>
+            <div class="qi-bar">
+              <div class="qi-fill" style="width: 87%;"></div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="guestbook-entry">
-          <div class="gb-header">
-            <span class="gb-user">Lăng Ba Tiên Tử</span>
-            <span class="gb-time">28-12-2003 21:15:33</span>
+      <!-- Online -->
+      <div class="sidebar-box">
+        <div class="sidebar-title">Đạo hữu trực tuyến</div>
+        <div class="sidebar-content">
+          <div class="online-info">
+            Đang trực tuyến：<span class="online-count">386</span> vị đạo hữu<br>
+            Khách hôm nay：<span style="color:#ffd700;">2.847</span><br>
+            Trực tuyến cao nhất：<span style="color:#ff4444;">1.024</span><br>
+            <span style="font-size:11px;color:#5a4020;">（31/12/2003）</span>
           </div>
-          <div class="gb-text">
-            Có đạo hữu nào biết nơi tải bản đầy đủ TXT của "Phiêu Miểu Chi Lữ" không? Ta tìm khắp Vạn Bảo Lâu mà không thấy bản hoàn chỉnh. Ngoài ra, bài "Tiên Kiếm Vấn Tình" mới thêm ở Tiên Âm Các hay quá, nghe lặp đi lặp lại cả ngày luôn~
-          </div>
-        </div>
-
-        <div class="guestbook-entry">
-          <div class="gb-header">
-            <span class="gb-user">Huyết Ma Lão Tổ</span>
-            <span class="gb-time">28-12-2003 18:02:45</span>
-          </div>
-          <div class="gb-text">
-            Bổn tọa đang mở bình chọn "Top 10 tiểu thuyết tu tiên mạnh nhất" tại Luận Đạo Đài, hiện "Tru Tiên" tạm dẫn đầu, "Phàm Nhân Tu Tiên Truyện" bám sát. Chư vị đạo hữu mau đến bỏ phiếu! Ai không bầu, coi chừng lúc bổn tọa độ kiếp lôi kéo các ngươi cùng chịu sét đánh!⚡
-          </div>
-          <div class="gb-reply">
-            Lão tổ bớt giận... đã bầu đã bầu! Ngoài ra xin chú ý văn minh ngôn ngữ, nếu không sẽ bị cấm ngôn ba ngày (mặc dù ngài là đại lão Hóa Thần kỳ)
-          </div>
-        </div>
-
-        <div class="guestbook-entry">
-          <div class="gb-header">
-            <span class="gb-user">Vô Danh Tản Tu</span>
-            <span class="gb-time">27-12-2003 09:30:00</span>
-          </div>
-          <div class="gb-text">
-            Tân nhân báo danh! Vừa học được ngự kiếm phi hành (tức là dùng con lăn chuột để lướt web), xin các vị tiền bối chiếu cố! Hỏi thật làm sao để lên cảnh giới? Phải đăng bài nhiều không?
-          </div>
-          <div class="gb-reply">
-            Hoan nghênh đạo hữu mới! Đăng bài, trả lời, thời gian trực tuyến đều tăng tu vi. Tham gia thảo luận tại Luận Đạo Đài nhiều, bài tinh hoa sẽ có thưởng thêm. Chúc sớm Trúc Cơ!
-          </div>
-        </div>
-
-        <div style="text-align:center; margin-top:12px;">
-          <a href="#" style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
-            » Ta muốn lưu ngôn (cần đăng nhập) «
-          </a>
         </div>
       </div>
-    </div>
 
-    <!-- Daily Fortune -->
-    <div class="content-box">
-      <div class="content-title">
-        <span class="icon-left">🔮</span>
-        VẬN THẾ HÔM NAY · DẪN DẮP TU TIÊN
-        <span class="icon-right">🔮</span>
+      <!-- Links -->
+      <div class="sidebar-box">
+        <div class="sidebar-title">Liên kết hữu minh</div>
+        <div class="sidebar-content">
+          <ul class="nav-list">
+            <li><a href="#">Khởi Điểm Trung Văn Võng</a></li>
+            <li><a href="#">Huyễn Kiếm Thư Minh</a></li>
+            <li><a href="#">Long Không Luận Đàn</a></li>
+            <li><a href="#">Thiên Ưng Văn Học</a></li>
+            <li><a href="#">Thúy Vi Cư</a></li>
+            <li><a href="#">Tiên Võng Văn Học</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="content-body">
-        <div style="text-align:center; line-height:2.2; font-size:13px;">
-          <div style="color:#ffd700; font-size:16px; letter-spacing:5px; margin-bottom:8px;">
-            Năm Quý Mùi · 29 tháng Chạp · Nên bế quan tu luyện
+
+    </aside>
+
+    <!-- Content -->
+    <main class="content-area">
+
+      <!-- Welcome -->
+      <div class="content-box">
+        <div class="content-title">
+          <span class="icon-left">☯</span>
+          LỜI CHÀO TỪ TIÊN MINH
+          <span class="icon-right">☯</span>
+        </div>
+        <div class="content-body">
+          <div class="welcome-text">
+            Hoan nghênh chư vị đạo hữu giá lâm <span class="highlight">「Ngự Kiếm Tiên Minh」</span><br>
+            Trang được thành lập vào <span class="red">năm Quý Mùi (2003)</span>, tận tâm vì người yêu tu tiên<br>
+            mang đến nơi đọc và giao lưu <span class="highlight">hiệp · tiên hiệp · huyền huyễn</span> chất lượng
+            nhất<br><br>
+            <span class="blink" style="color:#ff4444;">※ Bổn trạm cam kết: Vĩnh viễn không thu phí, vĩnh viễn không đứt
+              chương ※</span>
           </div>
           <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
-          <div style="color:#c9a84c;">
-            Chỉ số linh khí hôm nay：<span style="color:#44ff44;">★★★★☆</span>（thượng thừa）<br>
-            Thích hợp：Đả tọa tu luyện, luyện chế đan dược, tham ngộ công pháp<br>
-            Không nên：Độ kiếp, đấu pháp, thám hiểm bí cảnh<br>
-            Giờ tốt：Tý thời (23:00-01:00) linh khí thịnh nhất<br>
-            Phương vị may mắn：<span style="color:#ffd700;">Hướng Đông</span>（Tử khí đông lai）<br>
-          </div>
-          <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
-          <div style="color:#8b6914; font-size:12px; font-style:italic;">
-            「Thiên đạo thù cần, đại đạo vô tình. Hôm nay nên tĩnh tâm ngộ đạo,切忌 tâm phù khí táo.」
+          <div class="announcement">
+            Do di chuyển máy chủ, một số bài viết cũ có thể bị mất, mong chư vị đạo hữu lượng thứ. Nếu có bài viết quan
+            trọng xin hãy đăng lại. Ngoài ra, "Mô Phỏng Độ Kiếp" phiên bản mới đã lên sóng tại Luận Đạo Đài, hoan nghênh
+            trải nghiệm!
           </div>
         </div>
       </div>
+
+      <!-- Latest Chapters -->
+      <div class="content-box">
+        <div class="content-title">
+          <span class="icon-left">📜</span>
+          TÀNG KINH CÁC · CẬP NHẬT MỚI NHẤT
+          <span class="icon-right">📜</span>
+        </div>
+        <div class="content-body">
+          <ul class="chapter-list" id="latest-chapters-list">
+            <li style="justify-content: center; color: #8b6914;">⚔ Đang truy cập Tàng Kinh Các... ⚔</li>
+          </ul>
+          <div style="text-align:center; margin-top:12px;">
+            <a href="tang-kinh-cac.html"
+              style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
+              » Vào Tàng Kinh Các xem toàn bộ «
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sect Rankings -->
+      <div class="content-box">
+        <div class="content-title">
+          <span class="icon-left">⚔</span>
+          ANH HÙNG BẢNG · XẾP HẠNG TIÊN MINH
+          <span class="icon-right">⚔</span>
+        </div>
+        <div class="content-body">
+          <table class="sect-table">
+            <thead>
+              <tr>
+                <th>Xếp hạng</th>
+                <th>Đạo hiệu</th>
+                <th>Cảnh giới</th>
+                <th>Số bài viết</th>
+                <th>Uy vọng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="sect-rank sect-rank-1">☆ 1</td>
+                <td>Thanh Vân Kiếm Tiên</td>
+                <td>Độ Kiếp kỳ</td>
+                <td>8.847</td>
+                <td style="color:#ffd700;">★★★★★</td>
+              </tr>
+              <tr>
+                <td class="sect-rank sect-rank-2">☆ 2</td>
+                <td>Tử Tiêu Chân Nhân</td>
+                <td>Hóa Thần kỳ</td>
+                <td>6.231</td>
+                <td style="color:#ffd700;">★★★★★</td>
+              </tr>
+              <tr>
+                <td class="sect-rank sect-rank-3">☆ 3</td>
+                <td>Lăng Ba Tiên Tử</td>
+                <td>Hóa Thần kỳ</td>
+                <td>5.892</td>
+                <td style="color:#ffd700;">★★★★☆</td>
+              </tr>
+              <tr>
+                <td class="sect-rank">4</td>
+                <td>Huyết Ma Lão Tổ</td>
+                <td>Nguyên Anh kỳ</td>
+                <td>4.128</td>
+                <td>★★★★☆</td>
+              </tr>
+              <tr>
+                <td class="sect-rank">5</td>
+                <td>Tiêu Dao Tản Nhân</td>
+                <td>Nguyên Anh kỳ</td>
+                <td>3.947</td>
+                <td>★★★★☆</td>
+              </tr>
+              <tr>
+                <td class="sect-rank">6</td>
+                <td>Thiên Cơ Đạo Nhân</td>
+                <td>Kim Đan kỳ</td>
+                <td>3.201</td>
+                <td>★★★☆☆</td>
+              </tr>
+              <tr>
+                <td class="sect-rank">7</td>
+                <td>Huyền Băng Nữ Đế</td>
+                <td>Kim Đan kỳ</td>
+                <td>2.847</td>
+                <td>★★★☆☆</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="text-align:center; margin-top:10px; font-size:11px; color:#5a4020;">
+            ※ Xếp hạng dựa trên số bài viết, bài tinh hoa, thời gian trực tuyến tổng hợp ※
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Image Placeholder -->
+
+
+      <!-- Guestbook -->
+      <div class="content-box">
+        <div class="content-title">
+          <span class="icon-left">💬</span>
+          LƯU NGÔN BẢN · TIẾNG LÒNG ĐẠO HỮU
+          <span class="icon-right">💬</span>
+        </div>
+        <div class="content-body">
+          <div class="guestbook-entry">
+            <div class="gb-header">
+              <span class="gb-user">Thanh Vân Kiếm Tiên</span>
+              <span class="gb-time">28-12-2003 23:47:12</span>
+            </div>
+            <div class="gb-text">
+              Chương mới nhất của "Cửu Thiên Huyền Tôn" quá tuyệt! Đoạn Nhất Kích Phá Thiên xem mà nhiệt huyết sôi trào,
+              tác giả đại đại cố lên! Ngày nào cũng đợi chương tới tận sáng, người tu tiên không sợ thức khuya!
+            </div>
+            <div class="gb-reply">
+              Cảm ơn đạo hữu đã ủng hộ! Tác giả hiện đang bế quan gõ chữ, dự kiến ngày mai còn hai chương nữa!
+            </div>
+          </div>
+
+          <div class="guestbook-entry">
+            <div class="gb-header">
+              <span class="gb-user">Lăng Ba Tiên Tử</span>
+              <span class="gb-time">28-12-2003 21:15:33</span>
+            </div>
+            <div class="gb-text">
+              Có đạo hữu nào biết nơi tải bản đầy đủ TXT của "Phiêu Miểu Chi Lữ" không? Ta tìm khắp Vạn Bảo Lâu mà không
+              thấy bản hoàn chỉnh. Ngoài ra, bài "Tiên Kiếm Vấn Tình" mới thêm ở Tiên Âm Các hay quá, nghe lặp đi lặp
+              lại cả ngày luôn~
+            </div>
+          </div>
+
+          <div class="guestbook-entry">
+            <div class="gb-header">
+              <span class="gb-user">Huyết Ma Lão Tổ</span>
+              <span class="gb-time">28-12-2003 18:02:45</span>
+            </div>
+            <div class="gb-text">
+              Bổn tọa đang mở bình chọn "Top 10 tiểu thuyết tu tiên mạnh nhất" tại Luận Đạo Đài, hiện "Tru Tiên" tạm dẫn
+              đầu, "Phàm Nhân Tu Tiên Truyện" bám sát. Chư vị đạo hữu mau đến bỏ phiếu! Ai không bầu, coi chừng lúc bổn
+              tọa độ kiếp lôi kéo các ngươi cùng chịu sét đánh!⚡
+            </div>
+            <div class="gb-reply">
+              Lão tổ bớt giận... đã bầu đã bầu! Ngoài ra xin chú ý văn minh ngôn ngữ, nếu không sẽ bị cấm ngôn ba ngày
+              (mặc dù ngài là đại lão Hóa Thần kỳ)
+            </div>
+          </div>
+
+          <div class="guestbook-entry">
+            <div class="gb-header">
+              <span class="gb-user">Vô Danh Tản Tu</span>
+              <span class="gb-time">27-12-2003 09:30:00</span>
+            </div>
+            <div class="gb-text">
+              Tân nhân báo danh! Vừa học được ngự kiếm phi hành (tức là dùng con lăn chuột để lướt web), xin các vị tiền
+              bối chiếu cố! Hỏi thật làm sao để lên cảnh giới? Phải đăng bài nhiều không?
+            </div>
+            <div class="gb-reply">
+              Hoan nghênh đạo hữu mới! Đăng bài, trả lời, thời gian trực tuyến đều tăng tu vi. Tham gia thảo luận tại
+              Luận Đạo Đài nhiều, bài tinh hoa sẽ có thưởng thêm. Chúc sớm Trúc Cơ!
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top:12px;">
+            <a href="#"
+              style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
+              » Ta muốn lưu ngôn (cần đăng nhập) «
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Fortune -->
+      <div class="content-box">
+        <div class="content-title">
+          <span class="icon-left">🔮</span>
+          VẬN THẾ HÔM NAY · DẪN DẮP TU TIÊN
+          <span class="icon-right">🔮</span>
+        </div>
+        <div class="content-body">
+          <div style="text-align:center; line-height:2.2; font-size:13px;">
+            <div style="color:#ffd700; font-size:16px; letter-spacing:5px; margin-bottom:8px;">
+              Năm Quý Mùi · 29 tháng Chạp · Nên bế quan tu luyện
+            </div>
+            <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
+            <div style="color:#c9a84c;">
+              Chỉ số linh khí hôm nay：<span style="color:#44ff44;">★★★★☆</span>（thượng thừa）<br>
+              Thích hợp：Đả tọa tu luyện, luyện chế đan dược, tham ngộ công pháp<br>
+              Không nên：Độ kiếp, đấu pháp, thám hiểm bí cảnh<br>
+              Giờ tốt：Tý thời (23:00-01:00) linh khí thịnh nhất<br>
+              Phương vị may mắn：<span style="color:#ffd700;">Hướng Đông</span>（Tử khí đông lai）<br>
+            </div>
+            <div class="separator">─ ◆ ─ ◆ ─ ◆ ─</div>
+            <div style="color:#8b6914; font-size:12px; font-style:italic;">
+              「Thiên đạo thù cần, đại đạo vô tình. Hôm nay nên tĩnh tâm ngộ đạo,切忌 tâm phù khí táo.」
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">Trang chủ Tiên Minh</a> |
+      <a href="#">Tàng Kinh Các</a> |
+      <a href="#">Luận Đạo Đài</a> |
+      <a href="#">Vạn Bảo Lâu</a> |
+      <a href="#">Quy tắc Tiên Minh</a> |
+      <a href="#">Liên hệ minh chủ</a> |
+      <a href="#">Xin liên kết hữu</a>
     </div>
+    <div class="footer-text">
+      Độ phân giải tốt nhất để duyệt trang: 1024×768 | Khuyên dùng Internet Explorer 6.0 trở lên<br>
+      Copyright © 2003 Ngự Kiếm Tiên Minh YuJianXianMeng.com All Rights Reserved<br>
+      Nội dung trang chỉ dùng để học tập giao lưu, bản quyền thuộc về tác giả gốc
+    </div>
+    <div class="footer-counter">
+      Bạn là vị khách thứ
+      <span class="counter-num">0</span><span class="counter-num">2</span><span class="counter-num">8</span><span
+        class="counter-num">4</span><span class="counter-num">7</span><span class="counter-num">3</span><span
+        class="counter-num">6</span>
+    </div>
+    <div class="footer-badges">
+      <span class="badge">🏅 Trang văn học ưu tú</span>
+      <span class="badge">📖 Huyễn Kiếm Thư Minh đề cử</span>
+      <span class="badge">🔒 Không virus không plugin</span>
+      <span class="badge">⚡ Đường truyền Telecom/Netcom</span>
+    </div>
+    <div class="footer-ie">
+      ★ Trang đã qua kiểm chứng W3C ★ Powered by Ngự Kiếm Tiên Minh CMS v2.1 ★
+    </div>
+  </footer>
 
-  </main>
-</div>
+  <script>
+    // ====== SPARKLE / PARTICLE EFFECT ======
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouseX = 0, mouseY = 0;
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-links">
-    <a href="#">Trang chủ Tiên Minh</a> |
-    <a href="#">Tàng Kinh Các</a> |
-    <a href="#">Luận Đạo Đài</a> |
-    <a href="#">Vạn Bảo Lâu</a> |
-    <a href="#">Quy tắc Tiên Minh</a> |
-    <a href="#">Liên hệ minh chủ</a> |
-    <a href="#">Xin liên kết hữu</a>
-  </div>
-  <div class="footer-text">
-    Độ phân giải tốt nhất để duyệt trang: 1024×768 | Khuyên dùng Internet Explorer 6.0 trở lên<br>
-    Copyright © 2003 Ngự Kiếm Tiên Minh YuJianXianMeng.com All Rights Reserved<br>
-    Nội dung trang chỉ dùng để học tập giao lưu, bản quyền thuộc về tác giả gốc
-  </div>
-  <div class="footer-counter">
-    Bạn là vị khách thứ
-    <span class="counter-num">0</span><span class="counter-num">2</span><span class="counter-num">8</span><span class="counter-num">4</span><span class="counter-num">7</span><span class="counter-num">3</span><span class="counter-num">6</span>
-  </div>
-  <div class="footer-badges">
-    <span class="badge">🏅 Trang văn học ưu tú</span>
-    <span class="badge">📖 Huyễn Kiếm Thư Minh đề cử</span>
-    <span class="badge">🔒 Không virus không plugin</span>
-    <span class="badge">⚡ Đường truyền Telecom/Netcom</span>
-  </div>
-  <div class="footer-ie">
-    ★ Trang đã qua kiểm chứng W3C ★ Powered by Ngự Kiếm Tiên Minh CMS v2.1 ★
-  </div>
-</footer>
-
-<script>
-// ====== SPARKLE / PARTICLE EFFECT ======
-const canvas = document.getElementById('sparkle-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let mouseX = 0, mouseY = 0;
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  // Create sparkle particles on mouse move
-  for (let i = 0; i < 2; i++) {
-    particles.push({
-      x: mouseX + (Math.random() - 0.5) * 20,
-      y: mouseY + (Math.random() - 0.5) * 20,
-      size: Math.random() * 3 + 1,
-      speedX: (Math.random() - 0.5) * 2,
-      speedY: (Math.random() - 0.5) * 2 - 1,
-      life: 1,
-      decay: Math.random() * 0.02 + 0.01,
-      color: Math.random() > 0.5 ? '#ffd700' : '#ff4444',
-      type: Math.random() > 0.7 ? 'star' : 'dot'
-    });
-  }
-});
-
-function drawStar(cx, cy, size) {
-  ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-    const x = cx + Math.cos(angle) * size;
-    const y = cy + Math.sin(angle) * size;
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.closePath();
-  ctx.fill();
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.x += p.speedX;
-    p.y += p.speedY;
-    p.life -= p.decay;
-
-    if (p.life <= 0) {
-      particles.splice(i, 1);
-      continue;
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    ctx.globalAlpha = p.life;
-    ctx.fillStyle = p.color;
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = p.color;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      // Create sparkle particles on mouse move
+      for (let i = 0; i < 2; i++) {
+        particles.push({
+          x: mouseX + (Math.random() - 0.5) * 20,
+          y: mouseY + (Math.random() - 0.5) * 20,
+          size: Math.random() * 3 + 1,
+          speedX: (Math.random() - 0.5) * 2,
+          speedY: (Math.random() - 0.5) * 2 - 1,
+          life: 1,
+          decay: Math.random() * 0.02 + 0.01,
+          color: Math.random() > 0.5 ? '#ffd700' : '#ff4444',
+          type: Math.random() > 0.7 ? 'star' : 'dot'
+        });
+      }
+    });
 
-    if (p.type === 'star') {
-      drawStar(p.x, p.y, p.size);
-    } else {
+    function drawStar(cx, cy, size) {
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      for (let i = 0; i < 5; i++) {
+        const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+        const x = cx + Math.cos(angle) * size;
+        const y = cy + Math.sin(angle) * size;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
       ctx.fill();
     }
-  }
 
-  ctx.globalAlpha = 1;
-  ctx.shadowBlur = 0;
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Limit particles
-  if (particles.length > 200) {
-    particles = particles.slice(-200);
-  }
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= p.decay;
 
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
 
-// ====== AMBIENT FLOATING PARTICLES ======
-function createAmbientParticle() {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: canvas.height + 10,
-    size: Math.random() * 2 + 0.5,
-    speedX: (Math.random() - 0.5) * 0.5,
-    speedY: -(Math.random() * 1 + 0.3),
-    life: 1,
-    decay: Math.random() * 0.003 + 0.001,
-    color: Math.random() > 0.6 ? 'rgba(255,215,0,0.6)' : 'rgba(139,0,0,0.6)',
-    type: 'dot'
-  });
-}
-setInterval(createAmbientParticle, 300);
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
 
-// ====== PIXELDRAIN LATEST UPDATES ======
-const PD_API = '/api/pixeldrain';
+        if (p.type === 'star') {
+          drawStar(p.x, p.y, p.size);
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
 
-function pdCleanName(filename) {
-  let n = filename.replace(/\.[^.]+$/, '');
-  n = n.replace(/^【.*?】\s*/, '');
-  n = n.replace(/^[^\w\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF]+/, '');
-  return n.trim() || filename;
-}
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
 
-function pdFmtDate(iso) {
-  if (!iso || iso === '0001-01-01T00:00:00Z') return 'N/A';
-  const d = new Date(iso);
-  return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
-}
+      // Limit particles
+      if (particles.length > 200) {
+        particles = particles.slice(-200);
+      }
 
-async function pdLoadLatest() {
-  const container = document.getElementById('latest-chapters-list');
-  if (!container) return;
-  try {
-    const resp = await fetch(PD_API + '?action=list');
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    const files = Array.isArray(data) ? data : (data.files || []);
-    if (!files.length) {
-      container.innerHTML = '<li style="justify-content: center; color: #8b6914;">Tàng Kinh Các hiện chưa có tiên thư nào...</li>';
-      return;
+      requestAnimationFrame(animateParticles);
     }
-    // Sort by date_upload descending
-    const sorted = [...files]
-      .sort((a, b) => new Date(b.date_upload) - new Date(a.date_upload))
-      .slice(0, 10);
+    animateParticles();
 
-    container.innerHTML = sorted.map((f, i) => {
-      const cleanName = pdCleanName(f.name);
-      const isNew = i < 3; // mark top 3 as new/hot
-      const tagHtml = isNew ? '<span class="chapter-tag tag-new">MỚI</span>' : '';
-      return `
+    // ====== AMBIENT FLOATING PARTICLES ======
+    function createAmbientParticle() {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + 10,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: -(Math.random() * 1 + 0.3),
+        life: 1,
+        decay: Math.random() * 0.003 + 0.001,
+        color: Math.random() > 0.6 ? 'rgba(255,215,0,0.6)' : 'rgba(139,0,0,0.6)',
+        type: 'dot'
+      });
+    }
+    setInterval(createAmbientParticle, 300);
+
+    // ====== PIXELDRAIN LATEST UPDATES ======
+    const PD_API = '/api/pixeldrain';
+
+    function pdCleanName(filename) {
+      let n = filename.replace(/\.[^.]+$/, '');
+      n = n.replace(/^【.*?】\s*/, '');
+      n = n.replace(/^[^\w\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF]+/, '');
+      return n.trim() || filename;
+    }
+
+    function pdFmtDate(iso) {
+      if (!iso || iso === '0001-01-01T00:00:00Z') return 'N/A';
+      const d = new Date(iso);
+      return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    async function pdLoadLatest() {
+      const container = document.getElementById('latest-chapters-list');
+      if (!container) return;
+      try {
+        const resp = await fetch(PD_API + '?action=list');
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        const files = Array.isArray(data) ? data : (data.files || []);
+        if (!files.length) {
+          container.innerHTML = '<li style="justify-content: center; color: #8b6914;">Tàng Kinh Các hiện chưa có tiên thư nào...</li>';
+          return;
+        }
+        // Sort by date_upload descending
+        const sorted = [...files]
+          .sort((a, b) => new Date(b.date_upload) - new Date(a.date_upload))
+          .slice(0, 10);
+
+        container.innerHTML = sorted.map((f, i) => {
+          const cleanName = pdCleanName(f.name);
+          const isNew = i < 3; // mark top 3 as new/hot
+          const tagHtml = isNew ? '<span class="chapter-tag tag-new">MỚI</span>' : '';
+          return `
         <li>
           <a class="chapter-link" href="detail.html?id=${f.id}">
             《 ${cleanName} 》 ${f.name}
@@ -1353,41 +1647,42 @@ async function pdLoadLatest() {
           <span class="chapter-date">${pdFmtDate(f.date_upload)}</span>
         </li>
       `;
-    }).join('');
-  } catch (err) {
-    container.innerHTML = `<li style="justify-content: center; color: #ff4444;">⚠ Lỗi kết nối Tàng Kinh Các: ${err.message}</li>`;
-  }
-}
-pdLoadLatest();
+        }).join('');
+      } catch (err) {
+        container.innerHTML = `<li style="justify-content: center; color: #ff4444;">⚠ Lỗi kết nối Tàng Kinh Các: ${err.message}</li>`;
+      }
+    }
+    pdLoadLatest();
 
-// ====== VISITOR COUNTER ANIMATION ======
-const counterNums = document.querySelectorAll('.counter-num');
-let count = 284736;
-setInterval(() => {
-  count++;
-  const str = String(count).padStart(7, '0');
-  counterNums.forEach((el, i) => {
-    el.textContent = str[i];
-  });
-}, 5000);
+    // ====== VISITOR COUNTER ANIMATION ======
+    const counterNums = document.querySelectorAll('.counter-num');
+    let count = 284736;
+    setInterval(() => {
+      count++;
+      const str = String(count).padStart(7, '0');
+      counterNums.forEach((el, i) => {
+        el.textContent = str[i];
+      });
+    }, 5000);
 
-// ====== KONAMI-LIKE EASTER EGG ======
-let konamiBuffer = '';
-document.addEventListener('keydown', (e) => {
-  konamiBuffer += e.key;
-  if (konamiBuffer.length > 20) konamiBuffer = konamiBuffer.slice(-20);
-  if (konamiBuffer.includes('tien')) {
-    document.body.style.filter = 'hue-rotate(180deg)';
-    setTimeout(() => { document.body.style.filter = ''; }, 3000);
-    konamiBuffer = '';
-  }
-});
+    // ====== KONAMI-LIKE EASTER EGG ======
+    let konamiBuffer = '';
+    document.addEventListener('keydown', (e) => {
+      konamiBuffer += e.key;
+      if (konamiBuffer.length > 20) konamiBuffer = konamiBuffer.slice(-20);
+      if (konamiBuffer.includes('tien')) {
+        document.body.style.filter = 'hue-rotate(180deg)';
+        setTimeout(() => { document.body.style.filter = ''; }, 3000);
+        konamiBuffer = '';
+      }
+    });
 
-// ====== CONSOLE MESSAGE ======
-console.log('%c⚔ Ngự Kiếm Tiên Minh ⚔', 'color: #ffd700; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #ff4444;');
-console.log('%cĐại Đạo ba ngàn,Trăm sông đổ về một biển. Đạo hữu, hoan nghênh độ kiếp.', 'color: #c9a84c; font-size: 14px;');
-console.log('%cTrình duyệt tốt nhất: Internet Explorer 6.0', 'color: #8b6914; font-size: 12px;');
-</script>
+    // ====== CONSOLE MESSAGE ======
+    console.log('%c⚔ Ngự Kiếm Tiên Minh ⚔', 'color: #ffd700; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #ff4444;');
+    console.log('%cĐại Đạo ba ngàn,Trăm sông đổ về một biển. Đạo hữu, hoan nghênh độ kiếp.', 'color: #c9a84c; font-size: 14px;');
+    console.log('%cTrình duyệt tốt nhất: Internet Explorer 6.0', 'color: #8b6914; font-size: 12px;');
+  </script>
 
 </body>
+
 </html>
