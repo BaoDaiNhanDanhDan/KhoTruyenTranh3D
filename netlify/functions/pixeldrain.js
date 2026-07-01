@@ -1,5 +1,4 @@
 // Netlify Serverless Function - Pixeldrain API Proxy
-const fetch = require('node-fetch'); // Netlify Node environment has fetch natively or we can use node-fetch or native global fetch (available in Node.js 18+)
 
 exports.handler = async (event, context) => {
   // CORS headers
