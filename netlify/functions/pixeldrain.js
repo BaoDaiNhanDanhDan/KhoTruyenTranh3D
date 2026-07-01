@@ -43,7 +43,7 @@ exports.handler = async (event, context) => {
 
       // ── Lấy thông tin chi tiết 1 file ───────────────────────────────────────
     } else if (action === 'info' && id) {
-      const resp = await fetch(`https://pixeldrain.com/u/${id}/info`, {
+      const resp = await fetch(`https://pixeldrain.com/api/file/${id}/info`, {
         headers: { Authorization: authHeader }
       });
       const data = await resp.json();
@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
       // ── Proxy thumbnail (để tránh CORS và ẩn auth) ──────────────────────────
     } else if (action === 'thumbnail' && id) {
       const resp = await fetch(
-        `https://pixeldrain.com/u/${id}/thumbnail?width=200&height=260`,
+        `https://pixeldrain.com/api/file/${id}/thumbnail?width=200&height=260`,
         { headers: { Authorization: authHeader } }
       );
       if (!resp.ok) {

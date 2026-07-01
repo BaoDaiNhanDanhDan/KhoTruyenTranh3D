@@ -1564,7 +1564,7 @@
               </div>
               <div class="novel-actions">
                 <a href="detail.html?id=${file.id}" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                <a href="https://pixeldrain.com/u/${file.id}" class="novel-btn" target="_blank" rel="noopener">＋ TẢI VỀ</a>
+                <a href="https://pixeldrain.com/api/file/${file.id}" class="novel-btn" target="_blank" rel="noopener">＋ TẢI VỀ</a>
               </div>
             </div>
           </div>
@@ -1697,17 +1697,17 @@
           const sortedByDownloads = [...allFiles]
             .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
             .slice(0, 8); // Top 8
-          
+
           sidebarRankings.innerHTML = sortedByDownloads.map((f, index) => {
             const num = index + 1;
             let rankClass = '';
             if (num === 1) rankClass = 'top1';
             else if (num === 2) rankClass = 'top2';
             else if (num === 3) rankClass = 'top3';
-            
+
             const cleanName = pdCleanName(f.name);
             const shortName = cleanName.length > 15 ? cleanName.substring(0, 15) + '...' : cleanName;
-            
+
             return `
               <li>
                 <span>
