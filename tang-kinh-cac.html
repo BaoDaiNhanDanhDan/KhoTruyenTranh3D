@@ -695,13 +695,8 @@
     <div class="sidebar-box">
       <div class="sidebar-title">Cập nhật gần đây</div>
       <div class="sidebar-content">
-        <ul class="nav-list">
-          <li><a href="#">《Cửu Thiên Huyền Tôn》 Ch.327</a></li>
-          <li><a href="#">《Phàm Nhân Tu Tiên》 Ch.189</a></li>
-          <li><a href="#">《Tru Tiên》 Ch.56</a></li>
-          <li><a href="#">《Tiên Nghịch》 Ch.8</a></li>
-          <li><a href="#">《Thần Mộ》 Ch.73</a></li>
-          <li><a href="#">《Đấu Phá Thương Khung》 Ch.241</a></li>
+        <ul class="nav-list" id="sidebar-latest">
+          <li><a href="#" style="color:#5a4020;">⚔ Đang tải...</a></li>
         </ul>
       </div>
     </div>
@@ -720,20 +715,20 @@
       </div>
       <div class="stats-bar">
         <div class="stat-item">
-          <div class="stat-label">Tổng số truyện</div>
-          <div class="stat-value">3.247</div>
+          <div class="stat-label">Tổng số file</div>
+          <div class="stat-value" id="stat-total">...</div>
         </div>
         <div class="stat-item">
-          <div class="stat-label">Đang cập nhật</div>
-          <div class="stat-value">1.892</div>
+          <div class="stat-label">Tổng lượt xem</div>
+          <div class="stat-value" id="stat-views">...</div>
         </div>
         <div class="stat-item">
-          <div class="stat-label">Hoàn thành</div>
-          <div class="stat-value">1.355</div>
+          <div class="stat-label">Tổng lượt tải</div>
+          <div class="stat-value" id="stat-downloads">...</div>
         </div>
         <div class="stat-item">
-          <div class="stat-label">Lượt xem hôm nay</div>
-          <div class="stat-value">284.736</div>
+          <div class="stat-label">Dung lượng kho</div>
+          <div class="stat-value" id="stat-size">...</div>
         </div>
       </div>
 
@@ -751,13 +746,6 @@
         <a class="filter-tag">Hoàn thành</a>
       </div>
 
-      <!-- Novel List -->
-      <div class="novel-list">
-
-        <!-- Novel 1 -->
-        <div class="novel-item">
-          <div class="novel-cover">
-            <span class="novel-cover-corner tl">☯</span>
             <span class="novel-cover-text">Phàm Nhân Tu Tiên</span>
             <span class="novel-cover-corner br">☯</span>
           </div>
@@ -1274,7 +1262,167 @@
 </footer>
 
 <script>
-// Sparkle effect
+// ====== PIXELDRAIN API INTEGRATION ======
+const PD_API = '/api/pixeldrain';
+
+function pdFmtSize(bytes) {
+  if (!bytes) return 'N/A';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  if (bytes < 1073741824) return (bytes/1048576).toFixed(2) + ' MB';
+  return (bytes/1073741824).toFixed(2) + ' GB';
+}
+
+function pdFmtNum(n) {
+  if (!n && n !== 0) return '0';
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return n.toLocaleString('vi-VN');
+}
+
+function pdFmtDate(iso) {
+  if (!iso || iso === '0001-01-01T00:00:00Z') return 'N/A';
+  const d = new Date(iso);
+  return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function pdCleanName(filename) {
+  let n = filename.replace(/\.[^.]+$/, '');         // bỏ extension
+  n = n.replace(/^【.*?】\s*/, '');                   // bỏ 【...】 prefix
+  n = n.replace(/^[^\w\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF]+/, ''); // bỏ ký tự đặc biệt đầu
+  return n.trim() || filename;
+}
+
+function pdMimeIcon(mime) {
+  if (!mime) return '📁';
+  if (mime.startsWith('video/')) return '🎬';
+  if (mime.startsWith('image/')) return '🖼️';
+  if (mime.startsWith('audio/')) return '🎵';
+  if (mime.includes('zip') || mime.includes('rar') || mime.includes('compressed')) return '📦';
+  if (mime.includes('pdf')) return '📄';
+  if (mime.includes('text')) return '📜';
+  return '📁';
+}
+
+function pdMimeTag(mime) {
+  if (!mime) return 'FILE';
+  if (mime.startsWith('video/')) return 'VIDEO';
+  if (mime.startsWith('image/')) return 'ẢNH';
+  if (mime.startsWith('audio/')) return 'AUDIO';
+  if (mime.includes('zip')) return 'ZIP';
+  if (mime.includes('rar')) return 'RAR';
+  if (mime.includes('pdf')) return 'PDF';
+  return (mime.split('/')[1] || 'FILE').toUpperCase().substring(0, 6);
+}
+
+function pdRenderNovelItem(file) {
+  const name = pdCleanName(file.name);
+  const icon = pdMimeIcon(file.mime_type);
+  const tag = pdMimeTag(file.mime_type);
+  const size = pdFmtSize(file.size);
+  const date = pdFmtDate(file.date_upload);
+  const views = pdFmtNum(file.views);
+  const dl = pdFmtNum(file.downloads);
+  const isVideo = file.mime_type && file.mime_type.startsWith('video/');
+  const statusClass = isVideo ? 'status-ongoing' : 'status-complete';
+  const shortN = name.length > 14 ? name.substring(0, 14) + '…' : name;
+
+  return `
+    <div class="novel-item" data-id="${file.id}">
+      <div class="novel-cover" style="position:relative;overflow:hidden;">
+        <span class="novel-cover-corner tl">☯</span>
+        <span class="novel-cover-text" id="cvtext-${file.id}" style="font-size:11px;letter-spacing:1px;padding:4px;z-index:1;position:relative;">${shortN}</span>
+        <span class="novel-cover-corner br">☯</span>
+        <img src="${PD_API}?action=thumbnail&id=${file.id}"
+             style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:2;"
+             onload="this.style.display='block';var t=document.getElementById('cvtext-${file.id}');if(t)t.style.display='none';"
+             onerror="this.style.display='none';">
+      </div>
+      <div class="novel-info">
+        <div class="novel-header">
+          <a href="detail.html?id=${file.id}" class="novel-name">《 ${name} 》</a>
+          <span class="novel-status ${statusClass}">${tag}</span>
+        </div>
+        <div class="novel-meta">
+          <span>Dung lượng: <span class="author">${size}</span></span>
+          <span>Định dạng: ${(file.mime_type||'').split('/')[1]?.toUpperCase()||'FILE'}</span>
+        </div>
+        <div class="novel-tags">
+          <span class="novel-tag">${icon} ${tag}</span>
+          <span class="novel-tag">Pixeldrain</span>
+          ${isVideo ? '<span class="novel-tag hot">VIDEO</span>' : ''}
+        </div>
+        <div class="novel-desc">
+          ${icon} ${file.name}
+        </div>
+        <div class="novel-footer">
+          <div class="novel-stats">
+            <span class="views">👁 ${views} lượt xem</span>
+            <span class="rec">⬇ ${dl} lượt tải</span>
+            <span class="latest">📅 ${date}</span>
+          </div>
+          <div class="novel-actions">
+            <a href="detail.html?id=${file.id}" class="novel-btn primary">▶ XEM CHI TIẾT</a>
+            <a href="https://pixeldrain.com/u/${file.id}" class="novel-btn" target="_blank" rel="noopener">⬇ TẢI VỀ</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function pdLoadFiles() {
+  const container = document.getElementById('novel-list-container');
+  if (!container) return;
+
+  try {
+    const resp = await fetch(PD_API + '?action=list');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const files = Array.isArray(data) ? data : (data.files || []);
+
+    if (!files.length) {
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#8b6914;letter-spacing:2px;">Tàng Kinh Các hiện đang trống...</div>';
+      return;
+    }
+
+    // Cập nhật stats bar từ dữ liệu thật
+    const totalViews = files.reduce((s, f) => s + (f.views || 0), 0);
+    const totalDl    = files.reduce((s, f) => s + (f.downloads || 0), 0);
+    const totalSize  = files.reduce((s, f) => s + (f.size || 0), 0);
+    const el = id => document.getElementById(id);
+    if (el('stat-total'))     el('stat-total').textContent     = files.length.toLocaleString('vi-VN');
+    if (el('stat-views'))     el('stat-views').textContent     = pdFmtNum(totalViews);
+    if (el('stat-downloads')) el('stat-downloads').textContent = pdFmtNum(totalDl);
+    if (el('stat-size'))      el('stat-size').textContent      = pdFmtSize(totalSize);
+
+    // Cập nhật sidebar "Cập nhật gần đây"
+    const sidebarLatest = document.getElementById('sidebar-latest');
+    if (sidebarLatest) {
+      const latest = [...files]
+        .sort((a, b) => new Date(b.date_upload) - new Date(a.date_upload))
+        .slice(0, 6);
+      sidebarLatest.innerHTML = latest.map(f =>
+        `<li><a href="detail.html?id=${f.id}">《${pdCleanName(f.name).substring(0,14)}》 ${pdFmtDate(f.date_upload)}</a></li>`
+      ).join('');
+    }
+
+    // Render danh sách file
+    container.innerHTML = files.map(pdRenderNovelItem).join('');
+
+  } catch (err) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:40px;color:#ff4444;letter-spacing:2px;">
+        ⚠ Lỗi kết nối Tàng Kinh Các: ${err.message}<br>
+        <small style="color:#8b6914;display:block;margin-top:8px;font-size:11px;">
+          Kiểm tra cấu hình PIXELDRAIN_API_KEY trong Vercel Settings
+        </small>
+      </div>`;
+  }
+}
+
+pdLoadFiles();
+
+// ====== SPARKLE EFFECT ======
 const canvas = document.getElementById('sparkle-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];

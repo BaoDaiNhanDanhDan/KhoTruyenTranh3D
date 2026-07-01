@@ -846,7 +846,7 @@
       <div class="sidebar-content">
         <ul class="nav-list">
           <li><a href="#">Trang chủ Tiên Minh</a></li>
-          <li><a href="#">Tàng Kinh Các (tiểu thuyết)</a></li>
+          <li><a href="tang-kinh-cac.html">Tàng Kinh Các (tiểu thuyết)</a></li>
           <li><a href="#">Luận Đạo Đài (diễn đàn)</a></li>
           <li><a href="#">Luyện Đan Phòng (đồng nhân)</a></li>
           <li><a href="#">Vạn Bảo Lâu (tài nguyên)</a></li>
@@ -967,76 +967,11 @@
         <span class="icon-right">📜</span>
       </div>
       <div class="content-body">
-        <ul class="chapter-list">
-          <li>
-            <a class="chapter-link" href="#">
-              《Cửu Thiên Huyền Tôn》 Chương 327 · Nhất Kích Phá Thiên
-              <span class="chapter-tag tag-new">MỚI</span>
-            </a>
-            <span class="chapter-date">28-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Phàm Nhân Tu Tiên Truyện》 Chương 189 · Hoàng Phong Cốc
-              <span class="chapter-tag tag-hot">HOT</span>
-            </a>
-            <span class="chapter-date">28-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Tru Tiên》 Chương 56 · Thất Mạch Hội Võ (3)
-              <span class="chapter-tag tag-hot">HOT</span>
-            </a>
-            <span class="chapter-date">27-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Phiêu Miểu Chi Lữ》 Chương 98 · Trận Truyền Dẫn Tinh Tế
-            </a>
-            <span class="chapter-date">27-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Tiên Kiếm Thần Khúc》 Chương 42 · Thục Sơn Luận Kiếm
-              <span class="chapter-tag tag-new">MỚI</span>
-            </a>
-            <span class="chapter-date">27-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Tinh Thần Biến》 Chương 15 · Đan Điền Phá Vụn
-              <span class="chapter-tag tag-vip">VIP</span>
-            </a>
-            <span class="chapter-date">26-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Thần Mộ》 Chương 73 · Viễn Cổ Bí Tân
-            </a>
-            <span class="chapter-date">26-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Sưu Thần Ký》 Chương 210 · Đại Hoang Kinh
-            </a>
-            <span class="chapter-date">25-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Tiên Nghịch》 Chương 8 · Con Đường Nghịch Thiên
-              <span class="chapter-tag tag-new">MỚI</span>
-            </a>
-            <span class="chapter-date">25-12-2003</span>
-          </li>
-          <li>
-            <a class="chapter-link" href="#">
-              《Tử Xuyên》 Chương 150 · Phong Vân Đế Đô
-            </a>
-            <span class="chapter-date">24-12-2003</span>
-          </li>
+        <ul class="chapter-list" id="latest-chapters-list">
+          <li style="justify-content: center; color: #8b6914;">⚔ Đang truy cập Tàng Kinh Các... ⚔</li>
         </ul>
         <div style="text-align:center; margin-top:12px;">
-          <a href="#" style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
+          <a href="tang-kinh-cac.html" style="color:#8b6914; font-size:12px; text-decoration:none; letter-spacing:3px; border:1px solid #5a0000; padding:4px 15px;">
             » Vào Tàng Kinh Các xem toàn bộ «
           </a>
         </div>
@@ -1371,6 +1306,59 @@ function createAmbientParticle() {
   });
 }
 setInterval(createAmbientParticle, 300);
+
+// ====== PIXELDRAIN LATEST UPDATES ======
+const PD_API = '/api/pixeldrain';
+
+function pdCleanName(filename) {
+  let n = filename.replace(/\.[^.]+$/, '');
+  n = n.replace(/^【.*?】\s*/, '');
+  n = n.replace(/^[^\w\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF]+/, '');
+  return n.trim() || filename;
+}
+
+function pdFmtDate(iso) {
+  if (!iso || iso === '0001-01-01T00:00:00Z') return 'N/A';
+  const d = new Date(iso);
+  return d.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+async function pdLoadLatest() {
+  const container = document.getElementById('latest-chapters-list');
+  if (!container) return;
+  try {
+    const resp = await fetch(PD_API + '?action=list');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const files = Array.isArray(data) ? data : (data.files || []);
+    if (!files.length) {
+      container.innerHTML = '<li style="justify-content: center; color: #8b6914;">Tàng Kinh Các hiện chưa có tiên thư nào...</li>';
+      return;
+    }
+    // Sort by date_upload descending
+    const sorted = [...files]
+      .sort((a, b) => new Date(b.date_upload) - new Date(a.date_upload))
+      .slice(0, 10);
+
+    container.innerHTML = sorted.map((f, i) => {
+      const cleanName = pdCleanName(f.name);
+      const isNew = i < 3; // mark top 3 as new/hot
+      const tagHtml = isNew ? '<span class="chapter-tag tag-new">MỚI</span>' : '';
+      return `
+        <li>
+          <a class="chapter-link" href="detail.html?id=${f.id}">
+            《 ${cleanName} 》 ${f.name}
+            ${tagHtml}
+          </a>
+          <span class="chapter-date">${pdFmtDate(f.date_upload)}</span>
+        </li>
+      `;
+    }).join('');
+  } catch (err) {
+    container.innerHTML = `<li style="justify-content: center; color: #ff4444;">⚠ Lỗi kết nối Tàng Kinh Các: ${err.message}</li>`;
+  }
+}
+pdLoadLatest();
 
 // ====== VISITOR COUNTER ANIMATION ======
 const counterNums = document.querySelectorAll('.counter-num');
