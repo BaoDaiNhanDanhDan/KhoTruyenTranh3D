@@ -1051,59 +1051,14 @@
   </div>
 
   <!-- Music Player -->
-  <div class="music-player" id="music-player-panel" style="cursor: pointer;" title="Nhấp để Tắt/Bật nhạc">
-    <span class="music-icon" id="music-icon-yin">☯</span>
-    <span id="music-status-text">♪ Họa Tình.mp3 đang phát...</span>
-    <iframe id="bg-music-iframe" width="0" height="0" src="https://www.youtube.com/embed/7lH4rwCRwE0?enablejsapi=1&autoplay=1&mute=0&loop=1&playlist=7lH4rwCRwE0" title="Hoạ Tình"
+  <div class="music-player">
+    <span class="music-icon">☯</span>
+    <span>♪ Họa Tình.mp3 đang phát...</span>
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/7lH4rwCRwE0?autoplay=1&mute=0" title="Hoạ Tình"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       style="position:absolute; width:0; height:0; border:0; pointer-events:none;"></iframe>
   </div>
-
-  <script>
-    // Tự động kích hoạt phát nhạc khi có tương tác đầu tiên nếu trình duyệt chặn autoplay
-    (function() {
-      let initiated = false;
-      function startMusic() {
-        if (initiated) return;
-        initiated = true;
-        const iframe = document.getElementById('bg-music-iframe');
-        if (iframe) {
-          iframe.src = iframe.src; 
-        }
-        document.removeEventListener('click', startMusic);
-        document.removeEventListener('keydown', startMusic);
-      }
-      document.addEventListener('click', startMusic);
-      document.addEventListener('keydown', startMusic);
-      
-      // Cho phép bấm vào music player để tắt/bật
-      let isPlaying = true;
-      document.addEventListener('DOMContentLoaded', () => {
-        const panel = document.getElementById('music-player-panel');
-        const text = document.getElementById('music-status-text');
-        const icon = document.getElementById('music-icon-yin');
-        if (panel) {
-          panel.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const iframe = document.getElementById('bg-music-iframe');
-            if (!iframe) return;
-            if (isPlaying) {
-              iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-              text.textContent = '♪ Đang tạm dừng...';
-              icon.style.animation = 'none';
-              isPlaying = false;
-            } else {
-              iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              text.textContent = '♪ Họa Tình.mp3 đang phát...';
-              icon.style.animation = 'spin 3s linear infinite';
-              isPlaying = true;
-            }
-          });
-        }
-      });
-    })();
-  </script>
 
   <!-- Top Banner -->
   <div class="top-banner">
