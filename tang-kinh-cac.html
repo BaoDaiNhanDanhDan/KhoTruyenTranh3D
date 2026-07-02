@@ -1107,24 +1107,6 @@
         </div>
       </div>
 
-      <!-- Categories -->
-      <div class="sidebar-box">
-        <div class="sidebar-title">Phân loại kinh thư</div>
-        <div class="sidebar-content">
-          <ul class="nav-list">
-            <li><a href="#" class="active">📚 Toàn bộ (3.247)</a></li>
-            <li><a href="#">⚔ Tiên hiệp (1.024)</a></li>
-            <li><a href="#">🗡 Hiệp khách (638)</a></li>
-            <li><a href="#">🔮 Huyền huyễn (512)</a></li>
-            <li><a href="#">☯ Tu chân (427)</a></li>
-            <li><a href="#">🌌 Dị giới (289)</a></li>
-            <li><a href="#">🏛 Lịch sử (156)</a></li>
-            <li><a href="#">👻 Linh dị (98)</a></li>
-            <li><a href="#">💕 Ngôn tình (63)</a></li>
-            <li><a href="#">📖 Đồng nhân (40)</a></li>
-          </ul>
-        </div>
-      </div>
 
       <!-- Rankings -->
       <div class="sidebar-box">
@@ -1229,11 +1211,7 @@
   <footer class="footer">
     <div class="footer-links">
       <a href="main.html">Trang chủ Tiên Minh</a> |
-      <a href="#">Tàng Kinh Các</a> |
-      <a href="#">Luận Đạo Đài</a> |
-      <a href="#">Vạn Bảo Lâu</a> |
-      <a href="#">Tiên Minh Quy Tắc</a> |
-      <a href="#">Liên hệ minh chủ</a>
+      <a href="#">Tàng Kinh Các</a>
     </div>
     <div class="footer-text">
       Độ phân giải tốt nhất: 1024×768 | Khuyên dùng Internet Explorer 6.0 trở lên<br>
@@ -1343,6 +1321,69 @@
     }, 5000);
 
     // ====== STATE ======
+    let currentSearch = ''; // từ khóa tìm kiếm hiện tại
+
+    // ====== FUZZY SEARCH HELPERS ======
+
+    // Bỏ dấu tiếng Việt, lowercase, để so khớp "thoáng"
+    function pdNormalize(str) {
+      if (!str) return '';
+      return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // xóa dấu
+        .replace(/đ/g, 'd')
+        .replace(/[^\w\s]/g, ' ')        // xóa ký tự đặc biệt
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Tính điểm độ tương đồng giữa từ khóa và 1 chuỗi mục tiêu
+    // Trả về số >0 nếu có liên quan, 0 nếu không liên quan gì
+    function pdSimilarityScore(query, target) {
+      const q = pdNormalize(query);
+      const t = pdNormalize(target);
+      if (!q || !t) return 0;
+
+      // Khớp nguyên cụm -> điểm cao nhất
+      if (t.includes(q)) {
+        // Càng gần đầu chuỗi càng điểm cao
+        const idx = t.indexOf(q);
+        return 100 - Math.min(idx, 50);
+      }
+
+      // Tách token, đếm số token khớp (kể cả khớp một phần)
+      const qTokens = q.split(' ').filter(Boolean);
+      const tTokens = t.split(' ').filter(Boolean);
+      if (!qTokens.length) return 0;
+
+      let matched = 0;
+      qTokens.forEach(qt => {
+        const found = tTokens.some(tt => tt.includes(qt) || qt.includes(tt));
+        if (found) matched++;
+      });
+
+      if (matched === 0) return 0;
+
+      // Điểm theo tỷ lệ token khớp (thoáng: không cần khớp hết)
+      return Math.round((matched / qTokens.length) * 60);
+    }
+
+    // Tính điểm tổng hợp cho 1 file dựa trên tên truyện, tác giả, thể loại, tag
+    function pdFileSearchScore(file, query) {
+      const name = pdCleanName(file.name);
+      const mock = findMockData(name);
+
+      const scores = [
+        pdSimilarityScore(query, name) * 1.5,           // tên truyện quan trọng nhất
+        pdSimilarityScore(query, mock.author) * 1.0,
+        pdSimilarityScore(query, mock.genre) * 0.8,
+        ...mock.tags.map(tag => pdSimilarityScore(query, tag) * 0.6)
+      ];
+
+      return Math.max(...scores);
+    }
+
     let allFiles = [];            // raw API files
     let currentSort = 'date';    // date | views | downloads | size | name
     let currentFilter = 'all';   // all | ongoing | complete
@@ -1564,7 +1605,7 @@
               </div>
               <div class="novel-actions">
                 <a href="detail.html?id=${file.id}" class="novel-btn primary">▶ ĐỌC NGAY</a>
-                <a href="https://pixeldrain.com/api/file/${file.id}" class="novel-btn" target="_blank" rel="noopener">＋ TẢI VỀ</a>
+                <a href="https://pixeldrain.com/u/${file.id}" class="novel-btn" target="_blank" rel="noopener">＋ TẢI VỀ</a>
               </div>
             </div>
           </div>
@@ -1575,7 +1616,21 @@
     function getSortedFiltered() {
       let list = [...allFiles];
 
-      // Filter by status (using mock data)
+      // ====== FUZZY SEARCH ======
+      if (currentSearch.trim()) {
+        list = list
+          .map(f => ({ file: f, score: pdFileSearchScore(f, currentSearch) }))
+          .filter(item => item.score > 0)       // giữ lại mọi kết quả có liên quan, dù ít
+          .sort((a, b) => b.score - a.score)    // liên quan nhất lên trước
+          .map(item => item.file);
+
+        // Nếu đang search thì ưu tiên sắp theo độ liên quan,
+        // bỏ qua currentSort (trừ khi người dùng chủ động đổi lại)
+        // -> return sớm, không áp dụng sort theo date/views nữa
+        // (vẫn áp dụng filter theo status bên dưới nếu cần)
+      }
+
+      // Filter by status (using mock data) - vẫn áp dụng dù đang search hay không
       if (currentFilter !== 'all') {
         list = list.filter(f => {
           const mock = findMockData(pdCleanName(f.name));
@@ -1585,16 +1640,18 @@
         });
       }
 
-      // Sort
-      list.sort((a, b) => {
-        switch (currentSort) {
-          case 'views': return (b.views || 0) - (a.views || 0);
-          case 'downloads': return (b.downloads || 0) - (a.downloads || 0);
-          case 'size': return (b.size || 0) - (a.size || 0);
-          case 'name': return pdCleanName(a.name).localeCompare(pdCleanName(b.name), 'vi');
-          default: return new Date(b.date_upload) - new Date(a.date_upload); // date
-        }
-      });
+      // Chỉ sort theo date/views/... khi KHÔNG search (search đã tự sort theo độ liên quan)
+      if (!currentSearch.trim()) {
+        list.sort((a, b) => {
+          switch (currentSort) {
+            case 'views': return (b.views || 0) - (a.views || 0);
+            case 'downloads': return (b.downloads || 0) - (a.downloads || 0);
+            case 'size': return (b.size || 0) - (a.size || 0);
+            case 'name': return pdCleanName(a.name).localeCompare(pdCleanName(b.name), 'vi');
+            default: return new Date(b.date_upload) - new Date(a.date_upload);
+          }
+        });
+      }
 
       return list;
     }
@@ -1735,6 +1792,43 @@
     }
 
     // Wire up sort/filter tags
+    // ====== WIRE SEARCH BOX ======
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
+
+    function doSearch() {
+      currentSearch = searchInput.value;
+      currentPage = 1;
+      if (allFiles.length) renderPage();
+
+      // Optional: hiển thị thông báo không tìm thấy
+      const container = document.getElementById('novel-list-container');
+      if (currentSearch.trim() && getSortedFiltered().length === 0 && container) {
+        container.innerHTML = `<div style="text-align:center;padding:40px;color:#8b6914;letter-spacing:2px;">
+      Không tìm thấy kết quả nào phù hợp với "${currentSearch}"...<br>
+      <small style="color:#5a4020;">Thử từ khóa ngắn gọn hơn, ví dụ chỉ tên chính hoặc tên tác giả.</small>
+    </div>`;
+        document.getElementById('pagination-bar').innerHTML = '';
+      }
+    }
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', e => {
+        e.preventDefault();
+        doSearch();
+      });
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doSearch();
+        }
+      });
+
+      // Optional: tìm kiếm ngay khi gõ (debounce 300ms) để trải nghiệm mượt hơn
+    }
     document.querySelectorAll('.filter-tag[data-sort]').forEach(tag => {
       tag.addEventListener('click', e => {
         e.preventDefault();
